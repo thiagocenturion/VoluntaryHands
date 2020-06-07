@@ -11,6 +11,8 @@ import SwiftUI
 struct PrimaryBackgroundStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
+            .font(.system(size: 14, weight: .bold, design: .rounded))
+            .padding()
             .foregroundColor(.white)
             .background(
                 LinearGradient(
@@ -31,8 +33,6 @@ struct PrimaryBackgroundStyle_Previews: PreviewProvider {
             HStack {
                 Spacer()
                 Text("CADASTRE-SE")
-                    .font(.headline)
-                    .padding()
                 Spacer()
             }
         }

@@ -27,7 +27,10 @@ struct LoginView: View {
             VStack(alignment: .trailing, spacing: 15) {
                 TextFieldFloating("E-MAIL", text: self.$email)
                 TextFieldFloating("SENHA", text: self.$password)
-                Button("ESQUECI MINHA SENHA") {}
+                Button(action: { }) {
+                    Text("ESQUECI MINHA SENHA")
+                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                }
             }
             
             Spacer()
@@ -37,8 +40,6 @@ struct LoginView: View {
                     HStack {
                         Spacer()
                         Text("CADASTRE-SE")
-                            .font(.headline)
-                            .padding()
                         Spacer()
                     }
                 }
@@ -48,8 +49,6 @@ struct LoginView: View {
                     HStack {
                         Spacer()
                         Text("LOGIN")
-                            .font(.headline)
-                            .padding()
                         Spacer()
                     }
                 }

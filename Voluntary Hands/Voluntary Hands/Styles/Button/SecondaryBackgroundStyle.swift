@@ -15,6 +15,7 @@ struct SecondaryBackgroundStyle: ButtonStyle {
     // MARK: - View
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
+            .font(.system(size: 14, weight: .bold, design: .rounded))
             .foregroundColor(color)
             .frame(height: 50)
             .overlay(
@@ -31,8 +32,6 @@ struct SecondaryBackgroundStyle_Previews: PreviewProvider {
             HStack {
                 Spacer()
                 Text("CADASTRE-SE")
-                    .font(.headline)
-                    .padding()
                 Spacer()
             }
         }
