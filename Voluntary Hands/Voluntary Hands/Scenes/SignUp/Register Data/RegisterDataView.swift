@@ -9,10 +9,30 @@
 import SwiftUI
 
 struct RegisterDataView: View {
+    // MARK: - Properties
+    @ObservedObject var viewModel: RegisterDataViewModel
+    
+    // MARK: - View
     var body: some View {
         NavigationView {
             VStack() {
-                Text("Hello World")
+                VStack(alignment: .trailing, spacing: 15) {
+                    TextFieldFloating("EMAIL", text: $viewModel.email)
+                    TextFieldFloating("CONFIRMAÇÃO DE EMAIL", text: $viewModel.emailConfirm)
+                    TextFieldFloating("SENHA", text: $viewModel.password)
+                    TextFieldFloating("CONFIRMAÇÃO DE SENHA", text: $viewModel.passwordConfirm)
+                }
+                
+                Spacer()
+                
+                Button(action: { }) {
+                    HStack {
+                        Spacer()
+                        Text("PRÓXIMO")
+                        Spacer()
+                    }
+                }
+                .buttonStyle(SecondaryBackgroundStyle(color: ColorStyle.red))
             }
             .navigationBarTitle("CADASTRO", displayMode: .inline)
             .padding(27.5)
@@ -24,6 +44,6 @@ struct RegisterDataView: View {
 
 struct RegisterDataView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterDataView()
+        RegisterDataView(viewModel: RegisterDataViewModel())
     }
 }
