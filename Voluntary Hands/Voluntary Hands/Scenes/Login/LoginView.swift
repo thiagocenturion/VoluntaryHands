@@ -11,50 +11,57 @@ import SwiftUI
 struct LoginView: View {
     
     // MARK: - Properties
-    @State private var email = ""
-    @State private var password = ""
+    @ObservedObject var viewModel: LoginViewModel
     
     // MARK: - View
     var body: some View {
-        VStack {
-            Image("logo")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 215)
-            
-            Spacer()
-            
-            VStack(alignment: .trailing, spacing: 15) {
-                TextFieldFloating("E-MAIL", text: self.$email)
-                TextFieldFloating("SENHA", text: self.$password)
-                Button(action: { }) {
-                    Text("ESQUECI MINHA SENHA")
-                        .font(.system(size: 14, weight: .bold, design: .rounded))
+        ZStack {
+            if $viewModel.isLoading.wrappedValue {
+                GeometryReader { geometry in
+                    LoadingView()
                 }
             }
             
-            Spacer()
-            
-            VStack(spacing: 15) {
-                Button(action: { }) {
-                    HStack {
-                        Spacer()
-                        Text("CADASTRE-SE")
-                        Spacer()
-                    }
-                }
-                .buttonStyle(SecondaryBackgroundStyle(color: ColorStyle.red))
+            VStack {
+                Image("logo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 215)
                 
-                Button(action: { }) {
-                    HStack {
-                        Spacer()
-                        Text("LOGIN")
-                        Spacer()
+                Spacer()
+                
+                VStack(alignment: .trailing, spacing: 15) {
+                    TextFieldFloating("E-MAIL", text: $viewModel.username)
+                    TextFieldFloating("SENHA", text: $viewModel.password, isSecure: true)
+                    Button(action: { }) {
+                        Text("ESQUECI MINHA SENHA")
+                            .font(.system(size: 14, weight: .bold, design: .rounded))
                     }
                 }
-                .buttonStyle(PrimaryBackgroundStyle())
+                
+                Spacer()
+                
+                VStack(spacing: 15) {
+                    Button(action: { }) {
+                        HStack {
+                            Spacer()
+                            Text("CADASTRE-SE")
+                            Spacer()
+                        }
+                    }
+                    .buttonStyle(SecondaryBackgroundStyle(color: ColorStyle.red))
+                    
+                    Button(action: { self.viewModel.loginButtonTapped() }) {
+                        HStack {
+                            Spacer()
+                            Text("LOGIN")
+                            Spacer()
+                        }
+                    }
+                    .buttonStyle(PrimaryBackgroundStyle())
+                }
+                
             }
-            
         }
         .padding(27.5)
         .background(ColorStyle.grayDark)
@@ -65,6 +72,6 @@ struct LoginView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView(viewModel: LoginViewModel())
     }
 }
