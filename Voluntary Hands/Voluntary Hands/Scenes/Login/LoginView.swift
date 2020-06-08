@@ -13,59 +13,67 @@ struct LoginView: View {
     // MARK: - Properties
     @ObservedObject var viewModel: LoginViewModel
     
+    @State var selection: Int? = nil
+
     // MARK: - View
     var body: some View {
-        ZStack {
-            if $viewModel.isLoading.wrappedValue {
-                GeometryReader { geometry in
-                    LoadingView()
-                }
-            }
-            
-            VStack {
-                Image("logo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 215)
-                
-                Spacer()
-                
-                VStack(alignment: .trailing, spacing: 15) {
-                    TextFieldFloating("E-MAIL", text: $viewModel.username)
-                    TextFieldFloating("SENHA", text: $viewModel.password, isSecure: true)
-                    Button(action: { }) {
-                        Text("ESQUECI MINHA SENHA")
-                            .font(.system(size: 14, weight: .bold, design: .rounded))
+        NavigationView {
+            ZStack {
+                if $viewModel.isLoading.wrappedValue {
+                    GeometryReader { geometry in
+                        LoadingView()
                     }
                 }
                 
-                Spacer()
-                
-                VStack(spacing: 15) {
-                    Button(action: { }) {
-                        HStack {
-                            Spacer()
-                            Text("CADASTRE-SE")
-                            Spacer()
-                        }
-                    }
-                    .buttonStyle(SecondaryBackgroundStyle(color: ColorStyle.red))
+                VStack {
+                    Image("logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 215)
                     
-                    Button(action: { self.viewModel.loginButtonTapped() }) {
-                        HStack {
-                            Spacer()
-                            Text("LOGIN")
-                            Spacer()
+                    Spacer()
+                    
+                    VStack(alignment: .trailing, spacing: 15) {
+                        TextFieldFloating("E-MAIL", text: $viewModel.username)
+                        TextFieldFloating("SENHA", text: $viewModel.password, isSecure: true)
+                        Button(action: { }) {
+                            Text("ESQUECI MINHA SENHA")
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
                         }
                     }
-                    .buttonStyle(PrimaryBackgroundStyle())
+                    
+                    Spacer()
+                    
+                    VStack(spacing: 15) {
+                        
+                        NavigationLink(destination: RegisterDataView(viewModel: RegisterDataViewModel()), isActive: $viewModel.pushed) {
+
+                            Button(action: { self.viewModel.pushed = true }) {
+                                HStack {
+                                    Spacer()
+                                    Text("CADASTRE-SE")
+                                    Spacer()
+                                }
+                            }
+                            .buttonStyle(SecondaryBackgroundStyle(color: ColorStyle.red))
+                        }
+                        
+                        Button(action: { self.viewModel.loginButtonTapped() }) {
+                            HStack {
+                                Spacer()
+                                Text("LOGIN")
+                                Spacer()
+                            }
+                        }
+                        .buttonStyle(PrimaryBackgroundStyle())
+                    }
+                    
                 }
-                
             }
+            .padding(27.5)
+            .background(ColorStyle.grayDark)
+            .edgesIgnoringSafeArea(.top)
         }
-        .padding(27.5)
-        .background(ColorStyle.grayDark)
-        .edgesIgnoringSafeArea(.top)
         .preferredColorScheme(.dark)
     }
 }

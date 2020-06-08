@@ -15,6 +15,7 @@ class LoginViewModel: ObservableObject {
     @Published var username = ""
     @Published var password = ""
     @Published var isLoading = false
+    @Published var pushed = false
     
     private var disposables: Set<AnyCancellable> = []
     

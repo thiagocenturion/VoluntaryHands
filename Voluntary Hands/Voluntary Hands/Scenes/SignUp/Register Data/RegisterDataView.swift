@@ -14,13 +14,12 @@ struct RegisterDataView: View {
     
     // MARK: - View
     var body: some View {
-        NavigationView {
             VStack() {
                 VStack(alignment: .trailing, spacing: 15) {
                     TextFieldFloating("EMAIL", text: $viewModel.email)
                     TextFieldFloating("CONFIRMAÇÃO DE EMAIL", text: $viewModel.emailConfirm)
-                    TextFieldFloating("SENHA", text: $viewModel.password)
-                    TextFieldFloating("CONFIRMAÇÃO DE SENHA", text: $viewModel.passwordConfirm)
+                    TextFieldFloating("SENHA", text: $viewModel.password, isSecure: true)
+                    TextFieldFloating("CONFIRMAÇÃO DE SENHA", text: $viewModel.passwordConfirm, isSecure: true)
                 }
                 
                 Spacer()
@@ -37,13 +36,14 @@ struct RegisterDataView: View {
             .navigationBarTitle("CADASTRO", displayMode: .inline)
             .padding(27.5)
             .background(ColorStyle.grayDark)
-        }
-        .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
     }
 }
 
 struct RegisterDataView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterDataView(viewModel: RegisterDataViewModel())
+        NavigationView {
+            RegisterDataView(viewModel: RegisterDataViewModel())
+        }
     }
 }
