@@ -20,54 +20,10 @@ struct LoginView: View {
         NavigationView {
             ZStack {
                 if $viewModel.isLoading.wrappedValue {
-                    GeometryReader { geometry in
-                        LoadingView()
-                    }
-                }
-                
-                VStack {
-                    Image("logo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 215)
-                    
-                    Spacer()
-                    
-                    VStack(alignment: .trailing, spacing: 15) {
-                        TextFieldFloating("E-MAIL", text: $viewModel.username)
-                        TextFieldFloating("SENHA", text: $viewModel.password, isSecure: true)
-                        Button(action: { }) {
-                            Text("ESQUECI MINHA SENHA")
-                                .font(.system(size: 14, weight: .bold, design: .rounded))
-                        }
-                    }
-                    
-                    Spacer()
-                    
-                    VStack(spacing: 15) {
-                        
-                        NavigationLink(destination: RegisterDataView(viewModel: RegisterDataViewModel()), isActive: $viewModel.pushed) {
-
-                            Button(action: { self.viewModel.pushed = true }) {
-                                HStack {
-                                    Spacer()
-                                    Text("CADASTRE-SE")
-                                    Spacer()
-                                }
-                            }
-                            .buttonStyle(SecondaryBackgroundStyle(color: ColorStyle.red))
-                        }
-                        
-                        Button(action: { self.viewModel.loginButtonTapped() }) {
-                            HStack {
-                                Spacer()
-                                Text("LOGIN")
-                                Spacer()
-                            }
-                        }
-                        .buttonStyle(PrimaryBackgroundStyle())
-                    }
-                    
+                    LoadingView()
+                    makeView.opacity(0.3)
+                } else {
+                    makeView
                 }
             }
             .padding(27.5)
@@ -75,6 +31,53 @@ struct LoginView: View {
             .edgesIgnoringSafeArea(.top)
         }
         .preferredColorScheme(.dark)
+    }
+    
+    var makeView: some View {
+        VStack {
+            Image("logo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 215)
+            
+            Spacer()
+            
+            VStack(alignment: .trailing, spacing: 15) {
+                TextFieldFloating("E-MAIL", text: $viewModel.username)
+                TextFieldFloating("SENHA", text: $viewModel.password, isSecure: true)
+                Button(action: { }) {
+                    Text("ESQUECI MINHA SENHA")
+                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                }
+            }
+            
+            Spacer()
+            
+            VStack(spacing: 15) {
+                
+                NavigationLink(destination: RegisterDataView(viewModel: RegisterDataViewModel()), isActive: $viewModel.pushed) {
+
+                    Button(action: { self.viewModel.pushed = true }) {
+                        HStack {
+                            Spacer()
+                            Text("CADASTRE-SE")
+                            Spacer()
+                        }
+                    }
+                    .buttonStyle(SecondaryBackgroundStyle(color: ColorStyle.red))
+                }
+                
+                Button(action: { self.viewModel.loginButtonTapped() }) {
+                    HStack {
+                        Spacer()
+                        Text("LOGIN")
+                        Spacer()
+                    }
+                }
+                .buttonStyle(PrimaryBackgroundStyle())
+            }
+            
+        }
     }
 }
 

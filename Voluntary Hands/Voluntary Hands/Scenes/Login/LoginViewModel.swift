@@ -23,7 +23,7 @@ class LoginViewModel: ObservableObject {
     func loginButtonTapped() {
         isLoading = true
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             self.isLoading = false
         }
     }
