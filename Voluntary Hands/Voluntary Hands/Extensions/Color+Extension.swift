@@ -39,3 +39,20 @@ extension Color {
         )
     }
 }
+
+// MARK: - Color Style
+extension Color {
+    
+    struct Style {
+        
+        static let grayLight = Color("GrayLight")
+        static let gray = Color("Gray")
+        static let grayDark = Color("GrayDark")
+        
+        static let blue = Color("Blue")
+        static let blueLight = Color("BlueLight")
+        static let blueFade = Color("BlueFade")
+        
+        static let red = Color("Red")
+    }
+}

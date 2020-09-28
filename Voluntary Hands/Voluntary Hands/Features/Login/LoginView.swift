@@ -27,7 +27,7 @@ struct LoginView: View {
                 }
             }
             .padding(27.5)
-            .background(ColorStyle.grayDark)
+            .background(.Style.grayDark)
             .edgesIgnoringSafeArea(.top)
         }
         .preferredColorScheme(.dark)
