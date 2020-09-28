@@ -33,7 +33,7 @@ struct LoadingView: View {
             }
             .trim(from: animateTrimPath ? 1/0.99 : 0, to: animateTrimPath ? 1/0.99 : 1)
             .scale(50, anchor: .topLeading)
-            .stroke(ColorStyle.grayLight, lineWidth: 20)
+            .stroke(Color.Style.grayLight, lineWidth: 20)
             .offset(x: 110, y: 350)
             .animation(Animation.easeInOut(duration: 1.5).repeatForever(autoreverses: true))
             .onAppear() {
@@ -52,7 +52,7 @@ struct LoadingView: View {
             }
             .trim(from: animateTrimPath ? 1/0.99 : 0, to: animateTrimPath ? 1/0.99 : 1)
             .scale(50, anchor: .topLeading)
-            .stroke(ColorStyle.blueLight, lineWidth: 20)
+            .stroke(Color.Style.blueLight, lineWidth: 20)
             .offset(x: 110, y: 350)
             .animation(Animation.easeInOut(duration: 1.5).repeatForever(autoreverses: true))
             
@@ -68,7 +68,7 @@ struct LoadingView: View {
             }
             .trim(from: animateTrimPath ? 1/0.99 : 0, to: animateTrimPath ? 1/0.99 : 1)
             .scale(50, anchor: .topLeading)
-            .stroke(ColorStyle.red, lineWidth: 20)
+            .stroke(Color.Style.red, lineWidth: 20)
             .offset(x: 110, y: 350)
             .animation(Animation.easeInOut(duration: 1.5).repeatForever(autoreverses: true))
         }

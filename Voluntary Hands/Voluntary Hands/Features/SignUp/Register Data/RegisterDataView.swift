@@ -31,11 +31,11 @@ struct RegisterDataView: View {
                         Spacer()
                     }
                 }
-                .buttonStyle(SecondaryBackgroundStyle(color: ColorStyle.red))
+                .buttonStyle(SecondaryBackgroundStyle(color: Color.Style.red))
             }
             .navigationBarTitle("CADASTRO", displayMode: .inline)
             .padding(27.5)
-            .background(ColorStyle.grayDark)
+            .background(Color.Style.grayDark)
             .preferredColorScheme(.dark)
     }
 }

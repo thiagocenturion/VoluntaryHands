@@ -16,7 +16,7 @@ struct PrimaryBackgroundStyle: ButtonStyle {
             .foregroundColor(.white)
             .background(
                 LinearGradient(
-                    gradient: Gradient(colors: [ColorStyle.blue, ColorStyle.blueLight]),
+                    gradient: Gradient(colors: [Color.Style.blue, Color.Style.blueLight]),
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )

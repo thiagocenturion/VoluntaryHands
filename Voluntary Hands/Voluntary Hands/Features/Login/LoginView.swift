@@ -27,7 +27,7 @@ struct LoginView: View {
                 }
             }
             .padding(27.5)
-            .background(.Style.grayDark)
+            .background(Color.Style.grayDark)
             .edgesIgnoringSafeArea(.top)
         }
         .preferredColorScheme(.dark)
@@ -64,7 +64,7 @@ struct LoginView: View {
                             Spacer()
                         }
                     }
-                    .buttonStyle(SecondaryBackgroundStyle(color: ColorStyle.red))
+                    .buttonStyle(SecondaryBackgroundStyle(color: Color.Style.red))
                 }
                 
                 Button(action: { self.viewModel.loginButtonTapped() }) {

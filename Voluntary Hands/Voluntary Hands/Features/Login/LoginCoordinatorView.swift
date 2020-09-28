@@ -14,7 +14,7 @@ struct LoginCoordinatorView: View {
             destination: /*@START_MENU_TOKEN@*/Text("Destination")/*@END_MENU_TOKEN@*/,
             tag: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/,
             selection: /*@START_MENU_TOKEN@*/.constant(1)/*@END_MENU_TOKEN@*/) {
-            LoginView()
+            LoginView(viewModel: LoginViewModel())
         }
     }
 }

@@ -8,23 +8,19 @@
 
 import Foundation
 import Combine
+import Network
 
 protocol NetworkProtocol {
-    
-    typealias Headers = [String: Any]
-    
     var session: URLSession { get }
     var decoder: JSONDecoder { get }
     var encoder: JSONEncoder { get }
     var timeout: TimeInterval { get }
+    var monitor: NWPathMonitor { get }
     
-    func get<Decode>(
-        url: URL,
-        headers: Headers) -> AnyPublisher<Decode, Error> where Decode: Decodable
+    func get<Decode>(endpoint: Endpoint) -> AnyPublisher<Decode, Error> where Decode: Decodable
     
     func post<Encode, Decode>(
-        url: URL,
-        headers: Headers,
+        endpoint: Endpoint,
         token: String?,
         body: Encode) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable
 }
@@ -37,30 +33,37 @@ final class Network: NetworkProtocol {
     let encoder: JSONEncoder
     let timeout: TimeInterval
     
+    var monitor: NWPathMonitor {
+        didSet {
+            let queue = DispatchQueue(label: "Monitor")
+            monitor.start(queue: queue)
+        }
+    }
+    
     // MARK: - Initialization
-    init(session: URLSession, decoder: JSONDecoder, encoder: JSONEncoder, timeout: TimeInterval) {
+    init(session: URLSession, decoder: JSONDecoder, encoder: JSONEncoder, timeout: TimeInterval, monitor: NWPathMonitor) {
         self.session = session
         self.decoder = decoder
         self.encoder = encoder
         self.timeout = timeout
+        self.monitor = monitor
     }
 }
 
 // MARK: - Public methods
 extension Network {
     
-    func get<Decode>(
-        url: URL,
-        headers: Headers) -> AnyPublisher<Decode, Error> where Decode: Decodable {
+    func get<Decode>(endpoint: Endpoint) -> AnyPublisher<Decode, Error> where Decode: Decodable {
         
-        var urlRequest = URLRequest(url: url)
+        guard monitor.currentPath.status == .satisfied else {
+            return Fail<Decode, Error>(error: AppError.noConnection).eraseToAnyPublisher()
+        }
+        
+        var urlRequest = URLRequest(url: endpoint.url)
         urlRequest.timeoutInterval = timeout
         
-        headers.forEach { (key, value) in
-            if let value = value as? String {
-                urlRequest.setValue(value, forHTTPHeaderField: key)
-            }
-        }
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
         
         return session.dataTaskPublisher(for: urlRequest)
             .mapError { AppError.serverError(error: $0) }
@@ -71,17 +74,19 @@ extension Network {
     }
     
     func post<Encode, Decode>(
-        url: URL,
-        headers: Headers,
+        endpoint: Endpoint,
         token: String?,
         body: Encode) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable {
         
-        guard let body = try? encoder.encode(body) else {
-            return Fail<Decode, Error>(error: AppError.invalidEncode)
-                .eraseToAnyPublisher()
+        guard monitor.currentPath.status == .satisfied else {
+            return Fail<Decode, Error>(error: AppError.noConnection).eraseToAnyPublisher()
         }
         
-        var urlRequest = URLRequest(url: url)
+        guard let body = try? encoder.encode(body) else {
+            return Fail<Decode, Error>(error: AppError.invalidEncode).eraseToAnyPublisher()
+        }
+        
+        var urlRequest = URLRequest(url: endpoint.url)
         urlRequest.timeoutInterval = timeout
         
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -89,12 +94,6 @@ extension Network {
         
         if let token = token {
             urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }
-        
-        headers.forEach { (key, value) in
-            if let value = value as? String {
-                urlRequest.setValue(value, forHTTPHeaderField: key)
-            }
         }
         
         urlRequest.httpBody = body
@@ -116,7 +115,8 @@ extension Network {
         session: URLSession = .shared,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
-        timeout: TimeInterval = 30) -> Network {
+        timeout: TimeInterval = 30,
+        monitor: NWPathMonitor = .init()) -> Network {
         
         return .init(decoder: decoder, encoder: encoder)
     }

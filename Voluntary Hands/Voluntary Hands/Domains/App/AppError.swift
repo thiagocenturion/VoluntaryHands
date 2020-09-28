@@ -9,6 +9,9 @@
 import Foundation
 
 enum AppError: Error {
+    /// Device is not connect to thet internet
+    case noConnection
+    
     /// Enconding issue when trying to send data.
     case invalidEncode
     

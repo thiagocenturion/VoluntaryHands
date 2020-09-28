@@ -35,6 +35,6 @@ struct SecondaryBackgroundStyle_Previews: PreviewProvider {
                 Spacer()
             }
         }
-        .buttonStyle(SecondaryBackgroundStyle(color: ColorStyle.blue))
+        .buttonStyle(SecondaryBackgroundStyle(color: Color.Style.blue))
     }
 }

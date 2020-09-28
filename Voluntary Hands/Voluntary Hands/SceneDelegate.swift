@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = UIHostingController(
                 rootView: RootView()
                     .preferredColorScheme(.dark)
-                    .environmentObject(store)
+//                    .environmentObject(store)
                     .accentColor(Color.Style.grayDark)
             )
             self.window = window

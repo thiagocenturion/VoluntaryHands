@@ -27,12 +27,12 @@ struct TextFieldFloating: View {
                 Text(placeholder)
                     .font(.system(size: 14, weight: .bold, design: .rounded))
                     .frame(height: 35)
-                    .foregroundColor(ColorStyle.grayLight)
+                    .foregroundColor(Color.Style.grayLight)
             } else {
                 Text(placeholder)
                     .font(.system(size: 10, weight: .bold, design: .rounded))
                     .frame(height: 1)
-                    .foregroundColor(ColorStyle.grayLight)
+                    .foregroundColor(Color.Style.grayLight)
             }
             
             VStack(alignment: .leading) {
@@ -40,19 +40,19 @@ struct TextFieldFloating: View {
                 if isSecure {
                     SecureField("", text: $text, onCommit: onCommit)
                         .font(.system(size: 14, weight: .bold, design: .rounded))
-                        .foregroundColor(ColorStyle.grayLight)
+                        .foregroundColor(Color.Style.grayLight)
                         .frame(height: 35)
                     Divider()
                         .frame(height: 2)
-                        .background(ColorStyle.grayLight)
+                        .background(Color.Style.grayLight)
                 } else {
                     TextField("", text: $text, onEditingChanged: onEditingChanged, onCommit: onCommit)
                         .font(.system(size: 14, weight: .bold, design: .rounded))
-                        .foregroundColor(ColorStyle.grayLight)
+                        .foregroundColor(Color.Style.grayLight)
                         .frame(height: 35)
                     Divider()
                         .frame(height: 2)
-                        .background(ColorStyle.grayLight)
+                        .background(Color.Style.grayLight)
                 }
                 
             }

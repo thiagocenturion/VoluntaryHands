@@ -35,33 +35,6 @@ extension CustomStringConvertible where Self: Codable {
     }
 }
 
-struct Endpoint {
-    var path: String
-    var queryItems: [URLQueryItem] = []
-}
-
-extension Endpoint {
-    var url: URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "dummyapi.io"
-        components.path = "/data/api" + path
-        components.queryItems = queryItems
-        
-        guard let url = components.url else {
-            preconditionFailure("Invalid URL components: \(components)")
-        }
-        
-        return url
-    }
-    
-    var headers: [String: Any] {
-        return [
-            "app-id": "YOUR APP ID HERE"
-        ]
-    }
-}
-
 
 extension Endpoint {
     static var users: Self {
@@ -117,51 +90,46 @@ protocol UsersLogicControllerProtocol: class {
 }
 
 
-final class UsersLogicController: UsersLogicControllerProtocol {
-    
-    let networkController: NetworkControllerProtocol
-    
-    init(networkController: NetworkControllerProtocol) {
-        self.networkController = networkController
-    }
-    
-    func getUsers() -> AnyPublisher<Users, Error> {
-        let endpoint = Endpoint.users
-        
-        return networkController.get(type: Users.self,
-                                     url: endpoint.url,
-                                     headers: endpoint.headers)
-    }
-    
-    func getUsers(count: Int) -> AnyPublisher<Users, Error> {
-        let endpoint = Endpoint.users(count: count)
-        
-        return networkController.get(type: Users.self,
-                                     url: endpoint.url,
-                                     headers: endpoint.headers)
-    }
-    
-    func getUser(id: String) -> AnyPublisher<User, Error> {
-        let endpoint = Endpoint.user(id: id)
-        
-        return networkController.get(type: User.self,
-                                     url: endpoint.url,
-                                     headers: endpoint.headers)
-    }
-    
-}
+//final class UsersLogicController: UsersLogicControllerProtocol {
+//
+//    let networkController: NetworkControllerProtocol
+//
+//    init(networkController: NetworkControllerProtocol) {
+//        self.networkController = networkController
+//    }
+//
+//    func getUsers() -> AnyPublisher<Users, Error> {
+//        let endpoint = Endpoint.users
+//
+//        return networkController.get(type: Users.self,
+//                                     url: endpoint.url,
+//                                     headers: endpoint.headers)
+//    }
+//
+//    func getUsers(count: Int) -> AnyPublisher<Users, Error> {
+//        let endpoint = Endpoint.users(count: count)
+//
+//        return networkController.get(type: Users.self,
+//                                     url: endpoint.url,
+//                                     headers: endpoint.headers)
+//    }
+//
+//    func getUser(id: String) -> AnyPublisher<User, Error> {
+//        let endpoint = Endpoint.user(id: id)
+//
+//        return networkController.get(type: User.self,
+//                                     url: endpoint.url,
+//                                     headers: endpoint.headers)
+//    }
+//
+//}
 
-
-
-
-
-
-let networkController = NetworkController()
-let usersLogicController = UsersLogicController(networkController: networkController)
-
-var subscriptions = Set<AnyCancellable>()
-
-
+//let networkController = NetworkController()
+//let usersLogicController = UsersLogicController(networkController: networkController)
+//
+//var subscriptions = Set<AnyCancellable>()
+//
+//
 //usersLogicController.getUsers()
 //    .sink(receiveCompletion: { (completion) in
 //        switch completion {
