@@ -1,5 +1,5 @@
 //
-//  LoginResponse.swift
+//  LoginState.swift
 //  Voluntary Hands
 //
 //  Created by Thiago Rodrigues Centurion on 28/09/20.
@@ -8,6 +8,9 @@
 
 import Foundation
 
-struct LoginResponse: Decodable {
-    let token: String
+struct LoginState {
+    var currentUsername = ""
+    var currentPassword = ""
+    var loginSuccess = false
+    var alert: String?
 }

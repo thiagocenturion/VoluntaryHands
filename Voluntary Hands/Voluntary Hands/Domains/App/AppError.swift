@@ -15,7 +15,7 @@ enum AppError: Error {
     /// Enconding issue when trying to send data.
     case invalidEncode
     
-    /// No data recieved from the server.
+    /// No data received from the server.
     case noData
     
     /// The server response was invalid (unexpected format).

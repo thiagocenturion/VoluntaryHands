@@ -32,6 +32,7 @@ final class Network: NetworkProtocol {
     let decoder: JSONDecoder
     let encoder: JSONEncoder
     let timeout: TimeInterval
+    let tokenUpdater: TokenUpdater
     
     var monitor: NWPathMonitor {
         didSet {
@@ -41,12 +42,20 @@ final class Network: NetworkProtocol {
     }
     
     // MARK: - Initialization
-    init(session: URLSession, decoder: JSONDecoder, encoder: JSONEncoder, timeout: TimeInterval, monitor: NWPathMonitor) {
+    init(
+        session: URLSession,
+        decoder: JSONDecoder,
+        encoder: JSONEncoder,
+        timeout: TimeInterval,
+        monitor: NWPathMonitor,
+        tokenUpdater: TokenUpdater) {
+        
         self.session = session
         self.decoder = decoder
         self.encoder = encoder
         self.timeout = timeout
         self.monitor = monitor
+        self.tokenUpdater = tokenUpdater
     }
 }
 
@@ -56,7 +65,7 @@ extension Network {
     func get<Decode>(endpoint: Endpoint) -> AnyPublisher<Decode, Error> where Decode: Decodable {
         
         guard monitor.currentPath.status == .satisfied else {
-            return Fail<Decode, Error>(error: AppError.noConnection).eraseToAnyPublisher()
+            return Fail(error: AppError.noConnection).eraseToAnyPublisher()
         }
         
         var urlRequest = URLRequest(url: endpoint.url)
@@ -67,6 +76,9 @@ extension Network {
         
         return session.dataTaskPublisher(for: urlRequest)
             .mapError { AppError.serverError(error: $0) }
+            .handleEvents(receiveOutput: { [weak self] dataTaskPublisher in
+                self?.updateTokenIfNeeded(with: dataTaskPublisher.response)
+            })
             .map(\.data)
             .decode(type: Decode.self, decoder: decoder)
             .mapError { AppError.invalidDecode(error: $0) }
@@ -79,11 +91,11 @@ extension Network {
         body: Encode) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable {
         
         guard monitor.currentPath.status == .satisfied else {
-            return Fail<Decode, Error>(error: AppError.noConnection).eraseToAnyPublisher()
+            return Fail(error: AppError.noConnection).eraseToAnyPublisher()
         }
         
         guard let body = try? encoder.encode(body) else {
-            return Fail<Decode, Error>(error: AppError.invalidEncode).eraseToAnyPublisher()
+            return Fail(error: AppError.invalidEncode).eraseToAnyPublisher()
         }
         
         var urlRequest = URLRequest(url: endpoint.url)
@@ -100,10 +112,26 @@ extension Network {
         
         return session.dataTaskPublisher(for: urlRequest)
             .mapError { AppError.serverError(error: $0) }
+            .handleEvents(receiveOutput: { [weak self] dataTaskPublisher in
+                self?.updateTokenIfNeeded(with: dataTaskPublisher.response)
+            })
             .map(\.data)
             .decode(type: Decode.self, decoder: decoder)
             .mapError { AppError.invalidDecode(error: $0) }
             .eraseToAnyPublisher()
+    }
+}
+
+// MARK: - Private methods
+extension Network {
+    
+    private func updateTokenIfNeeded(with urlResponse: URLResponse) {
+        if let httpResponse = urlResponse as? HTTPURLResponse,
+           let authorization = httpResponse.allHeaderFields["Authorization"] as? String {
+            
+            let token = authorization.replacingOccurrences(of: "Bearer ", with: "")
+            tokenUpdater.token = token
+        }
     }
 }
 
@@ -116,7 +144,8 @@ extension Network {
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         timeout: TimeInterval = 30,
-        monitor: NWPathMonitor = .init()) -> Network {
+        monitor: NWPathMonitor = .init(),
+        tokenUpdater: TokenUpdater = .mock()) -> Network {
         
         return .init(decoder: decoder, encoder: encoder)
     }

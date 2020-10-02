@@ -12,8 +12,8 @@ import Combine
 protocol LoginServicesProtocol: class {
     var network: NetworkProtocol { get }
     
-    func loginVolunteer(cpf: String, password: String) -> AnyPublisher<LoginResponse, Error>
-    func loginInstitution(cnpj: String, password: String) -> AnyPublisher<LoginResponse, Error>
+    func loginVolunteer(cpf: String, password: String) -> AnyPublisher<String, Error>
+    func loginInstitution(cnpj: String, password: String) -> AnyPublisher<String, Error>
 }
 
 final class LoginServices: LoginServicesProtocol {
@@ -30,7 +30,7 @@ final class LoginServices: LoginServicesProtocol {
 // MARK: - Public methods
 extension LoginServices {
     
-    func loginVolunteer(cpf: String, password: String) -> AnyPublisher<LoginResponse, Error> {
+    func loginVolunteer(cpf: String, password: String) -> AnyPublisher<String, Error> {
         let body = LoginVolunteer(cpf: cpf, password: password)
         
         return network.post(
@@ -40,7 +40,7 @@ extension LoginServices {
         )
     }
     
-    func loginInstitution(cnpj: String, password: String) -> AnyPublisher<LoginResponse, Error> {
+    func loginInstitution(cnpj: String, password: String) -> AnyPublisher<String, Error> {
         let body = LoginInstitution(cnpj: cnpj, password: password)
         
         return network.post(

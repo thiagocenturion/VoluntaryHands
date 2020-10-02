@@ -17,5 +17,6 @@ struct AppEnvironment {
         decoder: .init(),
         encoder: .init(),
         timeout: 30,
-        monitor: .init())
+        monitor: .init(),
+        tokenUpdater: TokenUpdater(userDefaults: UserDefaults.standard))
 }
