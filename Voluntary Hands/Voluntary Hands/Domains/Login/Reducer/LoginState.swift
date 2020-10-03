@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct LoginState {
+struct LoginState: Codable, Equatable {
     var currentUsername = ""
     var currentPassword = ""
     var loginSuccess = false

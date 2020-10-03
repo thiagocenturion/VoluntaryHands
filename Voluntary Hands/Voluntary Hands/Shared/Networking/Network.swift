@@ -10,7 +10,7 @@ import Foundation
 import Combine
 import Network
 
-protocol NetworkProtocol {
+protocol NetworkType {
     var session: URLSession { get }
     var decoder: JSONDecoder { get }
     var encoder: JSONEncoder { get }
@@ -25,7 +25,7 @@ protocol NetworkProtocol {
         body: Encode) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable
 }
 
-final class Network: NetworkProtocol {
+final class Network: NetworkType {
     
     // MARK: - Public properties
     let session: URLSession
@@ -65,7 +65,7 @@ extension Network {
     func get<Decode>(endpoint: Endpoint) -> AnyPublisher<Decode, Error> where Decode: Decodable {
         
         guard monitor.currentPath.status == .satisfied else {
-            return Fail(error: AppError.noConnection).eraseToAnyPublisher()
+            return Fail(error: NetworkingError.noConnection).eraseToAnyPublisher()
         }
         
         var urlRequest = URLRequest(url: endpoint.url)
@@ -75,13 +75,13 @@ extension Network {
         urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
         
         return session.dataTaskPublisher(for: urlRequest)
-            .mapError { AppError.serverError(error: $0) }
+            .mapError { NetworkingError.serverError(error: $0) }
             .handleEvents(receiveOutput: { [weak self] dataTaskPublisher in
                 self?.updateTokenIfNeeded(with: dataTaskPublisher.response)
             })
             .map(\.data)
             .decode(type: Decode.self, decoder: decoder)
-            .mapError { AppError.invalidDecode(error: $0) }
+            .mapError { NetworkingError.invalidDecode(error: $0) }
             .eraseToAnyPublisher()
     }
     
@@ -91,11 +91,11 @@ extension Network {
         body: Encode) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable {
         
         guard monitor.currentPath.status == .satisfied else {
-            return Fail(error: AppError.noConnection).eraseToAnyPublisher()
+            return Fail(error: NetworkingError.noConnection).eraseToAnyPublisher()
         }
         
         guard let body = try? encoder.encode(body) else {
-            return Fail(error: AppError.invalidEncode).eraseToAnyPublisher()
+            return Fail(error: NetworkingError.invalidEncode).eraseToAnyPublisher()
         }
         
         var urlRequest = URLRequest(url: endpoint.url)
@@ -111,13 +111,13 @@ extension Network {
         urlRequest.httpBody = body
         
         return session.dataTaskPublisher(for: urlRequest)
-            .mapError { AppError.serverError(error: $0) }
+            .mapError { NetworkingError.serverError(error: $0) }
             .handleEvents(receiveOutput: { [weak self] dataTaskPublisher in
                 self?.updateTokenIfNeeded(with: dataTaskPublisher.response)
             })
             .map(\.data)
             .decode(type: Decode.self, decoder: decoder)
-            .mapError { AppError.invalidDecode(error: $0) }
+            .mapError { NetworkingError.invalidDecode(error: $0) }
             .eraseToAnyPublisher()
     }
 }
@@ -139,7 +139,7 @@ extension Network {
 
 extension Network {
     
-    func mock(
+    static func mock(
         session: URLSession = .shared,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),

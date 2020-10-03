@@ -1,5 +1,5 @@
 //
-//  AppError.swift
+//  NetworkingError.swift
 //  Voluntary Hands
 //
 //  Created by Thiago Rodrigues Centurion on 27/09/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum AppError: Error {
+enum NetworkingError: Error {
     /// Device is not connect to thet internet
     case noConnection
     

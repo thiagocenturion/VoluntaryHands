@@ -12,7 +12,25 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
+    private let environment = AppEnvironment(
+        counter: .init(defaults: .standard),
+        files: .default,
+        network: Network(
+            session: .shared,
+            decoder: .init(),
+            encoder: .init(),
+            timeout: 30.0,
+            monitor: .init(),
+            tokenUpdater: .init(userDefaults: .standard)
+        )
+    )
+    private lazy var store = AppStore(
+        initialState: AppState(),
+//        reducer: Reducer.appReducer,
+        reducer: appReducer,
+        environment: environment
+    )
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -25,7 +43,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = UIHostingController(
                 rootView: RootView()
                     .preferredColorScheme(.dark)
-//                    .environmentObject(store)
+                    .environmentObject(store)
                     .accentColor(Color.Style.grayDark)
             )
             self.window = window

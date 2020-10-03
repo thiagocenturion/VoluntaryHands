@@ -89,3 +89,5 @@ extension Store {
         )
     }
 }
+
+typealias AppStore = Store<AppState, AppAction, AppEnvironment>

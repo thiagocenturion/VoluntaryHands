@@ -33,7 +33,7 @@ final class TokenUpdater {
 
 extension TokenUpdater {
     
-    func mock(userDefaults: UserDefaults = .standard) -> TokenUpdater {
+    static func mock(userDefaults: UserDefaults = .standard) -> TokenUpdater {
         return TokenUpdater(userDefaults: userDefaults)
     }
 }

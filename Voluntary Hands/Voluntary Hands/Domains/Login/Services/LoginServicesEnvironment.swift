@@ -1,5 +1,5 @@
 //
-//  LoginEnvironment.swift
+//  LoginServicesEnvironment.swift
 //  Voluntary Hands
 //
 //  Created by Thiago Rodrigues Centurion on 28/09/20.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol LoginEnvironmentProtocol {
-    var loginServices: LoginServicesProtocol { get }
+protocol LoginServicesEnvironmentType {
+    var loginServices: LoginServicesType { get }
 }
 
-extension AppEnvironment: LoginEnvironmentProtocol {
-    var loginServices: LoginServicesProtocol {
+extension AppEnvironment: LoginServicesEnvironmentType {
+    var loginServices: LoginServicesType {
         LoginServices(network: network)
     }
 }

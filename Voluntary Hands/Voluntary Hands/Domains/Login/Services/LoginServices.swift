@@ -9,20 +9,20 @@
 import Foundation
 import Combine
 
-protocol LoginServicesProtocol: class {
-    var network: NetworkProtocol { get }
+protocol LoginServicesType: class {
+    var network: NetworkType { get }
     
     func loginVolunteer(cpf: String, password: String) -> AnyPublisher<String, Error>
     func loginInstitution(cnpj: String, password: String) -> AnyPublisher<String, Error>
 }
 
-final class LoginServices: LoginServicesProtocol {
+final class LoginServices: LoginServicesType {
     
     // MARK: - Public properties
-    let network: NetworkProtocol
+    let network: NetworkType
     
     // MARK: - Initialization
-    init(network: NetworkProtocol) {
+    init(network: NetworkType) {
         self.network = network
     }
 }
