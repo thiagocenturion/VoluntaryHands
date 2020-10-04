@@ -90,9 +90,9 @@ extension Network {
         token: String?,
         body: Encode) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable {
         
-        guard monitor.currentPath.status == .satisfied else {
-            return Fail(error: NetworkingError.noConnection).eraseToAnyPublisher()
-        }
+//        guard monitor.currentPath.status == .satisfied else {
+//            return Fail(error: NetworkingError.noConnection).eraseToAnyPublisher()
+//        }
         
         guard let body = try? encoder.encode(body) else {
             return Fail(error: NetworkingError.invalidEncode).eraseToAnyPublisher()
@@ -102,15 +102,33 @@ extension Network {
         urlRequest.timeoutInterval = timeout
         
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
         
         if let token = token {
             urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         
+        urlRequest.httpMethod = "POST"
+        
         urlRequest.httpBody = body
         
         return session.dataTaskPublisher(for: urlRequest)
+            .handleEvents(
+                receiveSubscription: { (subs) in
+                    print(subs.combineIdentifier.description)
+                },
+                receiveOutput: { (data, response) in
+                    print(data)
+                    print(response)
+                },
+                receiveCompletion: { (error) in
+                    print(error)
+                },
+                receiveCancel: {
+                    print("Cancel")
+                },
+                receiveRequest: { demand in
+                    print(demand)
+                })
             .mapError { NetworkingError.serverError(error: $0) }
             .handleEvents(receiveOutput: { [weak self] dataTaskPublisher in
                 self?.updateTokenIfNeeded(with: dataTaskPublisher.response)

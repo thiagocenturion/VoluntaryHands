@@ -9,8 +9,7 @@
 import Foundation
 
 enum LoginAction {
-    case loginVolunteer(cpf: String, password: String)
-    case loginInstitution(cnpj: String, password: String)
+    case signIn(username: String, password: String)
     case loginSuccess
     case alert(error: Error)
     case removeAlert

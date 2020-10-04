@@ -27,11 +27,11 @@
 		4D38E7EC2528CB2700EAD989 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D38E7EB2528CB2700EAD989 /* AppState.swift */; };
 		4D38E7EF2528CC4500EAD989 /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D38E7EE2528CC4500EAD989 /* AppAction.swift */; };
 		4D38E7F12528D30800EAD989 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D38E7F02528D30800EAD989 /* AppReducer.swift */; };
+		4D38E7F82529257700EAD989 /* LoginContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D38E7F72529257700EAD989 /* LoginContainerView.swift */; };
 		4D8501F0248C7EF70021218C /* PrimaryBackgroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501EF248C7EF70021218C /* PrimaryBackgroundStyle.swift */; };
 		4D8501F4248C87760021218C /* SecondaryBackgroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501F3248C87760021218C /* SecondaryBackgroundStyle.swift */; };
 		4D8501F8248CC92F0021218C /* RegisterDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501F7248CC92F0021218C /* RegisterDataView.swift */; };
-		4D8501FA248D578C0021218C /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501F9248D578C0021218C /* LoginViewModel.swift */; };
-		4D8501FE248D93C70021218C /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501FD248D93C70021218C /* LoadingView.swift */; };
+		4D8501FE248D93C70021218C /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501FD248D93C70021218C /* ActivityView.swift */; };
 		4D850200248DBB5B0021218C /* RegisterDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501FF248DBB5B0021218C /* RegisterDataViewModel.swift */; };
 		4D88B641252764D3008504D9 /* TokenUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D88B640252764D3008504D9 /* TokenUpdater.swift */; };
 		4D94D36C24887A550065955D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D94D36B24887A550065955D /* AppDelegate.swift */; };
@@ -77,11 +77,11 @@
 		4D38E7EB2528CB2700EAD989 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		4D38E7EE2528CC4500EAD989 /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
 		4D38E7F02528D30800EAD989 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
+		4D38E7F72529257700EAD989 /* LoginContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContainerView.swift; sourceTree = "<group>"; };
 		4D8501EF248C7EF70021218C /* PrimaryBackgroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryBackgroundStyle.swift; sourceTree = "<group>"; };
 		4D8501F3248C87760021218C /* SecondaryBackgroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryBackgroundStyle.swift; sourceTree = "<group>"; };
 		4D8501F7248CC92F0021218C /* RegisterDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDataView.swift; sourceTree = "<group>"; };
-		4D8501F9248D578C0021218C /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
-		4D8501FD248D93C70021218C /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		4D8501FD248D93C70021218C /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		4D8501FF248DBB5B0021218C /* RegisterDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDataViewModel.swift; sourceTree = "<group>"; };
 		4D88B640252764D3008504D9 /* TokenUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUpdater.swift; sourceTree = "<group>"; };
 		4D94D36824887A550065955D /* Voluntary Hands.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Voluntary Hands.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,8 +225,8 @@
 			isa = PBXGroup;
 			children = (
 				4D12CA7F2521532200C3E79A /* LoginCoordinatorView.swift */,
+				4D38E7F72529257700EAD989 /* LoginContainerView.swift */,
 				4D94D36F24887A550065955D /* LoginView.swift */,
-				4D8501F9248D578C0021218C /* LoginViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -360,7 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				4DC693D4248C6F4A00CBEF91 /* TextFieldFloating.swift */,
-				4D8501FD248D93C70021218C /* LoadingView.swift */,
+				4D8501FD248D93C70021218C /* ActivityView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -480,7 +480,7 @@
 				4D94D36E24887A550065955D /* SceneDelegate.swift in Sources */,
 				4D12CA852521731800C3E79A /* AppEnvironment.swift in Sources */,
 				4D38E7EC2528CB2700EAD989 /* AppState.swift in Sources */,
-				4D8501FE248D93C70021218C /* LoadingView.swift in Sources */,
+				4D8501FE248D93C70021218C /* ActivityView.swift in Sources */,
 				4D8501F4248C87760021218C /* SecondaryBackgroundStyle.swift in Sources */,
 				4D8501F0248C7EF70021218C /* PrimaryBackgroundStyle.swift in Sources */,
 				4D12CAA125219AAB00C3E79A /* Reducer.swift in Sources */,
@@ -494,10 +494,10 @@
 				4D12CAA325219CA200C3E79A /* LoginState.swift in Sources */,
 				4D850200248DBB5B0021218C /* RegisterDataViewModel.swift in Sources */,
 				4D12CAA725219DCF00C3E79A /* LoginReducer.swift in Sources */,
-				4D8501FA248D578C0021218C /* LoginViewModel.swift in Sources */,
 				4DC693CB248C641600CBEF91 /* Color+Extension.swift in Sources */,
 				4D12CA9D2521985C00C3E79A /* Store.swift in Sources */,
 				4D12CA82252154E500C3E79A /* RootView.swift in Sources */,
+				4D38E7F82529257700EAD989 /* LoginContainerView.swift in Sources */,
 				4D12CAA925219E3800C3E79A /* LoginServicesEnvironment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

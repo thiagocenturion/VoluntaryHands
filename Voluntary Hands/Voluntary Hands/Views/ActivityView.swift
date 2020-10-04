@@ -1,5 +1,5 @@
 //
-//  LoadingView.swift
+//  ActivityView.swift
 //  Voluntary Hands
 //
 //  Created by Thiago Rodrigues Centurion on 07/06/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct LoadingView: View {
+struct ActivityView: View {
     
     // MARK: - Properties
     @State var animateTrimPath = false
@@ -83,6 +83,6 @@ struct LoadingView: View {
 
 struct LoadingView_Previews: PreviewProvider {
     static var previews: some View {
-        LoadingView()
+        ActivityView()
     }
 }

@@ -90,4 +90,4 @@ extension Store {
     }
 }
 
-typealias AppStore = Store<AppState, AppAction, AppEnvironment>
+typealias AppStore = Store<AppState, AppAction>

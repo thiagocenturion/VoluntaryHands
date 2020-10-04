@@ -11,19 +11,25 @@ import SwiftUI
 struct LoginView: View {
     
     // MARK: - Properties
-    @ObservedObject var viewModel: LoginViewModel
+    @Binding var username: String
+    @Binding var password: String
     
-    @State var selection: Int? = nil
+    var loading: Bool
+    
+    let onCommitSignIn: () -> Void
+    let onCommitSignUp: () -> Void
+    let onCommitForgotPassword: () -> Void
 
     // MARK: - View
+    
     var body: some View {
         NavigationView {
             ZStack {
-                if $viewModel.isLoading.wrappedValue {
-                    LoadingView()
-                    makeView.opacity(0.3)
+                if loading {
+                    ActivityView()
+                    content.opacity(0.3)
                 } else {
-                    makeView
+                    content
                 }
             }
             .padding(27.5)
@@ -33,41 +39,40 @@ struct LoginView: View {
         .preferredColorScheme(.dark)
     }
     
-    var makeView: some View {
+    var content: some View {
         VStack {
             Image("logo")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 215)
             
-            Spacer()
             
             VStack(alignment: .trailing, spacing: 15) {
-                TextFieldFloating("E-MAIL", text: $viewModel.username)
-                TextFieldFloating("SENHA", text: $viewModel.password, isSecure: true)
-                Button(action: { }) {
+                
+                Spacer()
+                
+                TextFieldFloating("E-MAIL", text: $username)
+                TextFieldFloating("SENHA", text: $password, isSecure: true)
+                Button(action: onCommitForgotPassword) {
                     Text("ESQUECI MINHA SENHA")
                         .font(.system(size: 14, weight: .bold, design: .rounded))
                 }
+                
+                Spacer()
             }
-            
-            Spacer()
             
             VStack(spacing: 15) {
                 
-                NavigationLink(destination: RegisterDataView(viewModel: RegisterDataViewModel()), isActive: $viewModel.pushed) {
-
-                    Button(action: { self.viewModel.pushed = true }) {
-                        HStack {
-                            Spacer()
-                            Text("CADASTRE-SE")
-                            Spacer()
-                        }
+                Button(action: onCommitSignUp) {
+                    HStack {
+                        Spacer()
+                        Text("CADASTRE-SE")
+                        Spacer()
                     }
-                    .buttonStyle(SecondaryBackgroundStyle(color: Color.Style.red))
                 }
+                .buttonStyle(SecondaryBackgroundStyle(color: Color.Style.red))
                 
-                Button(action: { self.viewModel.loginButtonTapped() }) {
+                Button(action: onCommitSignIn) {
                     HStack {
                         Spacer()
                         Text("LOGIN")
@@ -83,6 +88,13 @@ struct LoginView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(viewModel: LoginViewModel())
+        LoginView(
+            username: .constant(""),
+            password: .constant(""),
+            loading: false,
+            onCommitSignIn: { },
+            onCommitSignUp:  { },
+            onCommitForgotPassword: { }
+        )
     }
 }
