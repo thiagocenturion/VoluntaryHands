@@ -31,22 +31,16 @@ final class LoginServices: LoginServicesType {
 extension LoginServices {
     
     func loginVolunteer(cpf: String, password: String) -> AnyPublisher<String, Error> {
-        let body = LoginVolunteer(cpf: cpf, password: password)
-        
-        return network.post(
+        return network.requestString(
             endpoint: Endpoint.login,
-            token: nil,
-            body: body
-        )
+            httpMethod: .post(body: LoginVolunteer(cpf: cpf, password: password)),
+            token: nil)
     }
     
     func loginInstitution(cnpj: String, password: String) -> AnyPublisher<String, Error> {
-        let body = LoginInstitution(cnpj: cnpj, password: password)
-        
-        return network.post(
+        return network.requestString(
             endpoint: Endpoint.login,
-            token: nil,
-            body: body
-        )
+            httpMethod: .post(body: LoginInstitution(cnpj: cnpj, password: password)),
+            token: nil)
     }
 }

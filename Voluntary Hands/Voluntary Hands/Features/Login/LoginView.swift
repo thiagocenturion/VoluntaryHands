@@ -34,7 +34,7 @@ struct LoginView: View {
             }
             .padding(27.5)
             .background(Color.Style.grayDark)
-            .edgesIgnoringSafeArea(.top)
+            .ignoresSafeArea(.container, edges: .vertical)
         }
         .preferredColorScheme(.dark)
     }
@@ -46,20 +46,19 @@ struct LoginView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 215)
             
+            Spacer()
             
             VStack(alignment: .trailing, spacing: 15) {
                 
-                Spacer()
-                
-                TextFieldFloating("E-MAIL", text: $username)
+                TextFieldFloating("CPF / CNPJ", text: $username)
                 TextFieldFloating("SENHA", text: $password, isSecure: true)
                 Button(action: onCommitForgotPassword) {
                     Text("ESQUECI MINHA SENHA")
                         .font(.system(size: 14, weight: .bold, design: .rounded))
                 }
-                
-                Spacer()
             }
+            
+            Spacer()
             
             VStack(spacing: 15) {
                 
@@ -81,7 +80,6 @@ struct LoginView: View {
                 }
                 .buttonStyle(PrimaryBackgroundStyle())
             }
-            
         }
     }
 }

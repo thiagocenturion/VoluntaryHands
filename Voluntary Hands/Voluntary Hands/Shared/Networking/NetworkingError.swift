@@ -27,6 +27,8 @@ enum NetworkingError: Error {
     /// Encounted a server error.
     case serverError(error: URLError)
     
+    case serverErrorMessage(message: String?)
+    
     /// There was an error parsing the data.
     case parseError(error: Error)
     

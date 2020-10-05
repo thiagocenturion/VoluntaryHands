@@ -15,11 +15,16 @@ struct LoginContainerView: View {
     @State private var username = ""
     @State private var password = ""
     
+    private var alertShown: Binding<AlertError?> {
+        store.binding(for: \.alert) { _ in .alert(error: nil) }
+    }
+    
     let onCommitSignUp: () -> Void
     let onCommitForgotPassword: () -> Void
     
     // MARK: - View
     var body: some View {
+
         LoginView(
             username: $username,
             password: $password,
@@ -28,6 +33,12 @@ struct LoginContainerView: View {
             onCommitSignUp: onCommitSignUp,
             onCommitForgotPassword: onCommitForgotPassword
         )
+        .alert(item: alertShown, content: { alertError -> Alert in
+            Alert(
+                title: Text(alertError.title),
+                message: Text(alertError.message),
+                dismissButton: nil)
+        })
     }
 }
 

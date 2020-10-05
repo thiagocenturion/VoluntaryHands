@@ -11,4 +11,9 @@ import Foundation
 struct LoginInstitution: Encodable {
     let cnpj: String
     let password: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case cnpj
+        case password = "senha"
+    }
 }

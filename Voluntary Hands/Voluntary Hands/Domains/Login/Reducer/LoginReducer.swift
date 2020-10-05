@@ -9,66 +9,47 @@
 import Foundation
 import Combine
 
-//extension Reducer {
-//    static var loginReducer: Reducer<LoginState, LoginAction, LoginServicesEnvironmentType> {
-//        return Reducer<LoginState, LoginAction, LoginServicesEnvironmentType> { state, action, environment in
-//            switch action {
-//            case .loginVolunteer(let cpf, let password):
-//                return environment.loginServices.loginVolunteer(cpf: cpf, password: password)
-//                    .map { _ in LoginAction.loginSuccess }
-//                    .catch { error in Just<LoginAction>(LoginAction.alert(error: error)) }
-//                    .eraseToAnyPublisher()
-//
-//            case .loginInstitution(let cnpj, let password):
-//                return environment.loginServices.loginInstitution(cnpj: cnpj, password: password)
-//                    .map { _ in LoginAction.loginSuccess }
-//                    .catch { error in Just<LoginAction>(LoginAction.alert(error: error)) }
-//                    .eraseToAnyPublisher()
-//
-//            case .loginSuccess:
-//                state.loginSuccess = true
-//
-//            case .alert(let error):
-//                state.alert = "Não foi possível realizar o login"
-//
-//            case .removeAlert:
-//                state.alert = nil
-//
-//            case .set(let newState):
-//                state = newState
-//
-//            case .resetState:
-//                state.currentUsername = ""
-//                state.currentPassword = ""
-//                state.loginSuccess = false
-//                state.alert = nil
-//            }
-//
-//            return Empty(completeImmediately: true).eraseToAnyPublisher()
-//        }
-//    }
-//}
-
 let loginReducer: Reducer<LoginState, LoginAction, LoginServicesEnvironmentType> = Reducer { state, action, environment in
     switch action {
     case .signIn(let username, let password):
+        state.loading = true
+        
         if username.count == 11 {
+            
             return environment.loginServices.loginVolunteer(cpf: username, password: password)
                 .map { _ in LoginAction.loginSuccess }
                 .catch { error in Just<LoginAction>(LoginAction.alert(error: error)) }
                 .eraseToAnyPublisher()
+            
         } else if username.count == 16 {
+            
             return environment.loginServices.loginInstitution(cnpj: username, password: password)
                 .map { _ in LoginAction.loginSuccess }
                 .catch { error in Just<LoginAction>(LoginAction.alert(error: error)) }
                 .eraseToAnyPublisher()
+
         }
         
     case .loginSuccess:
+        state.loading = false
         state.loginSuccess = true
         
     case .alert(let error):
-        state.alert = "Não foi possível realizar o login"
+        state.loading = false
+        
+        var alertError: AlertError?
+        if let networkingError = error as? NetworkingError {
+            switch networkingError {
+            case .serverErrorMessage(let message):
+                alertError = .init(title: "Puxa!", message: message ?? "Houve um problema no login. Tente novamente")
+            default:
+                alertError = .init(title: "Oops!", message: "Não foi possível realizar o login")
+            }
+        } else {
+            alertError = error != nil ? .init(title: "Oops!", message: "Não foi possível realizar o login") : nil
+        }
+        
+        state.alert = alertError
         
     case .removeAlert:
         state.alert = nil

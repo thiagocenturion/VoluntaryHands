@@ -74,7 +74,7 @@ extension Store {
         $state
             .map(deriveState)
             .removeDuplicates()
-            .assign(to: store.$state)
+            .assign(to: &store.$state)
 
         return store
     }

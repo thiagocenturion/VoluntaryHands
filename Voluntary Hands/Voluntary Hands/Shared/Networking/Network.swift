@@ -8,21 +8,22 @@
 
 import Foundation
 import Combine
-import Network
 
 protocol NetworkType {
     var session: URLSession { get }
     var decoder: JSONDecoder { get }
     var encoder: JSONEncoder { get }
     var timeout: TimeInterval { get }
-    var monitor: NWPathMonitor { get }
     
-    func get<Decode>(endpoint: Endpoint) -> AnyPublisher<Decode, Error> where Decode: Decodable
-    
-    func post<Encode, Decode>(
+    func request<Encode, Decode>(
         endpoint: Endpoint,
-        token: String?,
-        body: Encode) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable
+        httpMethod: Network.HTTPMethod<Encode>,
+        token: String?) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable
+    
+    func requestString<Encode>(
+        endpoint: Endpoint,
+        httpMethod: Network.HTTPMethod<Encode>,
+        token: String?) -> AnyPublisher<String, Error> where Encode: Encodable
 }
 
 final class Network: NetworkType {
@@ -34,10 +35,17 @@ final class Network: NetworkType {
     let timeout: TimeInterval
     let tokenUpdater: TokenUpdater
     
-    var monitor: NWPathMonitor {
-        didSet {
-            let queue = DispatchQueue(label: "Monitor")
-            monitor.start(queue: queue)
+    enum HTTPMethod<Encode> where Encode: Encodable {
+        case get
+        case post(body: Encode)
+        case put(body: Encode)
+        
+        var rawValue: String {
+            switch self {
+            case .get: return "GET"
+            case .post: return "POST"
+            case .put: return "PUT"
+            }
         }
     }
     
@@ -47,14 +55,12 @@ final class Network: NetworkType {
         decoder: JSONDecoder,
         encoder: JSONEncoder,
         timeout: TimeInterval,
-        monitor: NWPathMonitor,
         tokenUpdater: TokenUpdater) {
         
         self.session = session
         self.decoder = decoder
         self.encoder = encoder
         self.timeout = timeout
-        self.monitor = monitor
         self.tokenUpdater = tokenUpdater
     }
 }
@@ -62,86 +68,117 @@ final class Network: NetworkType {
 // MARK: - Public methods
 extension Network {
     
-    func get<Decode>(endpoint: Endpoint) -> AnyPublisher<Decode, Error> where Decode: Decodable {
-        
-        guard monitor.currentPath.status == .satisfied else {
+    func request<Encode, Decode>(
+        endpoint: Endpoint,
+        httpMethod: Network.HTTPMethod<Encode>,
+        token: String?) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable {
+
+        guard Reachability.isConnectedToNetwork() else {
             return Fail(error: NetworkingError.noConnection).eraseToAnyPublisher()
         }
-        
-        var urlRequest = URLRequest(url: endpoint.url)
-        urlRequest.timeoutInterval = timeout
-        
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        return session.dataTaskPublisher(for: urlRequest)
-            .mapError { NetworkingError.serverError(error: $0) }
-            .handleEvents(receiveOutput: { [weak self] dataTaskPublisher in
-                self?.updateTokenIfNeeded(with: dataTaskPublisher.response)
-            })
-            .map(\.data)
-            .decode(type: Decode.self, decoder: decoder)
-            .mapError { NetworkingError.invalidDecode(error: $0) }
-            .eraseToAnyPublisher()
-    }
-    
-    func post<Encode, Decode>(
-        endpoint: Endpoint,
-        token: String?,
-        body: Encode) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable {
-        
-//        guard monitor.currentPath.status == .satisfied else {
-//            return Fail(error: NetworkingError.noConnection).eraseToAnyPublisher()
-//        }
-        
-        guard let body = try? encoder.encode(body) else {
-            return Fail(error: NetworkingError.invalidEncode).eraseToAnyPublisher()
-        }
-        
-        var urlRequest = URLRequest(url: endpoint.url)
-        urlRequest.timeoutInterval = timeout
-        
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        if let token = token {
-            urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        }
-        
-        urlRequest.httpMethod = "POST"
-        
-        urlRequest.httpBody = body
-        
-        return session.dataTaskPublisher(for: urlRequest)
-            .handleEvents(
-                receiveSubscription: { (subs) in
-                    print(subs.combineIdentifier.description)
-                },
-                receiveOutput: { (data, response) in
-                    print(data)
-                    print(response)
-                },
-                receiveCompletion: { (error) in
-                    print(error)
-                },
-                receiveCancel: {
-                    print("Cancel")
-                },
-                receiveRequest: { demand in
-                    print(demand)
+
+        let result = urlRequest(endpoint: endpoint, httpMethod: httpMethod, token: token)
+
+        switch result {
+        case .success(let urlRequest):
+            return session.dataTaskPublisher(for: urlRequest)
+                .receive(on: DispatchQueue.main)
+                .mapError { NetworkingError.serverError(error: $0) }
+                .handleEvents(receiveOutput: { [weak self] dataTaskPublisher in
+                    self?.updateTokenIfNeeded(with: dataTaskPublisher.response)
                 })
-            .mapError { NetworkingError.serverError(error: $0) }
-            .handleEvents(receiveOutput: { [weak self] dataTaskPublisher in
-                self?.updateTokenIfNeeded(with: dataTaskPublisher.response)
-            })
-            .map(\.data)
-            .decode(type: Decode.self, decoder: decoder)
-            .mapError { NetworkingError.invalidDecode(error: $0) }
-            .eraseToAnyPublisher()
+                .flatMap { data, response -> AnyPublisher<Data, Error> in
+                    guard let response = response as? HTTPURLResponse else {
+                        return Fail(error: NetworkingError.noData).eraseToAnyPublisher()
+                    }
+                    
+                    guard 200 ..< 300 ~= response.statusCode else {
+                        return Fail(error: NetworkingError.serverErrorMessage(message: String(decoding: data, as: UTF8.self))
+                        ).eraseToAnyPublisher()
+                    }
+                    
+                    return Just(data).setFailureType(to: Error.self).eraseToAnyPublisher()
+                }
+                .decode(type: Decode.self, decoder: decoder)
+                .mapError { NetworkingError.invalidDecode(error: $0) }
+                .eraseToAnyPublisher()
+
+        case .failure(let error):
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+    }
+
+    func requestString<Encode>(
+        endpoint: Endpoint,
+        httpMethod: Network.HTTPMethod<Encode>,
+        token: String?) -> AnyPublisher<String, Error> where Encode: Encodable {
+
+        guard Reachability.isConnectedToNetwork() else {
+            return Fail(error: NetworkingError.noConnection).eraseToAnyPublisher()
+        }
+
+        let result = urlRequest(endpoint: endpoint, httpMethod: httpMethod, token: token)
+
+        switch result {
+        case .success(let urlRequest):
+            return session.dataTaskPublisher(for: urlRequest)
+                .mapError { NetworkingError.serverError(error: $0) }
+                .handleEvents(receiveOutput: { [weak self] dataTaskPublisher in
+                    self?.updateTokenIfNeeded(with: dataTaskPublisher.response)
+                })
+                .flatMap { data, response -> AnyPublisher<Data, Error> in
+                    guard let response = response as? HTTPURLResponse else {
+                        return Fail(error: NetworkingError.noData).eraseToAnyPublisher()
+                    }
+                    
+                    guard 200 ..< 300 ~= response.statusCode else {
+                        return Fail(error: NetworkingError.serverErrorMessage(message: String(decoding: data, as: UTF8.self))
+                        ).eraseToAnyPublisher()
+                    }
+                    
+                    return Just(data).setFailureType(to: Error.self).eraseToAnyPublisher()
+                }
+                .map { String(decoding: $0, as: UTF8.self )}
+                .mapError { NetworkingError.invalidDecode(error: $0) }
+                .eraseToAnyPublisher()
+
+        case .failure(let error):
+            return Fail(error: error).eraseToAnyPublisher()
+        }
     }
 }
 
 // MARK: - Private methods
 extension Network {
+    
+    private func urlRequest<Encode>(
+        endpoint: Endpoint,
+        httpMethod: HTTPMethod<Encode>,
+        token: String?) -> Result<URLRequest, Error> where Encode: Encodable {
+        
+        var urlRequest = URLRequest(url: endpoint.url)
+        urlRequest.timeoutInterval = timeout
+        urlRequest.httpMethod = httpMethod.rawValue
+        
+        if let token = token {
+            urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        
+        switch httpMethod {
+        case .get:
+            break
+            
+        case .post(let body), .put(let body):
+            guard let data = try? encoder.encode(body) else {
+                return .failure(NetworkingError.invalidEncode)
+            }
+            
+            urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            urlRequest.httpBody = data
+        }
+        
+        return .success(urlRequest)
+    }
     
     private func updateTokenIfNeeded(with urlResponse: URLResponse) {
         if let httpResponse = urlResponse as? HTTPURLResponse,

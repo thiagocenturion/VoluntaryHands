@@ -11,5 +11,5 @@ import Foundation
 struct LoginState: Codable, Equatable {
     var loading = false
     var loginSuccess = false
-    var alert: String?
+    var alert: AlertError?
 }

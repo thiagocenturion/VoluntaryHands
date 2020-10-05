@@ -15,16 +15,6 @@ struct AppEnvironment {
     let counter: LaunchCounter
     let files: FileManager
     let network: NetworkType
-//    let counter = LaunchCounter()
-//    let files = FileManager.default
-//    let network = Network(
-//        session: .shared,
-//        decoder: .init(),
-//        encoder: .init(),
-//        timeout: 30,
-//        monitor: .init(),
-//        tokenUpdater: TokenUpdater(userDefaults: UserDefaults.standard)
-//    )
     
     // MARK: - Initialization
     init(counter: LaunchCounter,

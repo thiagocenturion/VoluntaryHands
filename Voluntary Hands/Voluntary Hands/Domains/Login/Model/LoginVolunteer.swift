@@ -11,4 +11,9 @@ import Foundation
 struct LoginVolunteer: Encodable {
     let cpf: String
     let password: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case cpf
+        case password = "senha"
+    }
 }

@@ -21,13 +21,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             decoder: .init(),
             encoder: .init(),
             timeout: 30.0,
-            monitor: .init(),
             tokenUpdater: .init(userDefaults: .standard)
         )
     )
     private lazy var store = AppStore(
         initialState: AppState(),
-//        reducer: Reducer.appReducer,
         reducer: appReducer,
         environment: environment
     )
