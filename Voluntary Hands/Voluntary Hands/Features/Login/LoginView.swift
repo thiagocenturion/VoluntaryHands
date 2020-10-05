@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct LoginView: View {
     
@@ -49,9 +50,20 @@ struct LoginView: View {
             Spacer()
             
             VStack(alignment: .trailing, spacing: 15) {
-                
                 FloatingTextField(title: "CPF / CNPJ", text: $username, isSecure: false, onCommit: { })
                     .keyboardType(.numberPad)
+                    .onReceive(Just(username)) { newValue in
+                        let value: String
+                        if newValue.onlyNumbers.count <= 11 {
+                            value = newValue.string(withMask: "999.999.999-99")
+                        } else {
+                            value = newValue.string(withMask: "99.999.999/9999-99")
+                        }
+                        
+                        if value != newValue {
+                            username = value
+                        }
+                    }
                 FloatingTextField(title: "SENHA", text: $password, isSecure: true, onCommit: onCommitSignIn)
                     .keyboardType(.webSearch)
                 Button(action: onCommitForgotPassword) {

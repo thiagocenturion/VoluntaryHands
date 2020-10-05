@@ -47,7 +47,7 @@ struct LoginContainerView: View {
 extension LoginContainerView {
     
     private func requestSignIn() {
-        store.send(.signIn(username: username, password: password))
+        store.send(.signIn(username: username.onlyNumbers, password: password.onlyNumbers))
     }
 }
 

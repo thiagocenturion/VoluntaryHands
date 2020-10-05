@@ -44,6 +44,7 @@
 		4D94D37524887A550065955D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D94D37424887A550065955D /* Preview Assets.xcassets */; };
 		4D94D37824887A550065955D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D94D37624887A550065955D /* LaunchScreen.storyboard */; };
 		4D94D38324887A560065955D /* Voluntary_HandsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D94D38224887A560065955D /* Voluntary_HandsTests.swift */; };
+		4DB4F891252AE90C008F6CA2 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB4F890252AE90C008F6CA2 /* String+Extension.swift */; };
 		4DC693CB248C641600CBEF91 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC693CA248C641600CBEF91 /* Color+Extension.swift */; };
 		4DC693CF248C692800CBEF91 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DC693CE248C692800CBEF91 /* Colors.xcassets */; };
 /* End PBXBuildFile section */
@@ -100,6 +101,7 @@
 		4D94D37E24887A560065955D /* Voluntary HandsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Voluntary HandsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D94D38224887A560065955D /* Voluntary_HandsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Voluntary_HandsTests.swift; sourceTree = "<group>"; };
 		4D94D38424887A560065955D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4DB4F890252AE90C008F6CA2 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		4DC693CA248C641600CBEF91 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		4DC693CE248C692800CBEF91 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -349,6 +351,7 @@
 			isa = PBXGroup;
 			children = (
 				4DC693CA248C641600CBEF91 /* Color+Extension.swift */,
+				4DB4F890252AE90C008F6CA2 /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 				4D38E7EF2528CC4500EAD989 /* AppAction.swift in Sources */,
 				4D12CA9B252195EE00C3E79A /* LoginInstitution.swift in Sources */,
 				4D12CA802521532200C3E79A /* LoginCoordinatorView.swift in Sources */,
+				4DB4F891252AE90C008F6CA2 /* String+Extension.swift in Sources */,
 				4D12CA912521926800C3E79A /* LoginEndpoint.swift in Sources */,
 				4D12CA93252192BD00C3E79A /* LoginServices.swift in Sources */,
 				4D94D36E24887A550065955D /* SceneDelegate.swift in Sources */,
