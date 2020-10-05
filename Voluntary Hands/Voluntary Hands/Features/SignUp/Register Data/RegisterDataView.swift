@@ -16,10 +16,10 @@ struct RegisterDataView: View {
     var body: some View {
             VStack() {
                 VStack(alignment: .trailing, spacing: 15) {
-                    TextFieldFloating("EMAIL", text: $viewModel.email)
-                    TextFieldFloating("CONFIRMAÇÃO DE EMAIL", text: $viewModel.emailConfirm)
-                    TextFieldFloating("SENHA", text: $viewModel.password, isSecure: true)
-                    TextFieldFloating("CONFIRMAÇÃO DE SENHA", text: $viewModel.passwordConfirm, isSecure: true)
+                    TextFieldFloating("EMAIL", text: $viewModel.email, onCommit: { })
+                    TextFieldFloating("CONFIRMAÇÃO DE EMAIL", text: $viewModel.emailConfirm, onCommit: { })
+                    TextFieldFloating("SENHA", text: $viewModel.password, isSecure: true, onCommit: { })
+                    TextFieldFloating("CONFIRMAÇÃO DE SENHA", text: $viewModel.passwordConfirm, isSecure: true, onCommit: { })
                 }
                 
                 Spacer()

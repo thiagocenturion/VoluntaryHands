@@ -13,9 +13,9 @@ struct TextFieldFloating: View {
     // MARK: - Properties
     var placeholder: String
     var isSecure: Bool
+    let onCommit: () -> Void
     
     var onEditingChanged: (Bool) -> () = { _ in }
-    var onCommit: () -> () = { }
     
     // MARK: - Binders
     @Binding var text: String
@@ -60,15 +60,16 @@ struct TextFieldFloating: View {
     }
     
     // MARK: - Initializers
-    init(_ placeholder: String, text: Binding<String>, isSecure: Bool = false) {
+    init(_ placeholder: String, text: Binding<String>, isSecure: Bool = false, onCommit: @escaping () -> Void) {
         self.placeholder = placeholder
         self._text = text
         self.isSecure = isSecure
+        self.onCommit = onCommit
     }
 }
 
 struct TextFieldFloating_Previews: PreviewProvider {
     static var previews: some View {
-        TextFieldFloating("PLACEHOLDER", text: .constant("a"))
+        TextFieldFloating("PLACEHOLDER", text: .constant("a"), onCommit: { })
     }
 }
