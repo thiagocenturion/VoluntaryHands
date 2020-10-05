@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D008F91252ADAB200A7DAE1 /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D008F90252ADAB200A7DAE1 /* FloatingTextField.swift */; };
 		4D12CA802521532200C3E79A /* LoginCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D12CA7F2521532200C3E79A /* LoginCoordinatorView.swift */; };
 		4D12CA82252154E500C3E79A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D12CA81252154E500C3E79A /* RootView.swift */; };
 		4D12CA852521731800C3E79A /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D12CA842521731800C3E79A /* AppEnvironment.swift */; };
@@ -45,7 +46,6 @@
 		4D94D38324887A560065955D /* Voluntary_HandsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D94D38224887A560065955D /* Voluntary_HandsTests.swift */; };
 		4DC693CB248C641600CBEF91 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC693CA248C641600CBEF91 /* Color+Extension.swift */; };
 		4DC693CF248C692800CBEF91 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DC693CE248C692800CBEF91 /* Colors.xcassets */; };
-		4DC693D5248C6F4A00CBEF91 /* TextFieldFloating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC693D4248C6F4A00CBEF91 /* TextFieldFloating.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D008F90252ADAB200A7DAE1 /* FloatingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
 		4D12CA7F2521532200C3E79A /* LoginCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorView.swift; sourceTree = "<group>"; };
 		4D12CA81252154E500C3E79A /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		4D12CA842521731800C3E79A /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
@@ -101,7 +102,6 @@
 		4D94D38424887A560065955D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DC693CA248C641600CBEF91 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		4DC693CE248C692800CBEF91 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
-		4DC693D4248C6F4A00CBEF91 /* TextFieldFloating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldFloating.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -365,7 +365,7 @@
 		4DC693D3248C6F0100CBEF91 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4DC693D4248C6F4A00CBEF91 /* TextFieldFloating.swift */,
+				4D008F90252ADAB200A7DAE1 /* FloatingTextField.swift */,
 				4D8501FD248D93C70021218C /* ActivityView.swift */,
 			);
 			path = Views;
@@ -491,13 +491,13 @@
 				4D8501F4248C87760021218C /* SecondaryBackgroundStyle.swift in Sources */,
 				4D8501F0248C7EF70021218C /* PrimaryBackgroundStyle.swift in Sources */,
 				4D12CAA125219AAB00C3E79A /* Reducer.swift in Sources */,
+				4D008F91252ADAB200A7DAE1 /* FloatingTextField.swift in Sources */,
 				4D94D37024887A550065955D /* LoginView.swift in Sources */,
 				4D88B641252764D3008504D9 /* TokenUpdater.swift in Sources */,
 				4D12CA872521746F00C3E79A /* LaunchCounter.swift in Sources */,
 				4D12CA8A252175CD00C3E79A /* Network.swift in Sources */,
 				4D12CAA525219D2700C3E79A /* LoginAction.swift in Sources */,
 				4D12CA8E252190DF00C3E79A /* Endpoint.swift in Sources */,
-				4DC693D5248C6F4A00CBEF91 /* TextFieldFloating.swift in Sources */,
 				4D12CAA325219CA200C3E79A /* LoginState.swift in Sources */,
 				4D850200248DBB5B0021218C /* RegisterDataViewModel.swift in Sources */,
 				4D12CAA725219DCF00C3E79A /* LoginReducer.swift in Sources */,

@@ -42,7 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 rootView: RootView()
                     .preferredColorScheme(.dark)
                     .environmentObject(store)
-                    .accentColor(Color.Style.grayDark)
+                    .accentColor(Color.Style.blueFade)
             )
             self.window = window
             window.makeKeyAndVisible()

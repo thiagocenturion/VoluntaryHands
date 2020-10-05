@@ -50,11 +50,10 @@ struct LoginView: View {
             
             VStack(alignment: .trailing, spacing: 15) {
                 
-                TextFieldFloating("CPF / CNPJ", text: $username, onCommit: { })
-                
-                TextFieldFloating("SENHA", text: $password, isSecure: true, onCommit: onCommitSignIn)
+                FloatingTextField(title: "CPF / CNPJ", text: $username, isSecure: false, onCommit: { })
+                    .keyboardType(.numberPad)
+                FloatingTextField(title: "SENHA", text: $password, isSecure: true, onCommit: onCommitSignIn)
                     .keyboardType(.webSearch)
-                
                 Button(action: onCommitForgotPassword) {
                     Text("ESQUECI MINHA SENHA")
                         .font(.system(size: 14, weight: .bold, design: .rounded))
