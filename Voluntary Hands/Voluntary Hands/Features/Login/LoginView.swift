@@ -51,12 +51,8 @@ struct LoginView: View {
             
             VStack(alignment: .trailing, spacing: 15) {
                 FloatingTextField(title: "CPF / CNPJ", text: $username, isSecure: false, onCommit: { })
+                    .mask(username.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99")
                     .keyboardType(.numberPad)
-                    .onReceive(Just(username)) { newValue in
-                        username = newValue.onlyNumbers.count <= 11 ?
-                            newValue.string(withMask: "999.999.999-99") :
-                            newValue.string(withMask: "99.999.999/9999-99")
-                    }
                 FloatingTextField(title: "SENHA", text: $password, isSecure: true, onCommit: onCommitSignIn)
                     .keyboardType(.webSearch)
                 Button(action: onCommitForgotPassword) {
