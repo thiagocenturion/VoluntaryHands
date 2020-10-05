@@ -53,16 +53,9 @@ struct LoginView: View {
                 FloatingTextField(title: "CPF / CNPJ", text: $username, isSecure: false, onCommit: { })
                     .keyboardType(.numberPad)
                     .onReceive(Just(username)) { newValue in
-                        let value: String
-                        if newValue.onlyNumbers.count <= 11 {
-                            value = newValue.string(withMask: "999.999.999-99")
-                        } else {
-                            value = newValue.string(withMask: "99.999.999/9999-99")
-                        }
-                        
-                        if value != newValue {
-                            username = value
-                        }
+                        username = newValue.onlyNumbers.count <= 11 ?
+                            newValue.string(withMask: "999.999.999-99") :
+                            newValue.string(withMask: "99.999.999/9999-99")
                     }
                 FloatingTextField(title: "SENHA", text: $password, isSecure: true, onCommit: onCommitSignIn)
                     .keyboardType(.webSearch)
