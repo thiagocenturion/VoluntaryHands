@@ -7,9 +7,12 @@
 //
 
 import SwiftUI
+import Combine
 
 struct LoginCoordinatorView: View {
     @EnvironmentObject var store: Store<AppState, AppAction>
+    
+    @State private var loginSuccess = false
     
     var body: some View {
         LoginContainerView(onCommitSignUp: { () }, onCommitForgotPassword:  { () })
@@ -18,11 +21,12 @@ struct LoginCoordinatorView: View {
                     deriveState: \.login,
                     embedAction: AppAction.login)
             )
-//        NavigationLink(
-//            destination: /*@START_MENU_TOKEN@*/Text("Destination")/*@END_MENU_TOKEN@*/,
-//            tag: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/,
-//            selection: /*@START_MENU_TOKEN@*/.constant(1)/*@END_MENU_TOKEN@*/) {
-//            LoginView(viewModel: LoginViewModel())
+            .onReceive(Just(store.state.login.loginSuccess)) { success in
+                loginSuccess = success
+            }
+//        NavigationLink(<#T##title: StringProtocol##StringProtocol#>, destination: <#T##_#>, tag: <#T##Hashable#>, selection: <#T##Binding<Hashable?>#>)
+//        NavigationLink(destination: Text("Feed destination"), isActive: $loginSuccess) {
+//
 //        }
     }
 }
