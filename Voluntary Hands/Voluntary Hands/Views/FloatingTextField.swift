@@ -31,7 +31,8 @@ struct FloatingTextField: View {
                 .frame(height: 2)
                 .background($text.wrappedValue.isEmpty ? Color.Style.grayLight : .accentColor)
         }
-        .animation(.spring(response: 0.2, dampingFraction: 0.5))
+        .animation(.default)
+//        .animation(.spring(response: 0.2, dampingFraction: 0.5))
     }
     
     private var textField: some View {

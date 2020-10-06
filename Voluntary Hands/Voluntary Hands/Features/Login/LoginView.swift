@@ -20,6 +20,8 @@ struct LoginView: View {
     let onCommitSignIn: () -> Void
     let onCommitSignUp: () -> Void
     let onCommitForgotPassword: () -> Void
+    
+    @State private var signInEnabled = false
 
     // MARK: - View
     
@@ -38,6 +40,9 @@ struct LoginView: View {
             .ignoresSafeArea(.container, edges: .vertical)
         }
         .preferredColorScheme(.dark)
+        .onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     }
     
     var content: some View {
@@ -45,15 +50,18 @@ struct LoginView: View {
             Image("logo")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(height: 215)
+                .frame(minHeight: 150, idealHeight: 215, maxHeight: 215, alignment: .center)
             
             Spacer()
             
             VStack(alignment: .trailing, spacing: 15) {
                 FloatingTextField(title: "CPF / CNPJ", text: $username, isSecure: false, onCommit: { })
                     .mask(username.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99")
+                    .onReceive(Just(username), perform: { newValue in
+                        signInEnabled = !newValue.isEmpty
+                    })
                     .keyboardType(.numberPad)
-                FloatingTextField(title: "SENHA", text: $password, isSecure: true, onCommit: onCommitSignIn)
+                FloatingTextField(title: "SENHA", text: $password, isSecure: true, onCommit: signInEnabled ? onCommitSignIn : { })
                     .keyboardType(.webSearch)
                 Button(action: onCommitForgotPassword) {
                     Text("ESQUECI MINHA SENHA")
@@ -81,7 +89,9 @@ struct LoginView: View {
                         Spacer()
                     }
                 }
-                .buttonStyle(PrimaryBackgroundStyle())
+                .padding(.bottom, 10)
+                .buttonStyle(PrimaryBackgroundStyle(isDisabled: !signInEnabled))
+                .disabled(!signInEnabled)
             }
         }
     }
@@ -89,13 +99,25 @@ struct LoginView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(
-            username: .constant(""),
-            password: .constant(""),
-            loading: false,
-            onCommitSignIn: { },
-            onCommitSignUp:  { },
-            onCommitForgotPassword: { }
-        )
+        Group {
+            LoginView(
+                username: .constant(""),
+                password: .constant(""),
+                loading: false,
+                onCommitSignIn: { },
+                onCommitSignUp:  { },
+                onCommitForgotPassword: { }
+            )
+            .previewDevice("iPhone SE (2nd generation)")
+            LoginView(
+                username: .constant(""),
+                password: .constant(""),
+                loading: false,
+                onCommitSignIn: { },
+                onCommitSignUp:  { },
+                onCommitForgotPassword: { }
+            )
+            .previewDevice("iPhone 11")
+        }
     }
 }
