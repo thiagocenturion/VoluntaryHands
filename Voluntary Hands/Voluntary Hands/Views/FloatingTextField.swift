@@ -13,6 +13,7 @@ struct FloatingTextField: View {
     let title: String
     
     @Binding var text: String
+    @Binding var error: String?
     
     let isSecure: Bool
     let onCommit: () -> Void
@@ -21,18 +22,23 @@ struct FloatingTextField: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.system(size: 14, weight: .bold, design: .rounded))
-                .foregroundColor($text.wrappedValue.isEmpty ? Color.Style.grayLight : .accentColor)
+                .foregroundColor(currentColor)
                 .offset(y: $text.wrappedValue.isEmpty ? 20 : 0)
                 .scaleEffect($text.wrappedValue.isEmpty ? 1 : 0.8, anchor: .leading)
+                .animation(.linear(duration: 0.2))
             textField
                 .font(.system(size: 14, weight: .bold, design: .rounded))
                 .foregroundColor(Color.Style.grayLight)
             Divider()
                 .frame(height: 2)
-                .background($text.wrappedValue.isEmpty ? Color.Style.grayLight : .accentColor)
+                .background(currentColor)
+            Text(error ?? "")
+                .font(.system(size: 14, weight: .bold, design: .rounded))
+                .foregroundColor(Color.Style.red)
+                .padding(.bottom, error != nil ? 10 : 0)
+                .frame(height: error != nil ? 20 : 0)
+                .offset(y: error != nil ? 0 : -20)
         }
-        .animation(.default)
-//        .animation(.spring(response: 0.2, dampingFraction: 0.5))
     }
     
     private var textField: some View {
@@ -44,12 +50,24 @@ struct FloatingTextField: View {
             }
         }
     }
+    
+    private var currentColor: Color {
+        return $error.wrappedValue != nil ? Color.Style.red :
+            $text.wrappedValue.isEmpty ? Color.Style.grayLight : .accentColor
+    }
 }
 
 struct FloatingTextField_Previews: PreviewProvider {
     
     static var previews: some View {
-        FloatingTextField(title: "CPF / CNPJ", text: .constant(""), isSecure: false, onCommit: { })
+        VStack {
+            FloatingTextField(title: "CPF / CNPJ", text: .constant(""), error: .constant(nil), isSecure: false, onCommit: { })
+            FloatingTextField(title: "CPF / CNPJ", text: .constant("Texto"), error: .constant(nil), isSecure: false, onCommit: { })
+            FloatingTextField(title: "CPF / CNPJ", text: .constant(""), error: .constant("Mensagem de erro"), isSecure: false, onCommit: { })
+            FloatingTextField(title: "CPF / CNPJ", text: .constant("Texto"), error: .constant("Mensagem de erro"), isSecure: false, onCommit: { })
+        }
+        .padding(.vertical, 1000)
+        .background(Color.Style.grayDark)
     }
 }
 

@@ -15,13 +15,20 @@ struct LoginView: View {
     @Binding var username: String
     @Binding var password: String
     
+    @State var usernameErrorMessage: String?
+    @State var passwordErrorMessage: String?
+    
     var loading: Bool
     
     let onCommitSignIn: () -> Void
     let onCommitSignUp: () -> Void
     let onCommitForgotPassword: () -> Void
     
-    @State private var signInEnabled = false
+    @State private var signInEnabled = false {
+        didSet {
+            usernameErrorMessage = signInEnabled ? nil : "Opa!"
+        }
+    }
 
     // MARK: - View
     
@@ -50,18 +57,18 @@ struct LoginView: View {
             Image("logo")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(minHeight: 150, idealHeight: 215, maxHeight: 215, alignment: .center)
+                .frame(minHeight: 150, idealHeight: 200, maxHeight: 200, alignment: .center)
             
             Spacer()
             
-            VStack(alignment: .trailing, spacing: 15) {
-                FloatingTextField(title: "CPF / CNPJ", text: $username, isSecure: false, onCommit: { })
+            VStack(alignment: .trailing, spacing: 8) {
+                FloatingTextField(title: "CPF / CNPJ", text: $username, error: $usernameErrorMessage, isSecure: false, onCommit: { })
                     .mask(username.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99")
                     .onReceive(Just(username), perform: { newValue in
                         signInEnabled = !newValue.isEmpty
                     })
                     .keyboardType(.numberPad)
-                FloatingTextField(title: "SENHA", text: $password, isSecure: true, onCommit: signInEnabled ? onCommitSignIn : { })
+                FloatingTextField(title: "SENHA", text: $password, error: .constant(nil), isSecure: true, onCommit: signInEnabled ? onCommitSignIn : { })
                     .keyboardType(.webSearch)
                 Button(action: onCommitForgotPassword) {
                     Text("ESQUECI MINHA SENHA")
