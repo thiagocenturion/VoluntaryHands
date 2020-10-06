@@ -53,6 +53,33 @@ extension String {
         
         return temp1 == d1 && temp2 == d2
     }
+    
+    var isCNPJ: Bool {
+        let text = self.onlyNumbers
+        
+        guard text.count == 14 else { return false }
+        
+        if (text == "00000000000000" ||
+                text == "11111111111111" ||
+                text == "22222222222222" ||
+                text == "33333333333333" ||
+                text == "44444444444444" ||
+                text == "55555555555555" ||
+                text == "66666666666666" ||
+                text == "77777777777777" ||
+                text == "88888888888888" ||
+                text == "99999999999999") {
+            return false
+        }
+        
+        let numbers = text.compactMap({ Int(String($0)) })
+        let digits = Array(numbers[0..<12])
+        
+        let firstDigit = checkDigit(for: digits, upperBound: 9, lowerBound: 2, mod: 11)
+        let secondDigit = checkDigit(for: digits + [firstDigit], upperBound: 9, lowerBound: 2, mod: 11)
+        
+        return firstDigit == numbers[12] && secondDigit == numbers[13]
+    }
 }
 
 extension String {
@@ -98,4 +125,18 @@ extension String {
         
         return formattedValue
     }
+    
+    private func checkDigit(for digits: [Int], upperBound: Int, lowerBound: Int, mod: Int, secondMod: Int = 10) -> Int {
+            guard lowerBound < upperBound else { preconditionFailure("lower bound is greater than upper bound") }
+
+            let factors = Array((lowerBound...upperBound).reversed())
+
+            let multiplied = digits.reversed().enumerated().map {
+                return $0.element * factors[$0.offset % factors.count]
+            }
+            
+            let sum = multiplied.reduce(0, +)
+
+            return (sum % mod) % secondMod
+        }
 }

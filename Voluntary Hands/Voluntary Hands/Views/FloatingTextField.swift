@@ -35,9 +35,7 @@ struct FloatingTextField: View {
             Text(error ?? "")
                 .font(.system(size: 14, weight: .bold, design: .rounded))
                 .foregroundColor(Color.Style.red)
-                .padding(.bottom, error != nil ? 10 : 0)
-                .frame(height: error != nil ? 20 : 0)
-                .offset(y: error != nil ? 0 : -20)
+                .frame(height: 20)
         }
     }
     

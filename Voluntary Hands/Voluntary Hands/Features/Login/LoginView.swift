@@ -15,20 +15,13 @@ struct LoginView: View {
     @Binding var username: String
     @Binding var password: String
     
-    @State var usernameErrorMessage: String?
-    @State var passwordErrorMessage: String?
-    
+    @Binding var usernameErrorMessage: String?
+    @Binding var signInEnabled: Bool
     var loading: Bool
     
     let onCommitSignIn: () -> Void
     let onCommitSignUp: () -> Void
     let onCommitForgotPassword: () -> Void
-    
-    @State private var signInEnabled = false {
-        didSet {
-            usernameErrorMessage = signInEnabled ? nil : "Opa!"
-        }
-    }
 
     // MARK: - View
     
@@ -64,9 +57,6 @@ struct LoginView: View {
             VStack(alignment: .trailing, spacing: 8) {
                 FloatingTextField(title: "CPF / CNPJ", text: $username, error: $usernameErrorMessage, isSecure: false, onCommit: { })
                     .mask(username.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99")
-                    .onReceive(Just(username), perform: { newValue in
-                        signInEnabled = !newValue.isEmpty
-                    })
                     .keyboardType(.numberPad)
                 FloatingTextField(title: "SENHA", text: $password, error: .constant(nil), isSecure: true, onCommit: signInEnabled ? onCommitSignIn : { })
                     .keyboardType(.webSearch)
@@ -110,6 +100,8 @@ struct ContentView_Previews: PreviewProvider {
             LoginView(
                 username: .constant(""),
                 password: .constant(""),
+                usernameErrorMessage: .constant(nil),
+                signInEnabled: .constant(true),
                 loading: false,
                 onCommitSignIn: { },
                 onCommitSignUp:  { },
@@ -119,6 +111,8 @@ struct ContentView_Previews: PreviewProvider {
             LoginView(
                 username: .constant(""),
                 password: .constant(""),
+                usernameErrorMessage: .constant("CPF inválido."),
+                signInEnabled: .constant(false),
                 loading: false,
                 onCommitSignIn: { },
                 onCommitSignUp:  { },

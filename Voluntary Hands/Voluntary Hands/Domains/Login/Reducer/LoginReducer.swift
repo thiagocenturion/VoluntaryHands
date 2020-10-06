@@ -14,14 +14,17 @@ let loginReducer: Reducer<LoginState, LoginAction, LoginServicesEnvironmentType>
     case .signIn(let username, let password):
         state.loading = true
         
-        if username.count == 11 {
+        let username = username.onlyNumbers
+        let password = password
+        
+        if username.isCPF {
             
             return environment.loginServices.loginVolunteer(cpf: username, password: password)
                 .map { _ in LoginAction.loginSuccess }
                 .catch { error in Just<LoginAction>(LoginAction.alert(error: error)) }
                 .eraseToAnyPublisher()
             
-        } else if username.count == 16 {
+        } else if username.isCNPJ {
             
             return environment.loginServices.loginInstitution(cnpj: username, password: password)
                 .map { _ in LoginAction.loginSuccess }

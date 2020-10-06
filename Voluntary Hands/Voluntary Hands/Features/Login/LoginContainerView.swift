@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct LoginContainerView: View {
     
@@ -14,6 +15,8 @@ struct LoginContainerView: View {
     @EnvironmentObject var store: Store<LoginState, LoginAction>
     @State private var username = ""
     @State private var password = ""
+    @State private var usernameErrorMessage: String?
+    @State private var signInEnabled = false
     
     private var alertShown: Binding<AlertError?> {
         store.binding(for: \.alert) { _ in .alert(error: nil) }
@@ -28,17 +31,39 @@ struct LoginContainerView: View {
         LoginView(
             username: $username,
             password: $password,
+            usernameErrorMessage: $usernameErrorMessage,
+            signInEnabled: $signInEnabled,
             loading: store.state.loading,
             onCommitSignIn: requestSignIn,
             onCommitSignUp: onCommitSignUp,
             onCommitForgotPassword: onCommitForgotPassword
         )
+        .onReceive(Just(username)) { newValue in
+            validateUsername(newValue)
+        }
         .alert(item: alertShown, content: { alertError -> Alert in
             Alert(
                 title: Text(alertError.title),
                 message: Text(alertError.message),
                 dismissButton: nil)
         })
+    }
+    
+    func validateUsername(_ username: String) {
+        if username.isEmpty {
+            usernameErrorMessage = nil
+            signInEnabled = false
+        } else if username.onlyNumbers.count <= 11 {
+            let errorMessage = username.isCPF ? nil : "O CPF digitado é inválido."
+            
+            usernameErrorMessage = errorMessage
+            signInEnabled = errorMessage == nil
+        } else {
+            let errorMessage = username.isCNPJ ? nil : "O CNPJ digitado é inválido."
+            
+            usernameErrorMessage = errorMessage
+            signInEnabled = errorMessage == nil
+        }
     }
 }
 
@@ -47,7 +72,7 @@ struct LoginContainerView: View {
 extension LoginContainerView {
     
     private func requestSignIn() {
-        store.send(.signIn(username: username.onlyNumbers, password: password.onlyNumbers))
+        store.send(.signIn(username: username, password: password))
     }
 }
 
