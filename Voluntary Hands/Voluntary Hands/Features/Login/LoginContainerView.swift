@@ -38,8 +38,8 @@ struct LoginContainerView: View {
             onCommitSignUp: onCommitSignUp,
             onCommitForgotPassword: onCommitForgotPassword
         )
-        .onReceive(Just(username)) { newValue in
-            validateUsername(newValue)
+        .onReceive(Publishers.CombineLatest(Just(username), Just(password))) { username, password in
+            signInEnabled = validateUsername(username) && validatePassword(password)
         }
         .alert(item: alertShown, content: { alertError -> Alert in
             Alert(
@@ -49,21 +49,25 @@ struct LoginContainerView: View {
         })
     }
     
-    func validateUsername(_ username: String) {
+    func validateUsername(_ username: String) -> Bool {
         if username.isEmpty {
             usernameErrorMessage = nil
-            signInEnabled = false
+            return false
         } else if username.onlyNumbers.count <= 11 {
             let errorMessage = username.isCPF ? nil : "O CPF digitado é inválido."
             
             usernameErrorMessage = errorMessage
-            signInEnabled = errorMessage == nil
+            return errorMessage == nil
         } else {
             let errorMessage = username.isCNPJ ? nil : "O CNPJ digitado é inválido."
             
             usernameErrorMessage = errorMessage
-            signInEnabled = errorMessage == nil
+            return errorMessage == nil
         }
+    }
+    
+    func validatePassword(_ password: String) -> Bool {
+        return !password.isEmpty
     }
 }
 
