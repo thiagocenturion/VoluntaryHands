@@ -54,7 +54,7 @@ struct LoginView: View {
             
             Spacer()
             
-            VStack(alignment: .trailing, spacing: 8) {
+            VStack(alignment: .trailing, spacing: 4) {
                 FloatingTextField(title: "CPF / CNPJ", text: $username, error: $usernameErrorMessage, isSecure: false, onCommit: { })
                     .mask(username.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99")
                     .keyboardType(.numberPad)

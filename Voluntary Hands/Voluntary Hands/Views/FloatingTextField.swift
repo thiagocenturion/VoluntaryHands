@@ -23,7 +23,7 @@ struct FloatingTextField: View {
             Text(title)
                 .font(.system(size: 14, weight: .bold, design: .rounded))
                 .foregroundColor(currentColor)
-                .offset(y: $text.wrappedValue.isEmpty ? 20 : 0)
+                .offset(y: $text.wrappedValue.isEmpty ? 23 : 8)
                 .scaleEffect($text.wrappedValue.isEmpty ? 1 : 0.8, anchor: .leading)
                 .animation(.linear(duration: 0.2))
             textField
@@ -35,7 +35,7 @@ struct FloatingTextField: View {
             Text(error ?? "")
                 .font(.system(size: 14, weight: .bold, design: .rounded))
                 .foregroundColor(Color.Style.red)
-                .frame(height: 20)
+                .frame(height: 10)
         }
     }
     

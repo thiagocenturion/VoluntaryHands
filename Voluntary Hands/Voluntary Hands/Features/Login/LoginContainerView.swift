@@ -48,8 +48,22 @@ struct LoginContainerView: View {
                 dismissButton: nil)
         })
     }
+}
+
+// MARK: - Requets
+
+extension LoginContainerView {
     
-    func validateUsername(_ username: String) -> Bool {
+    private func requestSignIn() {
+        store.send(.signIn(username: username, password: password))
+    }
+}
+
+// MARK: - Validate
+
+extension LoginContainerView {
+    
+    private func validateUsername(_ username: String) -> Bool {
         if username.isEmpty {
             usernameErrorMessage = nil
             return false
@@ -66,17 +80,8 @@ struct LoginContainerView: View {
         }
     }
     
-    func validatePassword(_ password: String) -> Bool {
+    private func validatePassword(_ password: String) -> Bool {
         return !password.isEmpty
-    }
-}
-
-// MARK: - Requets
-
-extension LoginContainerView {
-    
-    private func requestSignIn() {
-        store.send(.signIn(username: username, password: password))
     }
 }
 
