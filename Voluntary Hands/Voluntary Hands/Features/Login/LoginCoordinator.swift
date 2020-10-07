@@ -27,7 +27,9 @@ struct LoginCoordinator: View {
                     loginSuccess = success
                 }
             
-            NavigationLink(destination: <#T##_#>, isActive: <#T##Binding<Bool>#>)
+            NavigationLink(destination: RegisterCoordinator(), isActive: $signUp) {
+                EmptyView()
+            }.hidden()
         }
     }
 }

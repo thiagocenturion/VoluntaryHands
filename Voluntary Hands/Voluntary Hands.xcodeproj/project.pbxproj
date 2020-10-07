@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4D008F91252ADAB200A7DAE1 /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D008F90252ADAB200A7DAE1 /* FloatingTextField.swift */; };
-		4D12CA802521532200C3E79A /* LoginCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D12CA7F2521532200C3E79A /* LoginCoordinatorView.swift */; };
+		4D05CF2D252D5E2400BDADDD /* RegisterCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05CF2C252D5E2400BDADDD /* RegisterCoordinator.swift */; };
+		4D12CA802521532200C3E79A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D12CA7F2521532200C3E79A /* LoginCoordinator.swift */; };
 		4D12CA82252154E500C3E79A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D12CA81252154E500C3E79A /* RootView.swift */; };
 		4D12CA852521731800C3E79A /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D12CA842521731800C3E79A /* AppEnvironment.swift */; };
 		4D12CA872521746F00C3E79A /* LaunchCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D12CA862521746F00C3E79A /* LaunchCounter.swift */; };
@@ -61,7 +62,8 @@
 
 /* Begin PBXFileReference section */
 		4D008F90252ADAB200A7DAE1 /* FloatingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
-		4D12CA7F2521532200C3E79A /* LoginCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinatorView.swift; sourceTree = "<group>"; };
+		4D05CF2C252D5E2400BDADDD /* RegisterCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterCoordinator.swift; sourceTree = "<group>"; };
+		4D12CA7F2521532200C3E79A /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		4D12CA81252154E500C3E79A /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		4D12CA842521731800C3E79A /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		4D12CA862521746F00C3E79A /* LaunchCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchCounter.swift; sourceTree = "<group>"; };
@@ -223,7 +225,7 @@
 		4D42C965248C5D7B004D0EE5 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				4D8501F5248CC83A0021218C /* SignUp */,
+				4D8501F5248CC83A0021218C /* Register */,
 				4D42C966248C5DA2004D0EE5 /* Login */,
 			);
 			path = Features;
@@ -232,7 +234,7 @@
 		4D42C966248C5DA2004D0EE5 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				4D12CA7F2521532200C3E79A /* LoginCoordinatorView.swift */,
+				4D12CA7F2521532200C3E79A /* LoginCoordinator.swift */,
 				4D38E7F72529257700EAD989 /* LoginContainerView.swift */,
 				4D94D36F24887A550065955D /* LoginView.swift */,
 			);
@@ -256,12 +258,13 @@
 			path = Button;
 			sourceTree = "<group>";
 		};
-		4D8501F5248CC83A0021218C /* SignUp */ = {
+		4D8501F5248CC83A0021218C /* Register */ = {
 			isa = PBXGroup;
 			children = (
+				4D05CF2C252D5E2400BDADDD /* RegisterCoordinator.swift */,
 				4D8501F6248CC8590021218C /* Register Data */,
 			);
-			path = SignUp;
+			path = Register;
 			sourceTree = "<group>";
 		};
 		4D8501F6248CC8590021218C /* Register Data */ = {
@@ -483,7 +486,7 @@
 				4D12CA8C252188C400C3E79A /* NetworkingError.swift in Sources */,
 				4D38E7EF2528CC4500EAD989 /* AppAction.swift in Sources */,
 				4D12CA9B252195EE00C3E79A /* LoginInstitution.swift in Sources */,
-				4D12CA802521532200C3E79A /* LoginCoordinatorView.swift in Sources */,
+				4D12CA802521532200C3E79A /* LoginCoordinator.swift in Sources */,
 				4DB4F891252AE90C008F6CA2 /* String+Extension.swift in Sources */,
 				4D12CA912521926800C3E79A /* LoginEndpoint.swift in Sources */,
 				4D12CA93252192BD00C3E79A /* LoginServices.swift in Sources */,
@@ -505,6 +508,7 @@
 				4D12CAA325219CA200C3E79A /* LoginState.swift in Sources */,
 				4D850200248DBB5B0021218C /* RegisterDataViewModel.swift in Sources */,
 				4D12CAA725219DCF00C3E79A /* LoginReducer.swift in Sources */,
+				4D05CF2D252D5E2400BDADDD /* RegisterCoordinator.swift in Sources */,
 				4DC693CB248C641600CBEF91 /* Color+Extension.swift in Sources */,
 				4D12CA9D2521985C00C3E79A /* Store.swift in Sources */,
 				4D747E47252A696E00738C3D /* Reachability.swift in Sources */,
