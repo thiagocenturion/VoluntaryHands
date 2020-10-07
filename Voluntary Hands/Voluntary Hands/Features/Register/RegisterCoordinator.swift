@@ -10,7 +10,8 @@ import SwiftUI
 
 struct RegisterCoordinator: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        RegisterDataContainerView()
+            .navigationBarTitle("DADOS PESSOAIS", displayMode: .inline)
     }
 }
 

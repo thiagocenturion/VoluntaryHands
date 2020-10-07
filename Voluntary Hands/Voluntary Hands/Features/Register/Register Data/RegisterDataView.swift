@@ -2,48 +2,41 @@
 //  RegisterDataView.swift
 //  Voluntary Hands
 //
-//  Created by Thiago Rodrigues Centurion on 07/06/20.
+//  Created by Thiago Rodrigues Centurion on 06/10/20.
 //  Copyright © 2020 Thiago Rodrigues Centurion. All rights reserved.
 //
 
 import SwiftUI
 
 struct RegisterDataView: View {
-    // MARK: - Properties
-    @ObservedObject var viewModel: RegisterDataViewModel
+    let onUploadImage: () -> Void
+    @State private var showingImagePicker = false
+    @State private var inputImage: UIImage?
     
-    // MARK: - View
     var body: some View {
-            VStack() {
-                VStack(alignment: .trailing, spacing: 15) {
-                    FloatingTextField(title: "EMAIL", text: $viewModel.email, error: .constant(nil), isSecure: false, onCommit: { })
-                    FloatingTextField(title: "CONFIRMAÇÃO DE EMAIL", text: $viewModel.emailConfirm, error: .constant(nil), isSecure: false, onCommit: { })
-                    FloatingTextField(title: "SENHA", text: $viewModel.password, error: .constant(nil), isSecure: true, onCommit: { })
-                    FloatingTextField(title: "CONFIRMAÇÃO DE SENHA", text: $viewModel.passwordConfirm, error: .constant(nil), isSecure: true, onCommit: { })
-                }
-                
-                Spacer()
-                
-                Button(action: { }) {
-                    HStack {
-                        Spacer()
-                        Text("PRÓXIMO")
-                        Spacer()
-                    }
-                }
-                .buttonStyle(SecondaryBackgroundStyle(color: Color.Style.red))
-            }
-            .navigationBarTitle("CADASTRO", displayMode: .inline)
-            .padding(27.5)
-            .background(Color.Style.grayDark)
-            .preferredColorScheme(.dark)
+        ScrollView(.vertical, showsIndicators: true) {
+            Spacer(minLength: 64) // Navigation
+            Spacer(minLength: 20)
+            
+            ProfileImage(image: $inputImage, isEditable: true, action: { showingImagePicker = true })
+                .sheet(isPresented: $showingImagePicker) { ImagePicker(image: self.$inputImage) }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(27.5)
+        .background(Color.Style.grayDark)
+        .ignoresSafeArea(.container, edges: .vertical)
+        .onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     }
 }
 
 struct RegisterDataView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            RegisterDataView(viewModel: RegisterDataViewModel())
+            RegisterDataView(onUploadImage: {  })
+                .navigationBarTitle("DADOS PESSOAIS", displayMode: .inline)
         }
+        .preferredColorScheme(.dark)
     }
 }

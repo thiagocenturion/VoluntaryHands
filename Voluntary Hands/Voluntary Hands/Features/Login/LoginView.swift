@@ -26,7 +26,6 @@ struct LoginView: View {
     // MARK: - View
     
     var body: some View {
-        NavigationView {
             ZStack {
                 if loading {
                     ActivityView()
@@ -38,11 +37,9 @@ struct LoginView: View {
             .padding(27.5)
             .background(Color.Style.grayDark)
             .ignoresSafeArea(.container, edges: .vertical)
-        }
-        .preferredColorScheme(.dark)
-        .onTapGesture {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        }
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            }
     }
     
     var content: some View {

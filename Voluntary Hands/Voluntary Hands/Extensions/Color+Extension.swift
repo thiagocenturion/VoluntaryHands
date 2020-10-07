@@ -48,6 +48,7 @@ extension Color {
         static let grayLight = Color("GrayLight")
         static let gray = Color("Gray")
         static let grayDark = Color("GrayDark")
+        static let grayMedium = Color("GrayMedium")
         
         static let blue = Color("Blue")
         static let blueLight = Color("BlueLight")
