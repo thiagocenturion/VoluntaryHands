@@ -11,13 +11,13 @@ import Combine
 
 let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvironmentType> = Reducer { state, action, environment in
     switch action {
-    case .currentImage(image: let image):
-        state.currentImage = image?.jpegData(compressionQuality: 0.3)
+    case .currentImage(let data):
+        state.currentImage = data
         
     case .userType(let type):
         state.userType = type
         
-    case .volunteer(let cpf, let email, let firstName, let lastName, let cellphone, let birthdate, let federalState, let city, let password):
+    case .volunteer(let cpf, let email, let firstName, let lastName, let cellphone, let birthdate, let federalState, let city, let password, let confirmPassword):
         
         if let cpf = cpf { state.volunteer.cpf = cpf }
         if let email = email { state.volunteer.email = email }
@@ -28,6 +28,7 @@ let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvi
         if let federalState = federalState { state.volunteer.state = federalState }
         if let city = city { state.volunteer.city = city }
         if let password = password { state.volunteer.password = password }
+        if let confirmPassword = confirmPassword { state.volunteer.confirmPassword = confirmPassword }
         
     case .acceptTerms(let isAccept):
         state.termsAccepted = isAccept

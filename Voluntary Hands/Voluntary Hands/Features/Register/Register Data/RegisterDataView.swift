@@ -9,17 +9,17 @@
 import SwiftUI
 
 struct RegisterDataView: View {
-    let onUploadImage: () -> Void
+    @Binding var image: UIImage?
+    
     @State private var showingImagePicker = false
-    @State private var inputImage: UIImage?
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
             Spacer(minLength: 64) // Navigation
             Spacer(minLength: 20)
             
-            ProfileImage(image: $inputImage, isEditable: true, action: { showingImagePicker = true })
-                .sheet(isPresented: $showingImagePicker) { ImagePicker(image: self.$inputImage) }
+            ProfileImage(image: $image, isEditable: true, action: { showingImagePicker = true })
+                .sheet(isPresented: $showingImagePicker) { ImagePicker(image: self.$image) }
         }
         .frame(maxWidth: .infinity)
         .padding(27.5)
@@ -34,7 +34,7 @@ struct RegisterDataView: View {
 struct RegisterDataView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            RegisterDataView(onUploadImage: {  })
+            RegisterDataView(image: .constant(nil))
                 .navigationBarTitle("DADOS PESSOAIS", displayMode: .inline)
         }
         .preferredColorScheme(.dark)

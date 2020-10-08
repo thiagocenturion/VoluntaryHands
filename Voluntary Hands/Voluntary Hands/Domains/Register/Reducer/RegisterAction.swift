@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import SwiftUI
 
 enum RegisterAction {
-    case currentImage(image: UIImage?)
+    case currentImage(data: Data?)
     case userType(type: UserType)
     
     case volunteer(cpf: String? = nil,
@@ -21,7 +20,8 @@ enum RegisterAction {
                    birthdate: Date? = nil,
                    federalState: String? = nil,
                    city: String? = nil,
-                   password: String? = nil)
+                   password: String? = nil,
+                   confirmPassword: String? = nil)
     
     case acceptTerms(isAccept: Bool)
     case signUp

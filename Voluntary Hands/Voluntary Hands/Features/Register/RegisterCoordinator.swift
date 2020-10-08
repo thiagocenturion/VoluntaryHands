@@ -7,11 +7,32 @@
 //
 
 import SwiftUI
+import Combine
 
 struct RegisterCoordinator: View {
+    @EnvironmentObject var store: Store<AppState, AppAction>
+    
+    @State private var registerSuccess = false
+    
     var body: some View {
-        RegisterDataContainerView()
-            .navigationBarTitle("DADOS PESSOAIS", displayMode: .inline)
+        VStack {
+            RegisterDataContainerView()
+                .navigationBarTitle("DADOS PESSOAIS", displayMode: .inline)
+                .environmentObject(
+                    store.derived(
+                        deriveState: \.register,
+                        embedAction: AppAction.register)
+                )
+                .onReceive(Just(store.state.register.registerSuccess)) { success in
+                    registerSuccess = success
+                }
+            
+            NavigationLink(
+                destination: Text("Causas de Apoio").navigationBarTitle("CAUSAS"),
+                isActive: $registerSuccess) {
+                EmptyView()
+            }.hidden()
+        }
     }
 }
 
