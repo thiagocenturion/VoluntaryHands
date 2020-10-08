@@ -37,6 +37,15 @@
 		4D38E7F82529257700EAD989 /* LoginContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D38E7F72529257700EAD989 /* LoginContainerView.swift */; };
 		4D747E47252A696E00738C3D /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D747E46252A696E00738C3D /* Reachability.swift */; };
 		4D747E4B252AC95500738C3D /* AlertError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D747E4A252AC95500738C3D /* AlertError.swift */; };
+		4D7850BB252E63A2008AC291 /* RegisterEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850BA252E63A2008AC291 /* RegisterEndpoint.swift */; };
+		4D7850C1252E67EF008AC291 /* RegisterServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850C0252E67EF008AC291 /* RegisterServices.swift */; };
+		4D7850C6252E684C008AC291 /* RegisterVolunteer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850C5252E684C008AC291 /* RegisterVolunteer.swift */; };
+		4D7850CA252E6CF6008AC291 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850C9252E6CF6008AC291 /* DateFormatter+Extensions.swift */; };
+		4D7850CE252EB5C3008AC291 /* RegisterServicesEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850CD252EB5C3008AC291 /* RegisterServicesEnvironment.swift */; };
+		4D7850D3252EB803008AC291 /* RegisterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850D2252EB803008AC291 /* RegisterState.swift */; };
+		4D7850D9252EBC2A008AC291 /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850D8252EBC2A008AC291 /* UserType.swift */; };
+		4D7850DD252EBD4A008AC291 /* RegisterAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850DC252EBD4A008AC291 /* RegisterAction.swift */; };
+		4D7850E1252ECD4A008AC291 /* RegisterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850E0252ECD4A008AC291 /* RegisterReducer.swift */; };
 		4D8501F0248C7EF70021218C /* PrimaryBackgroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501EF248C7EF70021218C /* PrimaryBackgroundStyle.swift */; };
 		4D8501F4248C87760021218C /* SecondaryBackgroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501F3248C87760021218C /* SecondaryBackgroundStyle.swift */; };
 		4D8501FE248D93C70021218C /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501FD248D93C70021218C /* ActivityView.swift */; };
@@ -94,6 +103,15 @@
 		4D38E7F72529257700EAD989 /* LoginContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContainerView.swift; sourceTree = "<group>"; };
 		4D747E46252A696E00738C3D /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		4D747E4A252AC95500738C3D /* AlertError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertError.swift; sourceTree = "<group>"; };
+		4D7850BA252E63A2008AC291 /* RegisterEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterEndpoint.swift; sourceTree = "<group>"; };
+		4D7850C0252E67EF008AC291 /* RegisterServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterServices.swift; sourceTree = "<group>"; };
+		4D7850C5252E684C008AC291 /* RegisterVolunteer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVolunteer.swift; sourceTree = "<group>"; };
+		4D7850C9252E6CF6008AC291 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		4D7850CD252EB5C3008AC291 /* RegisterServicesEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterServicesEnvironment.swift; sourceTree = "<group>"; };
+		4D7850D2252EB803008AC291 /* RegisterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterState.swift; sourceTree = "<group>"; };
+		4D7850D8252EBC2A008AC291 /* UserType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserType.swift; sourceTree = "<group>"; };
+		4D7850DC252EBD4A008AC291 /* RegisterAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAction.swift; sourceTree = "<group>"; };
+		4D7850E0252ECD4A008AC291 /* RegisterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterReducer.swift; sourceTree = "<group>"; };
 		4D8501EF248C7EF70021218C /* PrimaryBackgroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryBackgroundStyle.swift; sourceTree = "<group>"; };
 		4D8501F3248C87760021218C /* SecondaryBackgroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryBackgroundStyle.swift; sourceTree = "<group>"; };
 		4D8501FD248D93C70021218C /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
@@ -247,6 +265,60 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		4D7850B8252E637A008AC291 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				4D7850D1252EB7EF008AC291 /* Reducer */,
+				4D7850C4252E682B008AC291 /* Models */,
+				4D7850B9252E6386008AC291 /* Services */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		4D7850B9252E6386008AC291 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4D7850BA252E63A2008AC291 /* RegisterEndpoint.swift */,
+				4D7850C0252E67EF008AC291 /* RegisterServices.swift */,
+				4D7850CD252EB5C3008AC291 /* RegisterServicesEnvironment.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		4D7850C4252E682B008AC291 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4D7850C5252E684C008AC291 /* RegisterVolunteer.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		4D7850D1252EB7EF008AC291 /* Reducer */ = {
+			isa = PBXGroup;
+			children = (
+				4D7850D2252EB803008AC291 /* RegisterState.swift */,
+				4D7850DC252EBD4A008AC291 /* RegisterAction.swift */,
+				4D7850E0252ECD4A008AC291 /* RegisterReducer.swift */,
+			);
+			path = Reducer;
+			sourceTree = "<group>";
+		};
+		4D7850D6252EBC17008AC291 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				4D7850D7252EBC20008AC291 /* Models */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		4D7850D7252EBC20008AC291 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4D7850D8252EBC2A008AC291 /* UserType.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		4D8501F1248C82BE0021218C /* Styles */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +422,8 @@
 		4D9CF3D1251D59E300DEED1D /* Domains */ = {
 			isa = PBXGroup;
 			children = (
+				4D7850D6252EBC17008AC291 /* User */,
+				4D7850B8252E637A008AC291 /* Register */,
 				4D12CA832521730B00C3E79A /* App */,
 				4D12CA8F2521925B00C3E79A /* Login */,
 			);
@@ -362,6 +436,7 @@
 				4DC693CA248C641600CBEF91 /* Color+Extension.swift */,
 				4DB4F890252AE90C008F6CA2 /* String+Extension.swift */,
 				4D05CF3E252D701400BDADDD /* LinearGradient+Extension.swift */,
+				4D7850C9252E6CF6008AC291 /* DateFormatter+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -491,22 +566,30 @@
 				4D05CF47252D7CF500BDADDD /* ImagePicker.swift in Sources */,
 				4D12CA992521958F00C3E79A /* LoginVolunteer.swift in Sources */,
 				4D94D36C24887A550065955D /* AppDelegate.swift in Sources */,
+				4D7850DD252EBD4A008AC291 /* RegisterAction.swift in Sources */,
+				4D7850C1252E67EF008AC291 /* RegisterServices.swift in Sources */,
 				4D38E7F12528D30800EAD989 /* AppReducer.swift in Sources */,
 				4D12CA8C252188C400C3E79A /* NetworkingError.swift in Sources */,
 				4D38E7EF2528CC4500EAD989 /* AppAction.swift in Sources */,
 				4D12CA9B252195EE00C3E79A /* LoginInstitution.swift in Sources */,
+				4D7850D3252EB803008AC291 /* RegisterState.swift in Sources */,
 				4D12CA802521532200C3E79A /* LoginCoordinator.swift in Sources */,
 				4DB4F891252AE90C008F6CA2 /* String+Extension.swift in Sources */,
+				4D7850CE252EB5C3008AC291 /* RegisterServicesEnvironment.swift in Sources */,
 				4D12CA912521926800C3E79A /* LoginEndpoint.swift in Sources */,
 				4D12CA93252192BD00C3E79A /* LoginServices.swift in Sources */,
+				4D7850E1252ECD4A008AC291 /* RegisterReducer.swift in Sources */,
+				4D7850D9252EBC2A008AC291 /* UserType.swift in Sources */,
 				4D94D36E24887A550065955D /* SceneDelegate.swift in Sources */,
 				4D05CF43252D77AC00BDADDD /* ProfileImage.swift in Sources */,
 				4D747E4B252AC95500738C3D /* AlertError.swift in Sources */,
 				4D12CA852521731800C3E79A /* AppEnvironment.swift in Sources */,
+				4D7850BB252E63A2008AC291 /* RegisterEndpoint.swift in Sources */,
 				4D38E7EC2528CB2700EAD989 /* AppState.swift in Sources */,
 				4D8501FE248D93C70021218C /* ActivityView.swift in Sources */,
 				4D8501F4248C87760021218C /* SecondaryBackgroundStyle.swift in Sources */,
 				4D8501F0248C7EF70021218C /* PrimaryBackgroundStyle.swift in Sources */,
+				4D7850C6252E684C008AC291 /* RegisterVolunteer.swift in Sources */,
 				4D12CAA125219AAB00C3E79A /* Reducer.swift in Sources */,
 				4D008F91252ADAB200A7DAE1 /* FloatingTextField.swift in Sources */,
 				4D05CF3B252D637E00BDADDD /* RegisterDataView.swift in Sources */,
@@ -516,6 +599,7 @@
 				4D12CA8A252175CD00C3E79A /* Network.swift in Sources */,
 				4D12CAA525219D2700C3E79A /* LoginAction.swift in Sources */,
 				4D12CA8E252190DF00C3E79A /* Endpoint.swift in Sources */,
+				4D7850CA252E6CF6008AC291 /* DateFormatter+Extensions.swift in Sources */,
 				4D05CF3F252D701400BDADDD /* LinearGradient+Extension.swift in Sources */,
 				4D12CAA325219CA200C3E79A /* LoginState.swift in Sources */,
 				4D12CAA725219DCF00C3E79A /* LoginReducer.swift in Sources */,
@@ -690,7 +774,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thiagocenturion.Voluntary-Hands";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -710,7 +794,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thiagocenturion.Voluntary-Hands";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

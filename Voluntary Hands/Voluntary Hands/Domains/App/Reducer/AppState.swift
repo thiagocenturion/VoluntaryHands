@@ -13,4 +13,5 @@ struct AppState: Codable, Equatable {
     var currentUser = ""
     
     var login: LoginState = LoginState()
+    var register: RegisterState = RegisterState()
 }
