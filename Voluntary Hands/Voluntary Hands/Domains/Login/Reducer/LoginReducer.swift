@@ -54,13 +54,11 @@ let loginReducer: Reducer<LoginState, LoginAction, LoginServicesEnvironmentType>
         
         state.alert = alertError
         
-    case .removeAlert:
-        state.alert = nil
-        
     case .set(let newState):
         state = newState
         
     case .resetState:
+        state.loading = false
         state.loginSuccess = false
         state.alert = nil
     }

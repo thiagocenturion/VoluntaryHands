@@ -12,7 +12,6 @@ enum LoginAction {
     case signIn(username: String, password: String)
     case loginSuccess
     case alert(error: Error?)
-    case removeAlert
     case set(state: LoginState)
     case resetState
 }
