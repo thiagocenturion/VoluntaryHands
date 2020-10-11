@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum UserType: String, Codable {
-    case volunteer
-    case institution
+enum UserType: String, CaseIterable, Codable {
+    case volunteer = "VOLUNTÁRIO"
+    case institution = "INSTITUIÇÃO"
 }

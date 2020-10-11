@@ -11,24 +11,14 @@ import Combine
 
 let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvironmentType> = Reducer { state, action, environment in
     switch action {
+    case .update(let volunteerForm):
+        state.volunteerForm = volunteerForm
+    
     case .currentImage(let data):
         state.currentImage = data
         
     case .userType(let type):
         state.userType = type
-        
-    case .volunteer(let cpf, let email, let firstName, let lastName, let cellphone, let birthdate, let federalState, let city, let password, let confirmPassword):
-        
-        if let cpf = cpf { state.volunteer.cpf = cpf }
-        if let email = email { state.volunteer.email = email }
-        if let firstName = firstName { state.volunteer.firstName = firstName }
-        if let lastName = lastName { state.volunteer.lastName = lastName }
-        if let cellphone = cellphone { state.volunteer.cellphone = cellphone }
-        if let birthdate = birthdate { state.volunteer.birthdate = birthdate }
-        if let federalState = federalState { state.volunteer.state = federalState }
-        if let city = city { state.volunteer.city = city }
-        if let password = password { state.volunteer.password = password }
-        if let confirmPassword = confirmPassword { state.volunteer.confirmPassword = confirmPassword }
         
     case .acceptTerms(let isAccept):
         state.termsAccepted = isAccept
@@ -36,10 +26,16 @@ let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvi
     case .signUp:
         state.loading = true
         
-        return environment.registerServices.register(with: state.volunteer)
-            .map { _ in RegisterAction.registerSuccess }
-            .catch { error in Just<RegisterAction>(RegisterAction.alert(error: error)) }
-            .eraseToAnyPublisher()
+        switch state.userType {
+        case .volunteer:
+            return environment.registerServices.register(with: state.volunteer)
+                .map { _ in RegisterAction.registerSuccess }
+                .catch { error in Just<RegisterAction>(RegisterAction.alert(error: error)) }
+                .eraseToAnyPublisher()
+        case .institution:
+            // TODO: We will add a context here next feature branch
+            break
+        }
         
     case .registerSuccess:
         state.loading = false

@@ -9,20 +9,9 @@
 import Foundation
 
 enum RegisterAction {
+    case update(volunteerForm: [FormItem])
     case currentImage(data: Data?)
     case userType(type: UserType)
-    
-    case volunteer(cpf: String? = nil,
-                   email: String? = nil,
-                   firstName: String? = nil,
-                   lastName: String? = nil,
-                   cellphone: String? = nil,
-                   birthdate: Date? = nil,
-                   federalState: String? = nil,
-                   city: String? = nil,
-                   password: String? = nil,
-                   confirmPassword: String? = nil)
-    
     case acceptTerms(isAccept: Bool)
     case signUp
     case registerSuccess

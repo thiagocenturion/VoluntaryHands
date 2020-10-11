@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 struct FloatingTextField: View {
-    let title: String
+    let title: LocalizedStringKey
     
     @Binding var text: String
     @Binding var error: String?

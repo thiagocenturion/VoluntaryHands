@@ -13,31 +13,17 @@ struct RegisterDataContainerView: View {
     
     @State private var signUpEnabled = false
     
-    private var alertShow: Binding<AlertError?> {
-        store.binding(for: \.alert) { _ in .alert(error: nil) }
+    private var volunteerForm: Binding<[FormItem]> {
+        store.binding(for: \.volunteerForm) { .update(volunteerForm: $0) }
     }
     
-    @State private var volunteerCpfErrorMessage: String?
-    @State private var volunteerEmailErrorMessage: String?
-    @State private var volunteerFirstNameErrorMessage: String?
-    @State private var volunteerLastNameErrorMessage: String?
-    @State private var volunteerCellphoneErrorMessage: String?
-    @State private var volunteerBirthdateErrorMessage: String?
-    @State private var volunteerStateErrorMessage: String?
-    @State private var volunteerCityErrorMessage: String?
-    @State private var volunteerPasswordErrorMessage: String?
-    @State private var volunteerConfirmPasswordErrorMessage: String?
+    private var userType: Binding<UserType> {
+        store.binding(for: \.userType) { .userType(type: $0) }
+    }
     
-    private var volunteerCPF: Binding<String> { store.binding(for: \.volunteer.cpf) { .volunteer(cpf: $0) } }
-    private var volunteerEmail: Binding<String> { store.binding(for: \.volunteer.email) { .volunteer(email: $0) } }
-    private var volunteerFirstName: Binding<String> { store.binding(for: \.volunteer.firstName) { .volunteer(firstName: $0) } }
-    private var volunteerLastName: Binding<String> { store.binding(for: \.volunteer.lastName) { .volunteer(lastName: $0) } }
-    private var volunteerCellphone: Binding<String> { store.binding(for: \.volunteer.cellphone) { .volunteer(cellphone: $0) } }
-    private var volunteerBirthdate: Binding<Date?> { store.binding(for: \.volunteer.birthdate) { .volunteer(birthdate: $0) } }
-    private var volunteerState: Binding<String> { store.binding(for: \.volunteer.state) { .volunteer(federalState: $0) } }
-    private var volunteerCity: Binding<String> { store.binding(for: \.volunteer.city) { .volunteer(city: $0) } }
-    private var volunteerPassword: Binding<String> { store.binding(for: \.volunteer.password) { .volunteer(password: $0) } }
-    private var volunteerConfirmPassword: Binding<String> { store.binding(for: \.volunteer.confirmPassword) { .volunteer(confirmPassword: $0) } }
+    private var alertShown: Binding<AlertError?> {
+        store.binding(for: \.alert) { _ in .alert(error: nil) }
+    }
     
     var body: some View {
         
@@ -52,9 +38,30 @@ struct RegisterDataContainerView: View {
             set: { image in store.send(.currentImage(data: image?.jpegData(compressionQuality: 0.3))) }
         )
         
-        RegisterDataView(image: image)
+        RegisterDataView(
+            volunteerForm: volunteerForm,
+            image: image,
+            userType: userType,
+            signInEnabled: $signUpEnabled,
+            onCommitSignUp: requestSignUp)
+            .alert(item: alertShown, content: { alertError -> Alert in
+                Alert(
+                    title: Text(alertError.title),
+                    message: Text(alertError.message),
+                    dismissButton: nil)
+            })
     }
 }
+
+// MARK: - Requets
+
+extension RegisterDataContainerView {
+    
+    private func requestSignUp() {
+        store.send(.signUp)
+    }
+}
+
 
 struct RegisterDataContainerView_Previews: PreviewProvider {
     static var previews: some View {

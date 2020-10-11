@@ -52,6 +52,7 @@ struct LoginView: View {
             Spacer()
             
             VStack(alignment: .trailing, spacing: 4) {
+                
                 FloatingTextField(title: "CPF / CNPJ", text: $username, error: $usernameErrorMessage, isSecure: false, onCommit: { })
                     .mask(username.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99")
                     .keyboardType(.numberPad)
@@ -67,25 +68,13 @@ struct LoginView: View {
             
             VStack(spacing: 15) {
                 
-                Button(action: onCommitSignUp) {
-                    HStack {
-                        Spacer()
-                        Text("CADASTRE-SE")
-                        Spacer()
-                    }
-                }
-                .buttonStyle(SecondaryBackgroundStyle(color: Color.Style.red))
+                FullWidthButton(titleKey: "CADASTRE-SE", action: onCommitSignUp)
+                    .buttonStyle(.secondary(color: Color.Style.red))
                 
-                Button(action: onCommitSignIn) {
-                    HStack {
-                        Spacer()
-                        Text("LOGIN")
-                        Spacer()
-                    }
-                }
-                .padding(.bottom, 10)
-                .buttonStyle(PrimaryBackgroundStyle(isDisabled: !signInEnabled))
-                .disabled(!signInEnabled)
+                FullWidthButton(titleKey: "LOGIN", action: onCommitSignIn)
+                    .buttonStyle(.primary(isDisabled: !signInEnabled))
+                    .disabled(!signInEnabled)
+                    .padding(.bottom, 10)
             }
         }
     }

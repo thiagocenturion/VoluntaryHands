@@ -7,8 +7,37 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct FormItem: Codable, Hashable {
+    var title: String
+    var text = ""
+    var errorMessage: String?
+    
+    let mask: String
+    let keyboardType: Int
+    let isSecure: Bool
+}
+
+struct FormItemRow: View {
+    @Binding var item: FormItem
+    
+    var body: some View {
+        FloatingTextField(
+            title: LocalizedStringKey(item.title),
+            text: $item.text,
+            error: $item.errorMessage,
+            isSecure: item.isSecure,
+            onCommit: { }
+        )
+        .mask(item.mask)
+        .keyboardType(UIKeyboardType(rawValue: item.keyboardType) ?? .default)
+            
+    }
+}
 
 struct RegisterState: Codable, Equatable {
+    var volunteerForm: [FormItem] = []
     var loading = false
     var currentImage: Data?
     var userType: UserType = .volunteer

@@ -51,7 +51,7 @@ struct PrimaryBackgroundStyle_Previews: PreviewProvider {
                     Spacer()
                 }
             }
-            .buttonStyle(PrimaryBackgroundStyle(isDisabled: false))
+            .buttonStyle(.primary(isDisabled: false))
             
             Button(action: { }) {
                 HStack {
@@ -60,7 +60,7 @@ struct PrimaryBackgroundStyle_Previews: PreviewProvider {
                     Spacer()
                 }
             }
-            .buttonStyle(PrimaryBackgroundStyle(isDisabled: true))
+            .buttonStyle(.primary(isDisabled: true))
         }
         .padding(.vertical, 1000)
         .background(Color.Style.grayDark)
