@@ -11,7 +11,8 @@ import SwiftUI
 struct RegisterDataView: View {
     @Binding var image: UIImage?
     @Binding var userType: UserType
-    @Binding var volunteerForm: [FormItem]
+    @Binding var volunteerHeaderForm: [FormItem]
+    @Binding var volunteerBodyForm: [FormItem]
     @Binding var signInEnabled: Bool
     
     let onCommitSignUp: () -> Void
@@ -34,10 +35,28 @@ struct RegisterDataView: View {
                 }
 
                 VStack {
-                    ForEach(volunteerForm.indices, id: \.self) { index in
-                        FormItemRow(item: self.$volunteerForm[index])
+                    ForEach(volunteerHeaderForm.indices, id: \.self) { index in
+                        FormItemRow(item: self.$volunteerHeaderForm[index])
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
                     }
                 }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 10)
+                .background(Color.Style.grayMedium)
+                .cornerRadius(15)
+                .shadow(radius: 10)
+                
+                VStack {
+                    ForEach(volunteerBodyForm.indices, id: \.self) { index in
+                        FormItemRow(item: self.$volunteerBodyForm[index])
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 10)
+                .background(Color.Style.grayMedium)
+                .cornerRadius(15)
+                .shadow(radius: 10)
                 
                 FullWidthButton(titleKey: "FINALIZAR CADASTRO", action: onCommitSignUp)
                     .buttonStyle(.primary(isDisabled: !signInEnabled))
@@ -61,8 +80,13 @@ struct RegisterDataView_Previews: PreviewProvider {
             RegisterDataView(
                 image: .constant(nil),
                 userType: .constant(.volunteer),
-                volunteerForm: .constant([
-                    FormItem(title: "CPF", maskInText: { _ in "999.999.999-99" }, keyboardType: .numberPad, isSecure: false)
+                volunteerHeaderForm: .constant([
+                    FormItem(title: "CPF", maskInText: { _ in "999.999.999-99" }, keyboardType: .numberPad, isSecure: false),
+                    FormItem(title: "E-mail", keyboardType: .emailAddress, isSecure: false)
+                ]), volunteerBodyForm: .constant([
+                    FormItem(title: "PRIMEIRO NOME", keyboardType: .default, isSecure: false),
+                    FormItem(title: "SOBRENOME", keyboardType: .default, isSecure: false),
+                    FormItem(title: "CELULAR", keyboardType: .default, isSecure: false)
                 ]),
                 signInEnabled: .constant(true),
                 onCommitSignUp: { }

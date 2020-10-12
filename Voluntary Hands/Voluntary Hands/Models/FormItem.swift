@@ -20,13 +20,15 @@ final class FormItem: Identifiable {
     var errorMessage: String?
     var maskInText: MaskInText?
     let keyboardType: UIKeyboardType
+    var textContentType: UITextContentType?
     let isSecure: Bool
-    let validateInText: ValidationInText
+    var validateInText: ValidationInText
     var onCommit: () -> Void
     
     init(title: String,
          maskInText: MaskInText? = nil,
-         keyboardType: UIKeyboardType,
+         keyboardType: UIKeyboardType = .default,
+         textContentType: UITextContentType? = nil,
          isSecure: Bool,
          validateInText: @escaping ValidationInText = { _ in (nil, true) },
          onCommit: @escaping () -> Void = { }) {
@@ -34,6 +36,7 @@ final class FormItem: Identifiable {
         self.title = title
         self.maskInText = maskInText
         self.keyboardType = keyboardType
+        self.textContentType = textContentType
         self.isSecure = isSecure
         self.validateInText = validateInText
         self.onCommit = onCommit

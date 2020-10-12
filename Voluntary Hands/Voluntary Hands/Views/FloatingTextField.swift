@@ -33,6 +33,7 @@ struct FloatingTextField: View {
                     error = validate(newValue).errorMessage
                     text = newValue
                 } else {
+                    error = validate($0).errorMessage
                     text = $0
                 }
             }

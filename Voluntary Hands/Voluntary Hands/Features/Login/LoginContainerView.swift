@@ -19,6 +19,7 @@ struct LoginContainerView: View {
             title: "CPF / CNPJ",
             maskInText: { $0.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99" },
             keyboardType: .numberPad,
+            textContentType: .username,
             isSecure: false,
             validateInText: { newValue in
                 
@@ -33,7 +34,7 @@ struct LoginContainerView: View {
                 }
             }
         ),
-        FormItem(title: "SENHA", keyboardType: .webSearch, isSecure: true, validateInText: { (errorMessage: nil, isValid: !$0.isEmpty) }),
+        FormItem(title: "SENHA", keyboardType: .webSearch, textContentType: .password, isSecure: true, validateInText: { (errorMessage: nil, isValid: !$0.isEmpty) }),
     ]
     
     @State private var usernameErrorMessage: String?

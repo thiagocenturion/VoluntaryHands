@@ -22,6 +22,7 @@ struct FormItemRow: View {
             onCommit: item.onCommit
         )
         .keyboardType(item.keyboardType)
+        .textContentType(item.textContentType)
             
     }
 }

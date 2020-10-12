@@ -19,6 +19,12 @@ extension String {
         return predicate.evaluate(with: self)
     }
     
+    var isPhoneNumber: Bool {
+        let regex = "^\\(\\d{2}\\)\\s\\d{5}\\-\\d{4}$"
+        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+        return predicate.evaluate(with: self)
+    }
+    
     var isCPF: Bool {
         let numbers = self.onlyNumbers
         
