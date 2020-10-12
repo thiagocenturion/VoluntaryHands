@@ -8,23 +8,6 @@
 
 import SwiftUI
 
-struct FormItemRow: View {
-    @Binding var item: FormItem
-    
-    var body: some View {
-        FloatingTextField(
-            title: LocalizedStringKey(item.title),
-            text: $item.text,
-            error: $item.errorMessage,
-            mask: item.mask,
-            isSecure: item.isSecure,
-            onCommit: { }
-        )
-        .keyboardType(UIKeyboardType(rawValue: item.keyboardType) ?? .default)
-            
-    }
-}
-
 struct RegisterDataView: View {
     @Binding var image: UIImage?
     @Binding var userType: UserType
@@ -79,7 +62,7 @@ struct RegisterDataView_Previews: PreviewProvider {
                 image: .constant(nil),
                 userType: .constant(.volunteer),
                 volunteerForm: .constant([
-                    FormItem(title: "CPF", mask: "999.999.999-99", keyboardType: UIKeyboardType.numberPad.rawValue, isSecure: false)
+                    FormItem(title: "CPF", maskInText: { _ in "999.999.999-99" }, keyboardType: .numberPad, isSecure: false)
                 ]),
                 signInEnabled: .constant(true),
                 onCommitSignUp: { }

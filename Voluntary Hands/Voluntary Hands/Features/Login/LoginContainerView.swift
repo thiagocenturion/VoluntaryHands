@@ -13,8 +13,29 @@ struct LoginContainerView: View {
     
     // MARK: - Properties
     @EnvironmentObject var store: Store<LoginState, LoginAction>
-    @ObservedObject private var username = StringLimit(text: "", limit: "99.999.999/9999-99".count)
-    @State private var password = ""
+
+    @State private var formItems = [
+        FormItem(
+            title: "CPF / CNPJ",
+            maskInText: { $0.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99" },
+            keyboardType: .numberPad,
+            isSecure: false,
+            validateInText: { newValue in
+                
+                if newValue.isEmpty {
+                    return (errorMessage: nil, isValid: false)
+                } else if newValue.onlyNumbers.count <= 11 {
+                    let errorMessage = newValue.isCPF ? nil : "O CPF digitado é inválido."
+                    return (errorMessage: errorMessage, isValid: errorMessage == nil)
+                } else {
+                    let errorMessage = newValue.isCNPJ ? nil : "O CNPJ digitado é inválido."
+                    return (errorMessage: errorMessage, isValid: errorMessage == nil)
+                }
+            }
+        ),
+        FormItem(title: "SENHA", keyboardType: .webSearch, isSecure: true, validateInText: { (errorMessage: nil, isValid: !$0.isEmpty) }),
+    ]
+    
     @State private var usernameErrorMessage: String?
     @State private var signInEnabled = false
     
@@ -29,17 +50,18 @@ struct LoginContainerView: View {
     var body: some View {
 
         LoginView(
-            username: $username.text,
-            password: $password,
-            usernameErrorMessage: $usernameErrorMessage,
+            formItems: $formItems,
             signInEnabled: $signInEnabled,
             loading: store.state.loading,
             onCommitSignIn: requestSignIn,
             onCommitSignUp: onCommitSignUp,
             onCommitForgotPassword: onCommitForgotPassword
         )
-        .onReceive(Publishers.CombineLatest(Just(username), Just(password))) { username, password in
-            signInEnabled = validateUsername(username.text) && validatePassword(password)
+        .onAppear {
+            self.formItems.first { $0.title == "SENHA" }?.onCommit = signInEnabled ? requestSignIn : { }
+        }
+        .onReceive(Just(formItems)) { formItems in
+            signInEnabled = formItems.map { $0.validateInText($0.text).isValid }.reduce(&&)
         }
         .alert(item: alertShown, content: { alertError -> Alert in
             Alert(
@@ -55,33 +77,7 @@ struct LoginContainerView: View {
 extension LoginContainerView {
     
     private func requestSignIn() {
-        store.send(.signIn(username: username.text, password: password))
-    }
-}
-
-// MARK: - Validate
-
-extension LoginContainerView {
-    
-    private func validateUsername(_ username: String) -> Bool {
-        if username.isEmpty {
-            usernameErrorMessage = nil
-            return false
-        } else if username.onlyNumbers.count <= 11 {
-            let errorMessage = username.isCPF ? nil : "O CPF digitado é inválido."
-            
-            usernameErrorMessage = errorMessage
-            return errorMessage == nil
-        } else {
-            let errorMessage = username.isCNPJ ? nil : "O CNPJ digitado é inválido."
-            
-            usernameErrorMessage = errorMessage
-            return errorMessage == nil
-        }
-    }
-    
-    private func validatePassword(_ password: String) -> Bool {
-        return !password.isEmpty
+        store.send(.signIn(username: formItems[0].text, password: formItems[1].text))
     }
 }
 

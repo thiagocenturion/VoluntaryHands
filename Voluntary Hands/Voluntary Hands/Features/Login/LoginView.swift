@@ -11,11 +11,9 @@ import Combine
 
 struct LoginView: View {
     // MARK: - Properties
-    @Binding var username: String
-    @Binding var password: String
-    
-    @Binding var usernameErrorMessage: String?
+    @Binding var formItems: [FormItem]
     @Binding var signInEnabled: Bool
+    
     var loading: Bool
     
     let onCommitSignIn: () -> Void
@@ -52,17 +50,10 @@ struct LoginView: View {
             
             VStack(alignment: .trailing, spacing: 4) {
                 
-                FloatingTextField(
-                    title: "CPF / CNPJ",
-                    text: $username,
-                    error: $usernameErrorMessage,
-                    mask: username.onlyNumbers.count < 11 ? "999.999.999-99" : "99.999.999/9999-99",
-                    isSecure: false,
-                    onCommit: { })
-                    .keyboardType(.numberPad)
+                ForEach(formItems.indices, id: \.self) { index in
+                    FormItemRow(item: self.$formItems[index])
+                }
                 
-                FloatingTextField(title: "SENHA", text: $password, error: .constant(nil), isSecure: true, onCommit: signInEnabled ? onCommitSignIn : { })
-                    .keyboardType(.webSearch)
                 Button(action: onCommitForgotPassword) {
                     Text("ESQUECI MINHA SENHA")
                         .font(.system(size: 14, weight: .bold, design: .rounded))
@@ -89,9 +80,12 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             LoginView(
-                username: .constant(""),
-                password: .constant(""),
-                usernameErrorMessage: .constant(nil),
+                formItems: .constant(
+                    [
+                        FormItem(title: "CPF / CNPJ", keyboardType: UIKeyboardType.default, isSecure: false),
+                        FormItem(title: "SENHA", keyboardType: UIKeyboardType.default, isSecure: true),
+                    ]
+                ),
                 signInEnabled: .constant(true),
                 loading: false,
                 onCommitSignIn: { },
@@ -100,9 +94,13 @@ struct ContentView_Previews: PreviewProvider {
             )
             .previewDevice("iPhone SE (2nd generation)")
             LoginView(
-                username: .constant(""),
-                password: .constant(""),
-                usernameErrorMessage: .constant("CPF inválido."),
+                formItems: .constant(
+                    [
+                        FormItem(title: "CPF / CNPJ", keyboardType: UIKeyboardType.default, isSecure: false),
+                        FormItem(title: "SENHA", keyboardType: UIKeyboardType.default, isSecure: true),
+                        FormItem(title: "SENHA", keyboardType: UIKeyboardType.default, isSecure: true, validateInText: { _ in ("CPF inválido", false) })
+                    ]
+                ),
                 signInEnabled: .constant(false),
                 loading: false,
                 onCommitSignIn: { },

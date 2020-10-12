@@ -7,12 +7,22 @@
 //
 
 import SwiftUI
+import Combine
 
 struct RegisterDataContainerView: View {
     @EnvironmentObject var store: Store<RegisterState, RegisterAction>
     
     @State private var volunteerForm = [
-        FormItem(title: "CPF", mask: "999.999.999-99", keyboardType: UIKeyboardType.numberPad.rawValue, isSecure: false)
+        FormItem(
+            title: "CPF", maskInText: { _ in "999.999.999-99" }, keyboardType: .numberPad, isSecure: false, validateInText: { text in
+                if text.isEmpty {
+                    return (errorMessage: nil, isValid: false)
+                } else if !text.isCPF {
+                    return (errorMessage: "O CPF digitado é inválido.", isValid: false)
+                } else {
+                    return (errorMessage: nil, isValid: true)
+                }
+            })
     ]
     
     @State private var signUpEnabled = false
@@ -44,6 +54,9 @@ struct RegisterDataContainerView: View {
             volunteerForm: $volunteerForm,
             signInEnabled: $signUpEnabled,
             onCommitSignUp: requestSignUp)
+            .onReceive(Just(volunteerForm)) { volunteerForm in
+                signUpEnabled = volunteerForm.map { $0.validateInText($0.text).isValid }.reduce(&&)
+            }
             .alert(item: alertShown, content: { alertError -> Alert in
                 Alert(
                     title: Text(alertError.title),

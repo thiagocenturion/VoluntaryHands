@@ -61,6 +61,8 @@
 		4D9D02F6253266AE0054FFE4 /* SecondaryBackgroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D02F5253266AE0054FFE4 /* SecondaryBackgroundStyle.swift */; };
 		4D9D02FC253266DC0054FFE4 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D02FB253266DC0054FFE4 /* ButtonStyle.swift */; };
 		4DB4F891252AE90C008F6CA2 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB4F890252AE90C008F6CA2 /* String+Extension.swift */; };
+		4DB8B764253499A800CB6756 /* Sequence+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB8B763253499A800CB6756 /* Sequence+Extensions.swift */; };
+		4DB8B7682534D0D400CB6756 /* FormItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB8B7672534D0D400CB6756 /* FormItemRow.swift */; };
 		4DC693CB248C641600CBEF91 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC693CA248C641600CBEF91 /* Color+Extension.swift */; };
 		4DC693CF248C692800CBEF91 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DC693CE248C692800CBEF91 /* Colors.xcassets */; };
 		4DD51C832532CB2400B3129E /* SizePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD51C822532CB2400B3129E /* SizePreferenceKey.swift */; };
@@ -137,6 +139,8 @@
 		4D9D02F5253266AE0054FFE4 /* SecondaryBackgroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryBackgroundStyle.swift; sourceTree = "<group>"; };
 		4D9D02FB253266DC0054FFE4 /* ButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 		4DB4F890252AE90C008F6CA2 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		4DB8B763253499A800CB6756 /* Sequence+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+Extensions.swift"; sourceTree = "<group>"; };
+		4DB8B7672534D0D400CB6756 /* FormItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemRow.swift; sourceTree = "<group>"; };
 		4DC693CA248C641600CBEF91 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		4DC693CE248C692800CBEF91 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		4DD51C822532CB2400B3129E /* SizePreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePreferenceKey.swift; sourceTree = "<group>"; };
@@ -452,6 +456,7 @@
 				4DB4F890252AE90C008F6CA2 /* String+Extension.swift */,
 				4D05CF3E252D701400BDADDD /* LinearGradient+Extension.swift */,
 				4D7850C9252E6CF6008AC291 /* DateFormatter+Extensions.swift */,
+				4DB8B763253499A800CB6756 /* Sequence+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -475,6 +480,7 @@
 				4D09628E2532761200B97597 /* FullWidthButton.swift */,
 				4D09629225327FD000B97597 /* SegmentedPicker.swift */,
 				4DD51C822532CB2400B3129E /* SizePreferenceKey.swift */,
+				4DB8B7672534D0D400CB6756 /* FormItemRow.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -604,6 +610,7 @@
 				4D7850DD252EBD4A008AC291 /* RegisterAction.swift in Sources */,
 				4D7850C1252E67EF008AC291 /* RegisterServices.swift in Sources */,
 				4D38E7F12528D30800EAD989 /* AppReducer.swift in Sources */,
+				4DB8B764253499A800CB6756 /* Sequence+Extensions.swift in Sources */,
 				4D12CA8C252188C400C3E79A /* NetworkingError.swift in Sources */,
 				4DFD049B253401A500736EDD /* StringLimit.swift in Sources */,
 				4D38E7EF2528CC4500EAD989 /* AppAction.swift in Sources */,
@@ -627,6 +634,7 @@
 				4DFD04A0253406C300736EDD /* FormItem.swift in Sources */,
 				4D8501FE248D93C70021218C /* ActivityView.swift in Sources */,
 				4D8501F0248C7EF70021218C /* PrimaryBackgroundStyle.swift in Sources */,
+				4DB8B7682534D0D400CB6756 /* FormItemRow.swift in Sources */,
 				4D7850C6252E684C008AC291 /* RegisterVolunteer.swift in Sources */,
 				4D12CAA125219AAB00C3E79A /* Reducer.swift in Sources */,
 				4D008F91252ADAB200A7DAE1 /* FloatingTextField.swift in Sources */,

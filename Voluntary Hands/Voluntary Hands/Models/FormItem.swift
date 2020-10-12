@@ -7,25 +7,35 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class FormItem: Identifiable {
+    typealias ValidationInText = (_ newValue: String) -> (errorMessage: String?, isValid: Bool)
+    typealias MaskInText = (_ newValue: String) -> String
+    
     let id = UUID()
     
     var title: String
     var text = ""
     var errorMessage: String?
-    var mask: String?
-    let keyboardType: Int
+    var maskInText: MaskInText?
+    let keyboardType: UIKeyboardType
     let isSecure: Bool
+    let validateInText: ValidationInText
+    var onCommit: () -> Void
     
     init(title: String,
-         mask: String?,
-         keyboardType: Int,
-         isSecure: Bool) {
+         maskInText: MaskInText? = nil,
+         keyboardType: UIKeyboardType,
+         isSecure: Bool,
+         validateInText: @escaping ValidationInText = { _ in (nil, true) },
+         onCommit: @escaping () -> Void = { }) {
         
         self.title = title
-        self.mask = mask
+        self.maskInText = maskInText
         self.keyboardType = keyboardType
         self.isSecure = isSecure
+        self.validateInText = validateInText
+        self.onCommit = onCommit
     }
 }
