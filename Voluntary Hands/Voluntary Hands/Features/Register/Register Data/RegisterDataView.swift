@@ -8,10 +8,27 @@
 
 import SwiftUI
 
+struct FormItemRow: View {
+    @Binding var item: FormItem
+    
+    var body: some View {
+        FloatingTextField(
+            title: LocalizedStringKey(item.title),
+            text: $item.text,
+            error: $item.errorMessage,
+            mask: item.mask,
+            isSecure: item.isSecure,
+            onCommit: { }
+        )
+        .keyboardType(UIKeyboardType(rawValue: item.keyboardType) ?? .default)
+            
+    }
+}
+
 struct RegisterDataView: View {
-    @Binding var volunteerForm: [FormItem]
     @Binding var image: UIImage?
     @Binding var userType: UserType
+    @Binding var volunteerForm: [FormItem]
     @Binding var signInEnabled: Bool
     
     let onCommitSignUp: () -> Void
@@ -32,7 +49,12 @@ struct RegisterDataView: View {
                     Text(LocalizedStringKey(type.rawValue)).tag(type)
                         .font(.system(size: 14, weight: .bold, design: .rounded))
                 }
-                .pickerStyle(SegmentedPickerStyle())
+
+                VStack {
+                    ForEach(volunteerForm.indices, id: \.self) { index in
+                        FormItemRow(item: self.$volunteerForm[index])
+                    }
+                }
                 
                 FullWidthButton(titleKey: "FINALIZAR CADASTRO", action: onCommitSignUp)
                     .buttonStyle(.primary(isDisabled: !signInEnabled))
@@ -54,14 +76,11 @@ struct RegisterDataView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             RegisterDataView(
-                volunteerForm: .constant([
-                    FormItem(title: "CPF", mask: "999.999.999-99", keyboardType: UIKeyboardType.numberPad.rawValue, isSecure: false),
-                    FormItem(title: "E-mail", mask: "", keyboardType: UIKeyboardType.emailAddress.rawValue, isSecure: false),
-                    FormItem(title: "Nome completo", mask: "", keyboardType: UIKeyboardType.default.rawValue, isSecure: false),
-                    FormItem(title: "Senha", mask: "", keyboardType: UIKeyboardType.webSearch.rawValue, isSecure: true)
-                ]),
                 image: .constant(nil),
                 userType: .constant(.volunteer),
+                volunteerForm: .constant([
+                    FormItem(title: "CPF", mask: "999.999.999-99", keyboardType: UIKeyboardType.numberPad.rawValue, isSecure: false)
+                ]),
                 signInEnabled: .constant(true),
                 onCommitSignUp: { }
             )

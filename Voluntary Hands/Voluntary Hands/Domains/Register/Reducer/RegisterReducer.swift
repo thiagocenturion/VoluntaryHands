@@ -11,9 +11,6 @@ import Combine
 
 let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvironmentType> = Reducer { state, action, environment in
     switch action {
-    case .update(let volunteerForm):
-        state.volunteerForm = volunteerForm
-    
     case .currentImage(let data):
         state.currentImage = data
         

@@ -10,7 +10,6 @@ import SwiftUI
 import Combine
 
 struct LoginView: View {
-    
     // MARK: - Properties
     @Binding var username: String
     @Binding var password: String
@@ -53,9 +52,15 @@ struct LoginView: View {
             
             VStack(alignment: .trailing, spacing: 4) {
                 
-                FloatingTextField(title: "CPF / CNPJ", text: $username, error: $usernameErrorMessage, isSecure: false, onCommit: { })
-                    .mask(username.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99")
+                FloatingTextField(
+                    title: "CPF / CNPJ",
+                    text: $username,
+                    error: $usernameErrorMessage,
+                    mask: username.onlyNumbers.count < 11 ? "999.999.999-99" : "99.999.999/9999-99",
+                    isSecure: false,
+                    onCommit: { })
                     .keyboardType(.numberPad)
+                
                 FloatingTextField(title: "SENHA", text: $password, error: .constant(nil), isSecure: true, onCommit: signInEnabled ? onCommitSignIn : { })
                     .keyboardType(.webSearch)
                 Button(action: onCommitForgotPassword) {

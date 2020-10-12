@@ -11,11 +11,11 @@ import SwiftUI
 struct RegisterDataContainerView: View {
     @EnvironmentObject var store: Store<RegisterState, RegisterAction>
     
-    @State private var signUpEnabled = false
+    @State private var volunteerForm = [
+        FormItem(title: "CPF", mask: "999.999.999-99", keyboardType: UIKeyboardType.numberPad.rawValue, isSecure: false)
+    ]
     
-    private var volunteerForm: Binding<[FormItem]> {
-        store.binding(for: \.volunteerForm) { .update(volunteerForm: $0) }
-    }
+    @State private var signUpEnabled = false
     
     private var userType: Binding<UserType> {
         store.binding(for: \.userType) { .userType(type: $0) }
@@ -39,9 +39,9 @@ struct RegisterDataContainerView: View {
         )
         
         RegisterDataView(
-            volunteerForm: volunteerForm,
             image: image,
             userType: userType,
+            volunteerForm: $volunteerForm,
             signInEnabled: $signUpEnabled,
             onCommitSignUp: requestSignUp)
             .alert(item: alertShown, content: { alertError -> Alert in

@@ -29,7 +29,7 @@ struct SegmentedPicker<Data, ID, Content> : View where Data: RandomAccessCollect
                 .frame(height: 40)
                 .foregroundColor(Color.Style.gray)
             
-            Capsule()
+            Rectangle()
                 .foregroundColor(.clear)
                 .background(LinearGradient.blue())
                 .cornerRadius(22.5)

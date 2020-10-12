@@ -15,8 +15,24 @@ struct FloatingTextField: View {
     @Binding var text: String
     @Binding var error: String?
     
+    var mask: String?
+    
     let isSecure: Bool
     let onCommit: () -> Void
+    
+    var inputText: Binding<String> {
+        Binding<String>(
+            get: { text },
+            set: {
+                if let mask = mask {
+                    let newValue = $0.string(withMask: mask)
+                    text = newValue
+                } else {
+                    text = $0
+                }
+            }
+        )
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -39,12 +55,12 @@ struct FloatingTextField: View {
         }
     }
     
-    private var textField: some View {
+    var textField: some View {
         Group {
             if isSecure {
-                SecureField("", text: $text, onCommit: onCommit)
+                SecureField("", text: inputText, onCommit: onCommit)
             } else {
-                TextField("", text: $text, onCommit: onCommit)
+                TextField("", text: inputText, onCommit: onCommit)
             }
         }
     }
@@ -60,19 +76,11 @@ struct FloatingTextField_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             FloatingTextField(title: "CPF / CNPJ", text: .constant(""), error: .constant(nil), isSecure: false, onCommit: { })
-            FloatingTextField(title: "CPF / CNPJ", text: .constant("Texto"), error: .constant(nil), isSecure: false, onCommit: { })
+            FloatingTextField(title: "CPF / CNPJ", text: .constant("123456"), error: .constant(nil), mask: "999.999.999-99", isSecure: false, onCommit: { })
             FloatingTextField(title: "CPF / CNPJ", text: .constant(""), error: .constant("Mensagem de erro"), isSecure: false, onCommit: { })
             FloatingTextField(title: "CPF / CNPJ", text: .constant("Texto"), error: .constant("Mensagem de erro"), isSecure: false, onCommit: { })
         }
         .padding(.vertical, 1000)
         .background(Color.Style.grayDark)
-    }
-}
-
-extension FloatingTextField {
-    func mask(_ mask: String) -> some View {
-        self.onReceive(Just(text)) { newValue in
-            text = newValue.string(withMask: mask)
-        }
     }
 }

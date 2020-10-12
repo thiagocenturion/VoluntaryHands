@@ -9,7 +9,6 @@
 import Foundation
 
 enum RegisterAction {
-    case update(volunteerForm: [FormItem])
     case currentImage(data: Data?)
     case userType(type: UserType)
     case acceptTerms(isAccept: Bool)

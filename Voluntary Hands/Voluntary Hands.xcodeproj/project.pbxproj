@@ -64,6 +64,8 @@
 		4DC693CB248C641600CBEF91 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC693CA248C641600CBEF91 /* Color+Extension.swift */; };
 		4DC693CF248C692800CBEF91 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DC693CE248C692800CBEF91 /* Colors.xcassets */; };
 		4DD51C832532CB2400B3129E /* SizePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD51C822532CB2400B3129E /* SizePreferenceKey.swift */; };
+		4DFD049B253401A500736EDD /* StringLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD049A253401A500736EDD /* StringLimit.swift */; };
+		4DFD04A0253406C300736EDD /* FormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD049F253406C300736EDD /* FormItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +140,8 @@
 		4DC693CA248C641600CBEF91 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		4DC693CE248C692800CBEF91 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		4DD51C822532CB2400B3129E /* SizePreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePreferenceKey.swift; sourceTree = "<group>"; };
+		4DFD049A253401A500736EDD /* StringLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringLimit.swift; sourceTree = "<group>"; };
+		4DFD049F253406C300736EDD /* FormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,6 +334,7 @@
 		4D8501F1248C82BE0021218C /* Styles */ = {
 			isa = PBXGroup;
 			children = (
+				4DD51C862532D4C200B3129E /* SegmentedPicker */,
 				4D8501F2248C82DB0021218C /* Button */,
 			);
 			path = Styles;
@@ -403,6 +408,7 @@
 				4D8501F1248C82BE0021218C /* Styles */,
 				4D42C965248C5D7B004D0EE5 /* Features */,
 				4D9CF3D1251D59E300DEED1D /* Domains */,
+				4DFD049E253406B600736EDD /* Models */,
 				4D38E7F325291BA800EAD989 /* Shared */,
 				4DC693C9248C63F600CBEF91 /* Extensions */,
 				4D94D37324887A550065955D /* Preview Content */,
@@ -471,6 +477,22 @@
 				4DD51C822532CB2400B3129E /* SizePreferenceKey.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		4DD51C862532D4C200B3129E /* SegmentedPicker */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SegmentedPicker;
+			sourceTree = "<group>";
+		};
+		4DFD049E253406B600736EDD /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4DFD049A253401A500736EDD /* StringLimit.swift */,
+				4DFD049F253406C300736EDD /* FormItem.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -583,6 +605,7 @@
 				4D7850C1252E67EF008AC291 /* RegisterServices.swift in Sources */,
 				4D38E7F12528D30800EAD989 /* AppReducer.swift in Sources */,
 				4D12CA8C252188C400C3E79A /* NetworkingError.swift in Sources */,
+				4DFD049B253401A500736EDD /* StringLimit.swift in Sources */,
 				4D38E7EF2528CC4500EAD989 /* AppAction.swift in Sources */,
 				4D12CA9B252195EE00C3E79A /* LoginInstitution.swift in Sources */,
 				4D7850D3252EB803008AC291 /* RegisterState.swift in Sources */,
@@ -601,6 +624,7 @@
 				4D7850BB252E63A2008AC291 /* RegisterEndpoint.swift in Sources */,
 				4D38E7EC2528CB2700EAD989 /* AppState.swift in Sources */,
 				4DD51C832532CB2400B3129E /* SizePreferenceKey.swift in Sources */,
+				4DFD04A0253406C300736EDD /* FormItem.swift in Sources */,
 				4D8501FE248D93C70021218C /* ActivityView.swift in Sources */,
 				4D8501F0248C7EF70021218C /* PrimaryBackgroundStyle.swift in Sources */,
 				4D7850C6252E684C008AC291 /* RegisterVolunteer.swift in Sources */,

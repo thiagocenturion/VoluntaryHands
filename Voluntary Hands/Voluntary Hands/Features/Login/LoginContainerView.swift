@@ -13,7 +13,7 @@ struct LoginContainerView: View {
     
     // MARK: - Properties
     @EnvironmentObject var store: Store<LoginState, LoginAction>
-    @State private var username = ""
+    @ObservedObject private var username = StringLimit(text: "", limit: "99.999.999/9999-99".count)
     @State private var password = ""
     @State private var usernameErrorMessage: String?
     @State private var signInEnabled = false
@@ -29,7 +29,7 @@ struct LoginContainerView: View {
     var body: some View {
 
         LoginView(
-            username: $username,
+            username: $username.text,
             password: $password,
             usernameErrorMessage: $usernameErrorMessage,
             signInEnabled: $signInEnabled,
@@ -39,7 +39,7 @@ struct LoginContainerView: View {
             onCommitForgotPassword: onCommitForgotPassword
         )
         .onReceive(Publishers.CombineLatest(Just(username), Just(password))) { username, password in
-            signInEnabled = validateUsername(username) && validatePassword(password)
+            signInEnabled = validateUsername(username.text) && validatePassword(password)
         }
         .alert(item: alertShown, content: { alertError -> Alert in
             Alert(
@@ -55,7 +55,7 @@ struct LoginContainerView: View {
 extension LoginContainerView {
     
     private func requestSignIn() {
-        store.send(.signIn(username: username, password: password))
+        store.send(.signIn(username: username.text, password: password))
     }
 }
 

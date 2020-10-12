@@ -96,7 +96,9 @@ extension String {
              return String(self[start...])
         }
     
-    func string(withMask mask: String) -> String {
+    func string(withMask mask: String?) -> String {
+        guard let mask = mask else { return self }
+        
         let stringToFormat = components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         var formattedValue = stringToFormat
         
