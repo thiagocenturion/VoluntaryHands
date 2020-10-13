@@ -13,7 +13,6 @@ struct RegisterState: Codable, Equatable {
     var loading = false
     var currentImage: Data?
     var userType: UserType = .volunteer
-    var volunteer = RegisterVolunteer()
     var termsAccepted = false
     var registerSuccess = false
     var alert: AlertError?

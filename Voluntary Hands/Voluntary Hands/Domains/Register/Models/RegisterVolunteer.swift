@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class RegisterVolunteer: Codable {
+struct RegisterVolunteer: Codable {
     var cpf = ""
     var email = ""
     var firstName = ""

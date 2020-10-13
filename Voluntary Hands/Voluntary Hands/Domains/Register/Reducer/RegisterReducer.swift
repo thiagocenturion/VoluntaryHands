@@ -20,19 +20,13 @@ let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvi
     case .acceptTerms(let isAccept):
         state.termsAccepted = isAccept
         
-    case .signUp:
+    case .signUpVolunteer(let volunteer):
         state.loading = true
         
-        switch state.userType {
-        case .volunteer:
-            return environment.registerServices.register(with: state.volunteer)
-                .map { _ in RegisterAction.registerSuccess }
-                .catch { error in Just<RegisterAction>(RegisterAction.alert(error: error)) }
-                .eraseToAnyPublisher()
-        case .institution:
-            // TODO: We will add a context here next feature branch
-            break
-        }
+        return environment.registerServices.register(with: volunteer)
+            .map { _ in RegisterAction.registerSuccess }
+            .catch { error in Just<RegisterAction>(RegisterAction.alert(error: error)) }
+            .eraseToAnyPublisher()
         
     case .registerSuccess:
         state.loading = false
@@ -62,7 +56,6 @@ let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvi
         state.loading = false
         state.currentImage = nil
         state.userType = .volunteer
-        state.volunteer = RegisterVolunteer()
         state.termsAccepted = false
         state.registerSuccess = false
         state.alert = nil

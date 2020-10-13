@@ -12,7 +12,7 @@ enum RegisterAction {
     case currentImage(data: Data?)
     case userType(type: UserType)
     case acceptTerms(isAccept: Bool)
-    case signUp
+    case signUpVolunteer(volunteer: RegisterVolunteer)
     case registerSuccess
     case alert(error: Error?)
     case set(state: RegisterState)

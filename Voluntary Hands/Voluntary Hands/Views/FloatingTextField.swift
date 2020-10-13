@@ -42,7 +42,7 @@ struct FloatingTextField: View {
     init(title: LocalizedStringKey,
          text: Binding<String>,
          error: Binding<String?> = .constant(nil),
-         isSecure: Bool,
+         isSecure: Bool = false,
          mask: Mask? = nil,
          validate: @escaping Validation = { _ in .init(errorMessage: nil, isValid: true) },
          onCommit: @escaping () -> Void = { }) {
