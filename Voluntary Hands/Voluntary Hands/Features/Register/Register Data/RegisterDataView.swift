@@ -32,6 +32,11 @@ struct RegisterDataView: View {
     
     @State private var birthDate = Date()
     
+    @State private var selectedState = FederalStateType.none
+    
+    @State private var city = ""
+    @State private var cityError: String?
+    
     @State private var password = ""
     @State private var passwordError: String?
     
@@ -74,7 +79,7 @@ struct RegisterDataView: View {
                 .cornerRadius(15)
                 .shadow(radius: 10)
                 
-                VStack {
+                VStack(alignment: .leading) {
                     FloatingTextField(title: "PRIMEIRO NOME", text: $firstName, error: $firstNameError, validate: { $0.validation(.empty) })
                         .textContentType(.name)
                         .disableAutocorrection(true)
@@ -87,8 +92,23 @@ struct RegisterDataView: View {
                         .keyboardType(.numberPad)
                         .textContentType(.telephoneNumber)
                     
+                    Text("DATA DE NASCIMENTO")
+                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                        .foregroundColor(Color.Style.grayLight)
+                        .offset(y: 8)
                     DatePicker("DATA DE NASCIMENTO", selection: $birthDate, in: ...Date(), displayedComponents: .date)
                         .datePickerStyle(GraphicalDatePickerStyle())
+                    Divider()
+                        .frame(height: 2)
+                        .background(Color.Style.grayLight)
+                    
+                    federalState
+                        .pickerStyle(MenuPickerStyle())
+                        .textContentType(.addressState)
+                    
+                    FloatingTextField(title: "CIDADE", text: $city, error: $cityError, validate: { $0.validation(.empty) })
+                        .textContentType(.addressCity)
+                        .disableAutocorrection(true)
                     
                     FloatingTextField(title: "SENHA", text: $password, error: $passwordError, isSecure: true, validate: { $0.validation(.newPassword) })
                         .textContentType(.newPassword)
@@ -111,11 +131,11 @@ struct RegisterDataView: View {
                             lastName: lastName,
                             cellphone: cellphone.text,
                             birthdate: birthDate,
-                            state: "SP",
-                            city: "São Paulo",
+                            state: selectedState.rawValue,
+                            city: city,
                             password: password,
                             confirmPassword: confirmPassword
-                        )   
+                        )
                     )
                 })
                 .buttonStyle(.primary(isDisabled: !signInEnabled))
@@ -136,10 +156,29 @@ struct RegisterDataView: View {
             firstName.validation(.empty),
             lastName.validation(.empty),
             cellphone.text.validation(.cellphone),
+            .init(errorMessage: nil, isValid: selectedState != .none),
+            city.validation(.empty),
             password.validation(.newPassword),
             confirmPassword.validation(.confirmPassword(newPassword: password))
         ])) { validates in
             signInEnabled = validates.map { $0.isValid }.reduce(&&)
+        }
+    }
+    
+    var federalState: some View {
+        Group {
+            Text("ESTADO")
+                .font(.system(size: 14, weight: .bold, design: .rounded))
+                .foregroundColor(Color.Style.grayLight)
+                .offset(y: 8)
+            Picker(selection: $selectedState, label: Text(selectedState.rawValue)) {
+                ForEach(FederalStateType.allCases, id: \.self) { state in
+                    Text(LocalizedStringKey(state.rawValue)).tag(state)
+                }
+            }
+            Divider()
+                .frame(height: 2)
+                .background(Color.Style.grayLight)
         }
     }
 }
