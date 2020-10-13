@@ -12,6 +12,7 @@ import Combine
 struct RegisterDataView: View {
     @Binding var image: UIImage?
     @Binding var userType: UserType
+    var loading: Bool
     
     @State private var signInEnabled = false
     
@@ -48,6 +49,18 @@ struct RegisterDataView: View {
     @State private var showingImagePicker = false
     
     var body: some View {
+        ZStack {
+            if loading {
+                content.opacity(0.3)
+                    .allowsHitTesting(false)
+                ActivityView()
+            } else {
+                content
+            }
+        }
+    }
+    
+    var content: some View {
         ScrollView(.vertical, showsIndicators: true) {
             Spacer(minLength: 64) // Navigation
             Spacer(minLength: 20)
@@ -189,6 +202,7 @@ struct RegisterDataView_Previews: PreviewProvider {
             RegisterDataView(
                 image: .constant(nil),
                 userType: .constant(.volunteer),
+                loading: false,
                 onCommitSignUpVolunteer: { _ in }
             )
             .navigationBarTitle("DADOS PESSOAIS", displayMode: .inline)

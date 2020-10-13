@@ -36,6 +36,7 @@ struct RegisterDataContainerView: View {
         RegisterDataView(
             image: image,
             userType: userType,
+            loading: store.state.loading,
             onCommitSignUpVolunteer: { requestSignUp($0) })
             .alert(item: alertShown, content: { alertError -> Alert in
                 Alert(
