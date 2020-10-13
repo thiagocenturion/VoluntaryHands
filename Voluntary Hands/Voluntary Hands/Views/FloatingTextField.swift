@@ -10,18 +10,16 @@ import SwiftUI
 import Combine
 
 struct FloatingTextField: View {
-    typealias Validation = (_ newValue: String) -> (errorMessage: String?, isValid: Bool)
+    typealias Validation = (_ newValue: String) -> ValidationText
     typealias Mask = (_ newValue: String) -> String
     
     let title: LocalizedStringKey
     
     @Binding var text: String
     @Binding var error: String?
-    var validate: Validation
-    
-    var mask: Mask?
-    
     let isSecure: Bool
+    var mask: Mask?
+    var validate: Validation
     let onCommit: () -> Void
     
     var inputText: Binding<String> {
@@ -31,6 +29,7 @@ struct FloatingTextField: View {
                 if let mask = mask {
                     let newValue = $0.string(withMask: mask($0))
                     error = validate(newValue).errorMessage
+
                     text = newValue
                 } else {
                     error = validate($0).errorMessage
@@ -42,18 +41,18 @@ struct FloatingTextField: View {
     
     init(title: LocalizedStringKey,
          text: Binding<String>,
-         error: Binding<String?>,
-         validate: @escaping Validation = { _ in (errorMessage: nil, isValid: true) },
-         mask: Mask? = nil,
+         error: Binding<String?> = .constant(nil),
          isSecure: Bool,
-         onCommit: @escaping () -> Void) {
+         mask: Mask? = nil,
+         validate: @escaping Validation = { _ in .init(errorMessage: nil, isValid: true) },
+         onCommit: @escaping () -> Void = { }) {
         
         self.title = title
         self._text = text
         self._error = error
-        self.validate = validate
-        self.mask = mask
         self.isSecure = isSecure
+        self.mask = mask
+        self.validate = validate
         self.onCommit = onCommit
     }
     
@@ -99,7 +98,7 @@ struct FloatingTextField_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             FloatingTextField(title: "CPF / CNPJ", text: .constant(""), error: .constant(nil), isSecure: false, onCommit: { })
-            FloatingTextField(title: "CPF / CNPJ", text: .constant("123456"), error: .constant(nil), mask: { _ in "999.999.999-99" }, isSecure: false, onCommit: { })
+            FloatingTextField(title: "CPF / CNPJ", text: .constant("123456"), error: .constant(nil), isSecure: false, mask: { _ in "999.999.999-99" }, onCommit: { })
             FloatingTextField(title: "CPF / CNPJ", text: .constant(""), error: .constant("Mensagem de erro"), isSecure: false, onCommit: { })
             FloatingTextField(title: "CPF / CNPJ", text: .constant("Texto"), error: .constant("Mensagem de erro"), isSecure: false, onCommit: { })
         }

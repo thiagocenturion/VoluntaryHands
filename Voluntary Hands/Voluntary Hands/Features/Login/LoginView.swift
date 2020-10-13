@@ -11,15 +11,16 @@ import Combine
 
 struct LoginView: View {
     // MARK: - Properties
-    @Binding var formItems: [FormItem]
-    @Binding var signInEnabled: Bool
-    
+    @State private var signInEnabled: Bool = false
+    @ObservedObject private var username = StringLimit(text: "", limit: 18)
+    @State private var usernameError: String?
+    @State private var password = ""
+
     var loading: Bool
-    
-    let onCommitSignIn: () -> Void
+    let onCommitSignIn: (_ username: String, _ password: String) -> Void
     let onCommitSignUp: () -> Void
     let onCommitForgotPassword: () -> Void
-
+    
     // MARK: - View
     
     var body: some View {
@@ -37,6 +38,9 @@ struct LoginView: View {
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
+            .onReceive(Just([username.text.validation(.cpfAndCnpj), password.validation(.empty)])) { validates in
+                signInEnabled = validates.map { $0.isValid }.reduce(&&)
+            }
     }
     
     var content: some View {
@@ -50,9 +54,30 @@ struct LoginView: View {
             
             VStack(alignment: .trailing, spacing: 4) {
                 
-                ForEach(formItems.indices, id: \.self) { index in
-                    FormItemRow(item: self.$formItems[index])
-                }
+                FloatingTextField(
+                    title: "CPF / CNPJ",
+                    text: $username.text,
+                    error: $usernameError,
+                    isSecure: false,
+                    mask: { $0.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99" },
+                    validate: { $0.validation(.cpfAndCnpj) }
+                )
+                .keyboardType(.numberPad)
+                .textContentType(.username)
+                
+                FloatingTextField(
+                    title: "SENHA",
+                    text: $password,
+                    isSecure: true,
+                    validate: { $0.validation(.empty) },
+                    onCommit: {
+                        if signInEnabled {
+                            onCommitSignIn(username.text, password)
+                        }
+                    }
+                )
+                .keyboardType(.webSearch)
+                .textContentType(.password)
                 
                 Button(action: onCommitForgotPassword) {
                     Text("ESQUECI MINHA SENHA")
@@ -67,7 +92,7 @@ struct LoginView: View {
                 FullWidthButton(titleKey: "CADASTRE-SE", action: onCommitSignUp)
                     .buttonStyle(.secondary(color: Color.Style.red))
                 
-                FullWidthButton(titleKey: "LOGIN", action: onCommitSignIn)
+                FullWidthButton(titleKey: "LOGIN", action: { onCommitSignIn(username.text, password) })
                     .buttonStyle(.primary(isDisabled: !signInEnabled))
                     .disabled(!signInEnabled)
                     .padding(.bottom, 10)
@@ -79,34 +104,9 @@ struct LoginView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            LoginView(
-                formItems: .constant(
-                    [
-                        FormItem(title: "CPF / CNPJ", keyboardType: UIKeyboardType.default, isSecure: false),
-                        FormItem(title: "SENHA", keyboardType: UIKeyboardType.default, isSecure: true),
-                    ]
-                ),
-                signInEnabled: .constant(true),
-                loading: false,
-                onCommitSignIn: { },
-                onCommitSignUp:  { },
-                onCommitForgotPassword: { }
-            )
+            LoginView(loading: false, onCommitSignIn: { _, _ in }, onCommitSignUp: { }, onCommitForgotPassword: { })
             .previewDevice("iPhone SE (2nd generation)")
-            LoginView(
-                formItems: .constant(
-                    [
-                        FormItem(title: "CPF / CNPJ", keyboardType: UIKeyboardType.default, isSecure: false),
-                        FormItem(title: "SENHA", keyboardType: UIKeyboardType.default, isSecure: true),
-                        FormItem(title: "SENHA", keyboardType: UIKeyboardType.default, isSecure: true, validateInText: { _ in ("CPF inválido", false) })
-                    ]
-                ),
-                signInEnabled: .constant(false),
-                loading: false,
-                onCommitSignIn: { },
-                onCommitSignUp:  { },
-                onCommitForgotPassword: { }
-            )
+            LoginView(loading: false, onCommitSignIn: { _, _ in }, onCommitSignUp: { }, onCommitForgotPassword: { })
             .previewDevice("iPhone 11")
         }
     }

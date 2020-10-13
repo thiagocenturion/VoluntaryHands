@@ -16,47 +16,47 @@ struct RegisterDataContainerView: View {
         FormItem(
             title: "CPF", maskInText: { _ in "999.999.999-99" }, keyboardType: .numberPad, textContentType: .username, isSecure: false, validateInText: { text in
                 if text.isEmpty {
-                    return (errorMessage: nil, isValid: false)
+                    return .init(errorMessage: nil, isValid: false)
                 } else if !text.isCPF {
-                    return (errorMessage: "O CPF digitado é inválido.", isValid: false)
+                    return .init(errorMessage: "O CPF digitado é inválido.", isValid: false)
                 }
                 
-                return (errorMessage: nil, isValid: true)
+                return .init(errorMessage: nil, isValid: true)
             }),
         FormItem(title: "E-MAIL", keyboardType: .emailAddress, textContentType: .emailAddress, isSecure: false, validateInText: { text in
             if text.isEmpty {
-                return (errorMessage: nil, isValid: false)
+                return .init(errorMessage: nil, isValid: false)
             } else if !text.isEmail {
-                return (errorMessage: "O e-mail digitado é inválido.", isValid: false)
+                return .init(errorMessage: "O e-mail digitado é inválido.", isValid: false)
             }
             
-            return (errorMessage: nil, isValid: true)
+            return .init(errorMessage: nil, isValid: true)
         })
     ]
     
     @State private var volunteerBodyForm = [
-        FormItem(title: "PRIMEIRO NOME", textContentType: .name, isSecure: false, validateInText: { (nil, !$0.isEmpty) }),
-        FormItem(title: "SOBRENOME", textContentType: .middleName, isSecure: false, validateInText: { (nil, !$0.isEmpty) }),
+        FormItem(title: "PRIMEIRO NOME", textContentType: .name, isSecure: false, validateInText: { .init(errorMessage: nil, isValid: !$0.isEmpty) }),
+        FormItem(title: "SOBRENOME", textContentType: .middleName, isSecure: false, validateInText: { .init(errorMessage: nil, isValid: !$0.isEmpty) }),
         FormItem(title: "CELULAR", maskInText: { _ in "(99) 99999-9999"}, keyboardType: .numberPad, textContentType: .telephoneNumber, isSecure: false, validateInText: { text in
             if text.isEmpty {
-                return (errorMessage: nil, isValid: false)
+                return .init(errorMessage: nil, isValid: false)
             } else if !text.isPhoneNumber {
-                return (errorMessage: "O celular digitado é inválido.", isValid: false)
+                return .init(errorMessage: "O celular digitado é inválido.", isValid: false)
             }
             
-            return (errorMessage: nil, isValid: true)
+            return .init(errorMessage: nil, isValid: true)
         }),
         // TODO: Adicionar date picker para data de nascimento!
         // TODO: Adicionar picker para Estado
         // TODO: Adicionar picker para Cidade
         FormItem(title: "SENHA", textContentType: .newPassword, isSecure: true, validateInText: { text in
             if text.isEmpty {
-                return (errorMessage: nil, isValid: false)
+                return .init(errorMessage: nil, isValid: false)
             } else if text.count < 8 {
-                return (errorMessage: "A senha deve conter ao menos 8 caracteres.", isValid: false)
+                return .init(errorMessage: "A senha deve conter ao menos 8 caracteres.", isValid: false)
             }
             
-            return (errorMessage: nil, isValid: true)
+            return .init(errorMessage: nil, isValid: true)
         }),
         FormItem(title: "CONFIRMAÇÃO DE SENHA", keyboardType: .webSearch, textContentType: .password, isSecure: true)
     ]
@@ -94,12 +94,12 @@ struct RegisterDataContainerView: View {
             .onAppear {
                 volunteerBodyForm.last?.validateInText = { text in
                     if text.isEmpty {
-                        return (errorMessage: nil, isValid: false)
+                        return .init(errorMessage: nil, isValid: false)
                     } else if text != volunteerBodyForm[volunteerBodyForm.count - 2].text {
-                        return (errorMessage: "Precisar ser igual à senha digitada.", isValid: false)
+                        return .init(errorMessage: "Precisar ser igual à senha digitada.", isValid: false)
                     }
                     
-                    return (errorMessage: nil, isValid: true)
+                    return .init(errorMessage: nil, isValid: true)
                 }
             }
             .onReceive(Publishers.CombineLatest(Just(volunteerHeaderForm), Just(volunteerBodyForm))) { headerForm, bodyForm in

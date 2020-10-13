@@ -16,9 +16,9 @@ struct FormItemRow: View {
             title: LocalizedStringKey(item.title),
             text: $item.text,
             error: $item.errorMessage,
-            validate: item.validateInText,
-            mask: item.maskInText,
             isSecure: item.isSecure,
+            mask: item.maskInText,
+            validate: item.validateInText,
             onCommit: item.onCommit
         )
         .keyboardType(item.keyboardType)

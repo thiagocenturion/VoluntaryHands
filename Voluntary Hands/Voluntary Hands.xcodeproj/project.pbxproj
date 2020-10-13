@@ -37,6 +37,7 @@
 		4D38E7EF2528CC4500EAD989 /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D38E7EE2528CC4500EAD989 /* AppAction.swift */; };
 		4D38E7F12528D30800EAD989 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D38E7F02528D30800EAD989 /* AppReducer.swift */; };
 		4D38E7F82529257700EAD989 /* LoginContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D38E7F72529257700EAD989 /* LoginContainerView.swift */; };
+		4D56251F253515FA00AE96E3 /* ValidationText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D56251E253515FA00AE96E3 /* ValidationText.swift */; };
 		4D747E47252A696E00738C3D /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D747E46252A696E00738C3D /* Reachability.swift */; };
 		4D747E4B252AC95500738C3D /* AlertError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D747E4A252AC95500738C3D /* AlertError.swift */; };
 		4D7850BB252E63A2008AC291 /* RegisterEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850BA252E63A2008AC291 /* RegisterEndpoint.swift */; };
@@ -111,6 +112,7 @@
 		4D38E7EE2528CC4500EAD989 /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
 		4D38E7F02528D30800EAD989 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		4D38E7F72529257700EAD989 /* LoginContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContainerView.swift; sourceTree = "<group>"; };
+		4D56251E253515FA00AE96E3 /* ValidationText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationText.swift; sourceTree = "<group>"; };
 		4D747E46252A696E00738C3D /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		4D747E4A252AC95500738C3D /* AlertError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertError.swift; sourceTree = "<group>"; };
 		4D7850BA252E63A2008AC291 /* RegisterEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterEndpoint.swift; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 			children = (
 				4DFD049A253401A500736EDD /* StringLimit.swift */,
 				4DFD049F253406C300736EDD /* FormItem.swift */,
+				4D56251E253515FA00AE96E3 /* ValidationText.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -652,6 +655,7 @@
 				4D12CAA725219DCF00C3E79A /* LoginReducer.swift in Sources */,
 				4D05CF2D252D5E2400BDADDD /* RegisterCoordinator.swift in Sources */,
 				4D9D02FC253266DC0054FFE4 /* ButtonStyle.swift in Sources */,
+				4D56251F253515FA00AE96E3 /* ValidationText.swift in Sources */,
 				4DC693CB248C641600CBEF91 /* Color+Extension.swift in Sources */,
 				4D12CA9D2521985C00C3E79A /* Store.swift in Sources */,
 				4D05CF33252D613600BDADDD /* RegisterDataContainerView.swift in Sources */,

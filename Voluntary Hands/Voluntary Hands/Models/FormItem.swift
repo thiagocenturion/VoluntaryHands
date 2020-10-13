@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 final class FormItem: Identifiable {
-    typealias ValidationInText = (_ newValue: String) -> (errorMessage: String?, isValid: Bool)
+    typealias ValidationInText = (_ newValue: String) -> ValidationText
     typealias MaskInText = (_ newValue: String) -> String
     
     let id = UUID()
@@ -30,7 +30,7 @@ final class FormItem: Identifiable {
          keyboardType: UIKeyboardType = .default,
          textContentType: UITextContentType? = nil,
          isSecure: Bool,
-         validateInText: @escaping ValidationInText = { _ in (nil, true) },
+         validateInText: @escaping ValidationInText = { _ in .init(errorMessage: nil, isValid: true) },
          onCommit: @escaping () -> Void = { }) {
         
         self.title = title

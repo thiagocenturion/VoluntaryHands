@@ -15,6 +15,8 @@ struct RegisterDataView: View {
     @Binding var volunteerBodyForm: [FormItem]
     @Binding var signInEnabled: Bool
     
+    @State private var birthDate = Date()
+    
     let onCommitSignUp: () -> Void
     
     @State private var showingImagePicker = false
@@ -48,6 +50,9 @@ struct RegisterDataView: View {
                 .shadow(radius: 10)
                 
                 VStack {
+                    DatePicker("DATA DE NASCIMENTO", selection: $birthDate, in: ...Date(), displayedComponents: .date)
+                        .datePickerStyle(GraphicalDatePickerStyle())
+                    
                     ForEach(volunteerBodyForm.indices, id: \.self) { index in
                         FormItemRow(item: self.$volunteerBodyForm[index])
                     }
