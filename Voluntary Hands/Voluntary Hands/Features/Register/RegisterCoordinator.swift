@@ -26,6 +26,7 @@ struct RegisterCoordinator: View {
                 .onReceive(Just(store.state.register.registerSuccess)) { success in
                     registerSuccess = success
                 }
+                .onAppear { registerSuccess = false }
             
             NavigationLink(
                 destination: Text("Causas de Apoio").navigationBarTitle("CAUSAS"),

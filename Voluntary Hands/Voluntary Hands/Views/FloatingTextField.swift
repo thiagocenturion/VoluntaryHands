@@ -30,10 +30,12 @@ struct FloatingTextField: View {
                     let newValue = $0.string(withMask: mask($0))
                     error = validate(newValue).errorMessage
 
-                    text = newValue
+                    withAnimation(Animation.linear(duration: 0.2)) { text = newValue }
                 } else {
                     error = validate($0).errorMessage
-                    text = $0
+                    
+                    let newValue = $0
+                    withAnimation(Animation.linear(duration: 0.2)) { text = newValue }
                 }
             }
         )
@@ -63,7 +65,6 @@ struct FloatingTextField: View {
                 .foregroundColor(currentColor)
                 .offset(y: $text.wrappedValue.isEmpty ? 23 : 8)
                 .scaleEffect($text.wrappedValue.isEmpty ? 1 : 0.8, anchor: .leading)
-                .animation(.linear(duration: 0.2))
             textField
                 .font(.system(size: 14, weight: .bold, design: .rounded))
                 .foregroundColor(Color.Style.grayLight)

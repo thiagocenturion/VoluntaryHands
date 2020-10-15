@@ -36,7 +36,6 @@ struct SegmentedPicker<Data, ID, Content> : View where Data: RandomAccessCollect
                 .shadow(color: Color.black.opacity(0.5), radius: 10)
                 .frame(width: segmentSize.width, height: 45)
                 .offset(x: computeActiveSegmentHorizontalOffset())
-                .animation(.easeOut)
             
             HStack {
                 ForEach(data, id: id) { element in
@@ -45,7 +44,7 @@ struct SegmentedPicker<Data, ID, Content> : View where Data: RandomAccessCollect
                         .padding(.vertical, 4)
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .modifier(SizeAwareViewModifier(viewSize: self.$segmentSize))
-                        .onTapGesture { self.selection = element }
+                        .onTapGesture { withAnimation(.easeOut) { self.selection = element } }
                 }
             }
         }
