@@ -28,6 +28,14 @@ let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvi
             .catch { error in Just<RegisterAction>(RegisterAction.alert(error: error)) }
             .eraseToAnyPublisher()
         
+    case .signUpInstitution(let institution):
+        state.loading = true
+        
+        return environment.registerServices.register(with: institution)
+            .map { _ in RegisterAction.registerSuccess }
+            .catch { error in Just<RegisterAction>(RegisterAction.alert(error: error)) }
+            .eraseToAnyPublisher()
+        
     case .registerSuccess:
         state.loading = false
         state.registerSuccess = true

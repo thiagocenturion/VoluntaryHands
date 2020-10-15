@@ -12,7 +12,7 @@ import Combine
 struct LoginView: View {
     // MARK: - Properties
     @State private var signInEnabled: Bool = false
-    @ObservedObject private var username = StringLimit(text: "", limit: 18)
+    @StateObject private var username = StringLimit(text: "", limit: 18)
     @State private var usernameError: String?
     @State private var password = ""
 

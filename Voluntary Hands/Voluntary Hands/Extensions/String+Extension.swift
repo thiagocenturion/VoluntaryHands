@@ -140,6 +140,7 @@ extension String {
     enum ValidationType {
         case cpf
         case cpfAndCnpj
+        case cnpj
         case email
         case cellphone
         case newPassword
@@ -165,6 +166,15 @@ extension String {
                 return .init(errorMessage: nil, isValid: false)
             } else if !self.isCPF {
                 return .init(errorMessage: "O CPF digitado é inválido.", isValid: false)
+            }
+            
+            return .init(errorMessage: nil, isValid: true)
+            
+        case .cnpj:
+            if self.isEmpty {
+                return .init(errorMessage: nil, isValid: false)
+            } else if !self.isCNPJ {
+                return .init(errorMessage: "O CNPJ digitado é inválido.", isValid: false)
             }
             
             return .init(errorMessage: nil, isValid: true)

@@ -37,13 +37,15 @@ struct RegisterDataContainerView: View {
             image: image,
             userType: userType,
             loading: store.state.loading,
-            onCommitSignUpVolunteer: { requestSignUp($0) })
-            .alert(item: alertShown, content: { alertError -> Alert in
-                Alert(
-                    title: Text(alertError.title),
-                    message: Text(alertError.message),
-                    dismissButton: nil)
-            })
+            onCommitSignUpVolunteer: { requestSignUp($0) },
+            onCommitSignUpInstitution: { requestSignUp($0) }
+        )
+        .alert(item: alertShown, content: { alertError -> Alert in
+            Alert(
+                title: Text(alertError.title),
+                message: Text(alertError.message),
+                dismissButton: nil)
+        })
     }
 }
 
@@ -53,6 +55,10 @@ extension RegisterDataContainerView {
     
     private func requestSignUp(_ volunteer: RegisterVolunteer) {
         store.send(.signUpVolunteer(volunteer: volunteer))
+    }
+    
+    private func requestSignUp(_ institution: RegisterInstitution) {
+        store.send(.signUpInstitution(institution: institution))
     }
 }
 

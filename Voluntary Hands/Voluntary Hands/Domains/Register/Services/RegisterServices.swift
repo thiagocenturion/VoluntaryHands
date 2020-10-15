@@ -13,6 +13,7 @@ protocol RegisterServicesType: class {
     var network: NetworkType { get }
     
     func register(with volunteer: RegisterVolunteer) -> AnyPublisher<String, Error>
+    func register(with institution: RegisterInstitution) -> AnyPublisher<String, Error>
 }
 
 final class RegisterServices: RegisterServicesType {
@@ -32,6 +33,13 @@ extension RegisterServices {
         return network.requestString(
             endpoint: Endpoint.registerVolunteer,
             httpMethod: .post(body: volunteer),
+            token: nil)
+    }
+    
+    func register(with institution: RegisterInstitution) -> AnyPublisher<String, Error> {
+        return network.requestString(
+            endpoint: Endpoint.registerInstitution,
+            httpMethod: .post(body: institution),
             token: nil)
     }
 }

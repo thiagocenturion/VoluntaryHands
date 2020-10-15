@@ -12,4 +12,8 @@ extension Endpoint {
     static var registerVolunteer: Self {
         return Endpoint(path: "/new_volunteer")
     }
+    
+    static var registerInstitution: Self {
+        return Endpoint(path: "/new_institution")
+    }
 }
