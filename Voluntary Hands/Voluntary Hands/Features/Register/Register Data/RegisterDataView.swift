@@ -106,10 +106,10 @@ struct RegisterDataView: View {
                 } else {
                     institutionContent
                         .onReceive(Just([
-                            volunteerCpf.text.validation(.cpf),
+                            institutionCnpj.text.validation(.cnpj),
                             email.validation(.email),
-                            volunteerFirstName.validation(.empty),
-                            volunteerLastName.validation(.empty),
+                            institutionCompanyName.validation(.empty),
+                            institutionTradingName.validation(.empty),
                             cellphone.text.validation(.cellphone),
                             .init(errorMessage: nil, isValid: selectedState != .none),
                             city.validation(.empty),

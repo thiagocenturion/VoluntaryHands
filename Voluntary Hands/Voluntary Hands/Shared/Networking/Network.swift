@@ -82,7 +82,8 @@ extension Network {
         switch result {
         case .success(let urlRequest):
             print("RECEIVED REQUEST FOR \(endpoint.path):")
-            print(urlRequest)
+            print(urlRequest.allHTTPHeaderFields ?? "")
+            if let data = urlRequest.httpBody { print(String(decoding: data, as: UTF8.self)) }
             
             return session.dataTaskPublisher(for: urlRequest)
                 .receive(on: DispatchQueue.main)
@@ -100,8 +101,12 @@ extension Network {
                     }
                     
                     guard 200 ..< 300 ~= response.statusCode else {
-                        return Fail(error: NetworkingError.serverErrorMessage(message: String(decoding: data, as: UTF8.self))
-                        ).eraseToAnyPublisher()
+                        print("FAILED TO GET SUCCESS FOR \(endpoint.path)")
+                        print("Data:")
+                        print(String(decoding: data, as: UTF8.self))
+                        
+                        return Fail(error: NetworkingError.serverErrorMessage(message: String(decoding: data, as: UTF8.self)))
+                        .eraseToAnyPublisher()
                     }
                     
                     return Just(data).setFailureType(to: Error.self).eraseToAnyPublisher()
@@ -129,7 +134,8 @@ extension Network {
         switch result {
         case .success(let urlRequest):
             print("RECEIVED REQUEST FOR \(endpoint.path):")
-            print(urlRequest)
+            print(urlRequest.allHTTPHeaderFields ?? "")
+            if let data = urlRequest.httpBody { print(String(decoding: data, as: UTF8.self)) }
             
             return session.dataTaskPublisher(for: urlRequest)
                 .mapError { NetworkingError.serverError(error: $0) }
@@ -146,8 +152,12 @@ extension Network {
                     }
                     
                     guard 200 ..< 300 ~= response.statusCode else {
-                        return Fail(error: NetworkingError.serverErrorMessage(message: String(decoding: data, as: UTF8.self))
-                        ).eraseToAnyPublisher()
+                        print("FAILED TO GET SUCCESS FOR \(endpoint.path)")
+                        print("Data:")
+                        print(String(decoding: data, as: UTF8.self))
+                        
+                        return Fail(error: NetworkingError.serverErrorMessage(message: String(decoding: data, as: UTF8.self)))
+                        .eraseToAnyPublisher()
                     }
                     
                     return Just(data).setFailureType(to: Error.self).eraseToAnyPublisher()
