@@ -81,10 +81,17 @@ extension Network {
 
         switch result {
         case .success(let urlRequest):
+            print("RECEIVED REQUEST FOR \(endpoint.path):")
+            print(urlRequest)
+            
             return session.dataTaskPublisher(for: urlRequest)
                 .receive(on: DispatchQueue.main)
                 .mapError { NetworkingError.serverError(error: $0) }
                 .handleEvents(receiveOutput: { [weak self] dataTaskPublisher in
+                    
+                    print("RECEIVED RESPONSE FOR \(endpoint.path):")
+                    print(dataTaskPublisher.response)
+                    
                     self?.updateTokenIfNeeded(with: dataTaskPublisher.response)
                 })
                 .flatMap { data, response -> AnyPublisher<Data, Error> in
@@ -121,9 +128,16 @@ extension Network {
 
         switch result {
         case .success(let urlRequest):
+            print("RECEIVED REQUEST FOR \(endpoint.path):")
+            print(urlRequest)
+            
             return session.dataTaskPublisher(for: urlRequest)
                 .mapError { NetworkingError.serverError(error: $0) }
                 .handleEvents(receiveOutput: { [weak self] dataTaskPublisher in
+                    
+                    print("RECEIVED RESPONSE FOR \(endpoint.path):")
+                    print(dataTaskPublisher.response)
+                    
                     self?.updateTokenIfNeeded(with: dataTaskPublisher.response)
                 })
                 .flatMap { data, response -> AnyPublisher<Data, Error> in

@@ -138,11 +138,11 @@ struct RegisterDataView: View {
                 FullWidthButton(titleKey: "FINALIZAR CADASTRO", action: {
                     onCommitSignUpVolunteer(
                         RegisterVolunteer(
-                            cpf: cpf.text,
+                            cpf: cpf.text.onlyNumbers,
                             email: email,
                             firstName: firstName,
                             lastName: lastName,
-                            cellphone: cellphone.text,
+                            cellphone: cellphone.text.onlyNumbers,
                             birthdate: birthDate,
                             state: selectedState.rawValue,
                             city: city,
