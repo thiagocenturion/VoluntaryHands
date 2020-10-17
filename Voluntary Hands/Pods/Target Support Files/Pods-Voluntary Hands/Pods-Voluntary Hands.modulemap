@@ -1,0 +1,6 @@
+framework module Pods_Voluntary_Hands {
+  umbrella header "Pods-Voluntary Hands-umbrella.h"
+
+  export *
+  module * { export * }
+}

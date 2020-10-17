@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import FirebaseStorage
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -22,7 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             encoder: .init(),
             timeout: 30.0,
             tokenUpdater: .init(userDefaults: .standard)
-        )
+        ),
+        remoteStorage: Storage.storage()
     )
     private lazy var store = AppStore(
         initialState: AppState(),

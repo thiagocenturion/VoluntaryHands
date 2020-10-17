@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import FirebaseStorage
 
 protocol RegisterServicesEnvironmentType {
+    var remoteStorage: Storage { get }
     var registerServices: RegisterServicesType { get }
 }
 

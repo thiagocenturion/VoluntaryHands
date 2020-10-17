@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+import FirebaseStorage
 
 let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvironmentType> = Reducer { state, action, environment in
     switch action {
@@ -23,6 +24,13 @@ let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvi
     case .signUpVolunteer(let volunteer):
         state.loading = true
         
+        if let currentImageData = state.currentImage {
+            environment.remoteStorage
+                .saveNewProfilePicture(currentImageData, childPath: "\(volunteer.email)/profile_picture.jpg") { _, url in
+                print(url)
+            }
+        }
+        
         return environment.registerServices.register(with: volunteer)
             .map { _ in RegisterAction.registerSuccess }
             .catch { error in Just<RegisterAction>(RegisterAction.alert(error: error)) }
@@ -30,6 +38,13 @@ let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvi
         
     case .signUpInstitution(let institution):
         state.loading = true
+        
+        if let currentImageData = state.currentImage {
+            environment.remoteStorage
+                .saveNewProfilePicture(currentImageData, childPath: "\(institution.email)/profile_picture.jpg") { _, url in
+                print(url)
+            }
+        }
         
         return environment.registerServices.register(with: institution)
             .map { _ in RegisterAction.registerSuccess }
