@@ -12,8 +12,14 @@ import Combine
 struct RegisterDataContainerView: View {
     @EnvironmentObject var store: Store<RegisterState, RegisterAction>
     
+    @Binding var activeSheet: RegisterCoordinator.ActiveSheet?
+    
     private var userType: Binding<UserType> {
         store.binding(for: \.userType) { .userType(type: $0) }
+    }
+    
+    private var termsAccepted: Binding<Bool> {
+        store.binding(for: \.termsAccepted) { .acceptTerms(isAccept: $0) }
     }
     
     private var alertShown: Binding<AlertError?> {
@@ -36,10 +42,16 @@ struct RegisterDataContainerView: View {
         RegisterDataView(
             image: image,
             userType: userType,
+            termsAccepted: termsAccepted,
             loading: store.state.loading,
             onCommitSignUpVolunteer: { requestSignUp($0) },
-            onCommitSignUpInstitution: { requestSignUp($0) }
+            onCommitSignUpInstitution: { requestSignUp($0) },
+            onCommitPrivacyPolicy: { activeSheet = .privacyPolicy },
+            onCommitUseTerms: { activeSheet = .useTerms }
         )
+        .onAppear(perform: {
+            store.send(.resetState)
+        })
         .alert(item: alertShown, content: { alertError -> Alert in
             Alert(
                 title: Text(alertError.title),
@@ -65,6 +77,6 @@ extension RegisterDataContainerView {
 
 struct RegisterDataContainerView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterDataContainerView()
+        RegisterDataContainerView(activeSheet: .constant(nil))
     }
 }

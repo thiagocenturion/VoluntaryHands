@@ -12,6 +12,7 @@ import Combine
 struct RegisterDataView: View {
     @Binding var image: UIImage?
     @Binding var userType: UserType
+    @Binding var termsAccepted: Bool
     var loading: Bool
     
     @State private var signInEnabled = false
@@ -58,6 +59,8 @@ struct RegisterDataView: View {
     
     let onCommitSignUpVolunteer: (RegisterVolunteer) -> Void
     let onCommitSignUpInstitution: (RegisterInstitution) -> Void
+    let onCommitPrivacyPolicy: () -> Void
+    let onCommitUseTerms: () -> Void
     
     @State private var showingImagePicker = false
     
@@ -101,7 +104,7 @@ struct RegisterDataView: View {
                             password.validation(.newPassword),
                             confirmPassword.validation(.confirmPassword(newPassword: password))
                         ])) { validates in
-                            signInEnabled = validates.map { $0.isValid }.reduce(&&)
+                            signInEnabled = validates.map { $0.isValid }.reduce(&&) && termsAccepted
                         }
                 } else {
                     institutionContent
@@ -116,7 +119,7 @@ struct RegisterDataView: View {
                             password.validation(.newPassword),
                             confirmPassword.validation(.confirmPassword(newPassword: password))
                         ])) { validates in
-                            signInEnabled = validates.map { $0.isValid }.reduce(&&)
+                            signInEnabled = validates.map { $0.isValid }.reduce(&&) && termsAccepted
                         }
                 }
             }
@@ -153,26 +156,26 @@ struct RegisterDataView: View {
                 FloatingTextField(title: "RAZÃO SOCIAL", text: $institutionCompanyName, error: $institutionCompanyNameError, validate: { $0.validation(.empty) })
                     .textContentType(.organizationName)
                     .disableAutocorrection(true)
-                
+
                 FloatingTextField(title: "NOME FANTASIA", text: $institutionTradingName, error: $institutionTradingNameError, validate: { $0.validation(.empty) })
                     .textContentType(.organizationName)
                     .disableAutocorrection(true)
-                
+
                 FloatingTextField(title: "CELULAR", text: $cellphone.text, error: $cellphoneError, mask: { _ in "(99) 99999-9999" }, validate: { $0.validation(.cellphone) })
                     .keyboardType(.numberPad)
                     .textContentType(.telephoneNumber)
-                
+
                 federalState
                     .pickerStyle(MenuPickerStyle())
                     .textContentType(.addressState)
-                
+
                 FloatingTextField(title: "CIDADE", text: $city, error: $cityError, validate: { $0.validation(.empty) })
                     .textContentType(.addressCity)
                     .disableAutocorrection(true)
-                
+
                 FloatingTextField(title: "SENHA", text: $password, error: $passwordError, isSecure: true, validate: { $0.validation(.newPassword) })
                     .textContentType(.newPassword)
-                
+
                 FloatingTextField(title: "CONFIRMAÇÃO DE SENHA", text: $confirmPassword, error: $confirmPasswordError, isSecure: true, validate: { $0.validation(.confirmPassword(newPassword: password)) })
                     .textContentType(.newPassword)
             }
@@ -181,6 +184,9 @@ struct RegisterDataView: View {
             .background(Color.Style.grayMedium)
             .cornerRadius(15)
             .shadow(radius: 10)
+            
+            // Privacy Policy and Terms
+            privacyPolicyContent
             
             FullWidthButton(titleKey: "FINALIZAR CADASTRO", action: {
                 onCommitSignUpInstitution(
@@ -266,6 +272,9 @@ struct RegisterDataView: View {
             .cornerRadius(15)
             .shadow(radius: 10)
             
+            // Privacy Policy and Terms
+            privacyPolicyContent
+            
             FullWidthButton(titleKey: "FINALIZAR CADASTRO", action: {
                 onCommitSignUpVolunteer(
                     RegisterVolunteer(
@@ -304,6 +313,44 @@ struct RegisterDataView: View {
                 .background(Color.Style.grayLight)
         }
     }
+    
+    var privacyPolicyContent: some View {
+        HStack {
+            Button(action: { withAnimation(.linear) { _termsAccepted.wrappedValue = !termsAccepted } }) {
+                ZStack {
+                    Circle()
+                        .stroke(style: StrokeStyle(lineWidth: 1.5))
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(termsAccepted ? Color.clear : Color.Style.gray)
+                        .overlay(
+                            Circle()
+                                .fill(termsAccepted ? Color.Style.blueFade : Color.clear)
+                                .frame(width: 24, height: 24)
+                        )
+                    
+                    if termsAccepted {
+                        Image(systemName: "checkmark")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.white)
+                            .frame(width: 7)
+                    }
+                }
+            }
+            .padding(2)
+            
+            VStack(alignment: .leading) {
+                HStack(spacing: 5) {
+                    Text("Li e concordo com os")
+                    Button(action: onCommitUseTerms) { Text("Termos de uso") }
+                }
+                HStack(spacing: 0) {
+                    Text(" e ")
+                    Button(action: onCommitPrivacyPolicy) { Text("Políticas de Privacidade") }
+                }
+            }
+        }
+    }
 }
 
 struct RegisterDataView_Previews: PreviewProvider {
@@ -313,9 +360,12 @@ struct RegisterDataView_Previews: PreviewProvider {
                 RegisterDataView(
                     image: .constant(nil),
                     userType: .constant(.volunteer),
+                    termsAccepted: .constant(false),
                     loading: false,
                     onCommitSignUpVolunteer: { _ in },
-                    onCommitSignUpInstitution: { _ in }
+                    onCommitSignUpInstitution: { _ in },
+                    onCommitPrivacyPolicy: { },
+                    onCommitUseTerms: { }
                 )
                 .navigationBarTitle("DADOS PESSOAIS", displayMode: .inline)
             }
@@ -325,13 +375,16 @@ struct RegisterDataView_Previews: PreviewProvider {
                 RegisterDataView(
                     image: .constant(nil),
                     userType: .constant(.institution),
+                    termsAccepted: .constant(true),
                     loading: false,
                     onCommitSignUpVolunteer: { _ in },
-                    onCommitSignUpInstitution: { _ in }
+                    onCommitSignUpInstitution: { _ in },
+                    onCommitPrivacyPolicy: { },
+                    onCommitUseTerms: { }
                 )
                 .navigationBarTitle("DADOS PESSOAIS", displayMode: .inline)
             }
-            .previewDevice("iPhone 11 Pro Max")
+            .previewDevice("iPhone 8")
         }
         .preferredColorScheme(.dark)
     }

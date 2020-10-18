@@ -14,9 +14,11 @@ struct RegisterCoordinator: View {
     
     @State private var registerSuccess = false
     
+    @State private var activeSheet: ActiveSheet?
+    
     var body: some View {
         VStack {
-            RegisterDataContainerView()
+            RegisterDataContainerView(activeSheet: $activeSheet)
                 .navigationBarTitle("DADOS PESSOAIS", displayMode: .inline)
                 .environmentObject(
                     store.derived(
@@ -27,6 +29,12 @@ struct RegisterCoordinator: View {
                     registerSuccess = success
                 }
                 .onAppear { registerSuccess = false }
+                .sheet(item: $activeSheet) { item in
+                    switch item {
+                    case .useTerms: Text("Termos de Uso")
+                    case .privacyPolicy: Text("Políticas de Privacidade")
+                    }
+                }
             
             NavigationLink(
                 destination: Text("Causas de Apoio").navigationBarTitle("CAUSAS"),
@@ -34,6 +42,16 @@ struct RegisterCoordinator: View {
                 EmptyView()
             }.hidden()
         }
+    }
+}
+
+extension RegisterCoordinator {
+    
+    enum ActiveSheet: Identifiable {
+        case useTerms
+        case privacyPolicy
+        
+        var id: Int { hashValue }
     }
 }
 
