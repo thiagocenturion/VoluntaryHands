@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -33,6 +33,7 @@
 		4D12CAA525219D2700C3E79A /* LoginAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D12CAA425219D2700C3E79A /* LoginAction.swift */; };
 		4D12CAA725219DCF00C3E79A /* LoginReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D12CAA625219DCF00C3E79A /* LoginReducer.swift */; };
 		4D12CAA925219E3800C3E79A /* LoginServicesEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D12CAA825219E3800C3E79A /* LoginServicesEnvironment.swift */; };
+		4D3658DA253CE71000C7CAB9 /* Safari.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3658D9253CE71000C7CAB9 /* Safari.swift */; };
 		4D38E7EC2528CB2700EAD989 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D38E7EB2528CB2700EAD989 /* AppState.swift */; };
 		4D38E7EF2528CC4500EAD989 /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D38E7EE2528CC4500EAD989 /* AppAction.swift */; };
 		4D38E7F12528D30800EAD989 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D38E7F02528D30800EAD989 /* AppReducer.swift */; };
@@ -113,6 +114,7 @@
 		4D12CAA425219D2700C3E79A /* LoginAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAction.swift; sourceTree = "<group>"; };
 		4D12CAA625219DCF00C3E79A /* LoginReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginReducer.swift; sourceTree = "<group>"; };
 		4D12CAA825219E3800C3E79A /* LoginServicesEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginServicesEnvironment.swift; sourceTree = "<group>"; };
+		4D3658D9253CE71000C7CAB9 /* Safari.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Safari.swift; sourceTree = "<group>"; };
 		4D38E7EB2528CB2700EAD989 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		4D38E7EE2528CC4500EAD989 /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
 		4D38E7F02528D30800EAD989 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
@@ -192,7 +194,6 @@
 				C80C13968D11C5EA75AF4AD5 /* Pods-Voluntary HandsTests.debug.xcconfig */,
 				BC9C453983958FF4B896C5FA /* Pods-Voluntary HandsTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -369,7 +370,6 @@
 		4D8501F1248C82BE0021218C /* Styles */ = {
 			isa = PBXGroup;
 			children = (
-				4DD51C862532D4C200B3129E /* SegmentedPicker */,
 				4D8501F2248C82DB0021218C /* Button */,
 			);
 			path = Styles;
@@ -443,7 +443,6 @@
 				4D12CA81252154E500C3E79A /* RootView.swift */,
 				4D94D37624887A550065955D /* LaunchScreen.storyboard */,
 				4DC693D3248C6F0100CBEF91 /* Views */,
-				4D8501F1248C82BE0021218C /* Styles */,
 				4D42C965248C5D7B004D0EE5 /* Features */,
 				4D9CF3D1251D59E300DEED1D /* Domains */,
 				4DFD049E253406B600736EDD /* Models */,
@@ -507,6 +506,7 @@
 		4DC693D3248C6F0100CBEF91 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4D8501F1248C82BE0021218C /* Styles */,
 				4D008F90252ADAB200A7DAE1 /* FloatingTextField.swift */,
 				4D8501FD248D93C70021218C /* ActivityView.swift */,
 				4D05CF42252D77AC00BDADDD /* ProfileImage.swift */,
@@ -515,15 +515,9 @@
 				4D09629225327FD000B97597 /* SegmentedPicker.swift */,
 				4DD51C822532CB2400B3129E /* SizePreferenceKey.swift */,
 				4DB8B7672534D0D400CB6756 /* FormItemRow.swift */,
+				4D3658D9253CE71000C7CAB9 /* Safari.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		4DD51C862532D4C200B3129E /* SegmentedPicker */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SegmentedPicker;
 			sourceTree = "<group>";
 		};
 		4DFD049E253406B600736EDD /* Models */ = {
@@ -745,6 +739,7 @@
 				4D7850BB252E63A2008AC291 /* RegisterEndpoint.swift in Sources */,
 				4D38E7EC2528CB2700EAD989 /* AppState.swift in Sources */,
 				4DB65C3525353FDA002F57B5 /* FederalStateType.swift in Sources */,
+				4D3658DA253CE71000C7CAB9 /* Safari.swift in Sources */,
 				4DD51C832532CB2400B3129E /* SizePreferenceKey.swift in Sources */,
 				4DFD04A0253406C300736EDD /* FormItem.swift in Sources */,
 				4D8501FE248D93C70021218C /* ActivityView.swift in Sources */,

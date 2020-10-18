@@ -242,12 +242,15 @@ struct RegisterDataView: View {
                     .keyboardType(.numberPad)
                     .textContentType(.telephoneNumber)
                 
-                Text("DATA DE NASCIMENTO")
-                    .font(.system(size: 14, weight: .bold, design: .rounded))
-                    .foregroundColor(Color.Style.grayLight)
-                    .offset(y: 8)
-                DatePicker("DATA DE NASCIMENTO", selection: $volunteerBirthDate, in: ...Date(), displayedComponents: .date)
-                    .datePickerStyle(GraphicalDatePickerStyle())
+                DatePicker(selection: $volunteerBirthDate, in: ...Date(), displayedComponents: .date) {
+                    Text("NASCIMENTO")
+                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                        .foregroundColor(Color.Style.grayLight)
+                        .offset(y: 8)
+                }
+                .environment(\.locale, Locale(identifier: "pt_BR"))
+                .datePickerStyle(CompactDatePickerStyle())
+                    
                 Divider()
                     .frame(height: 2)
                     .background(Color.Style.grayLight)

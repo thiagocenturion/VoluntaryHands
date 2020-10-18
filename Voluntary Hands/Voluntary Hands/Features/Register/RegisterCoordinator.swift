@@ -31,8 +31,8 @@ struct RegisterCoordinator: View {
                 .onAppear { registerSuccess = false }
                 .sheet(item: $activeSheet) { item in
                     switch item {
-                    case .useTerms: Text("Termos de Uso")
-                    case .privacyPolicy: Text("Políticas de Privacidade")
+                    case .useTerms: Safari(url: URL(string: "https://sharp-fermi-0463a9.netlify.app/terms.html")!)
+                    case .privacyPolicy: Safari(url: URL(string: "https://sharp-fermi-0463a9.netlify.app")!)
                     }
                 }
             
