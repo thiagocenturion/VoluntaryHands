@@ -15,15 +15,32 @@ protocol NetworkType {
     var encoder: JSONEncoder { get }
     var timeout: TimeInterval { get }
     
-    func request<Encode, Decode>(
+    func request<Decode>(
         endpoint: Endpoint,
-        httpMethod: Network.HTTPMethod<Encode>,
-        token: String?) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable
+        httpMethod: Network.HTTPMethod,
+        authorizationIfNeeded: Bool) -> AnyPublisher<Decode, Error> where Decode: Decodable
     
-    func requestString<Encode>(
+    func requestString(
         endpoint: Endpoint,
-        httpMethod: Network.HTTPMethod<Encode>,
-        token: String?) -> AnyPublisher<String, Error> where Encode: Encodable
+        httpMethod: Network.HTTPMethod,
+        authorizationIfNeeded: Bool) -> AnyPublisher<String, Error>
+}
+
+extension Encodable {
+  fileprivate func openedEncode(to container: inout SingleValueEncodingContainer) throws {
+    try container.encode(self)
+  }
+}
+
+struct AnyEncodable: Encodable {
+  var value: Encodable
+  init(_ value: Encodable) {
+    self.value = value
+  }
+  func encode(to encoder: Encoder) throws {
+    var container = encoder.singleValueContainer()
+    try value.openedEncode(to: &container)
+  }
 }
 
 final class Network: NetworkType {
@@ -35,10 +52,10 @@ final class Network: NetworkType {
     let timeout: TimeInterval
     let tokenUpdater: TokenUpdater
     
-    enum HTTPMethod<Encode> where Encode: Encodable {
+    enum HTTPMethod {
         case get
-        case post(body: Encode)
-        case put(body: Encode)
+        case post(body: Any)
+        case put(body: Any)
         
         var rawValue: String {
             switch self {
@@ -68,16 +85,19 @@ final class Network: NetworkType {
 // MARK: - Public methods
 extension Network {
     
-    func request<Encode, Decode>(
+    func request<Decode>(
         endpoint: Endpoint,
-        httpMethod: Network.HTTPMethod<Encode>,
-        token: String?) -> AnyPublisher<Decode, Error> where Encode: Encodable, Decode: Decodable {
+        httpMethod: Network.HTTPMethod,
+        authorizationIfNeeded: Bool) -> AnyPublisher<Decode, Error> where Decode: Decodable {
 
         guard Reachability.isConnectedToNetwork() else {
             return Fail(error: NetworkingError.noConnection).eraseToAnyPublisher()
         }
-
-        let result = urlRequest(endpoint: endpoint, httpMethod: httpMethod, token: token)
+        
+        let result = urlRequest(
+            endpoint: endpoint,
+            httpMethod: httpMethod,
+            token: authorizationIfNeeded ? tokenUpdater.token : nil)
 
         switch result {
         case .success(let urlRequest):
@@ -120,16 +140,19 @@ extension Network {
         }
     }
 
-    func requestString<Encode>(
+    func requestString(
         endpoint: Endpoint,
-        httpMethod: Network.HTTPMethod<Encode>,
-        token: String?) -> AnyPublisher<String, Error> where Encode: Encodable {
+        httpMethod: Network.HTTPMethod,
+        authorizationIfNeeded: Bool) -> AnyPublisher<String, Error> {
 
         guard Reachability.isConnectedToNetwork() else {
             return Fail(error: NetworkingError.noConnection).eraseToAnyPublisher()
         }
 
-        let result = urlRequest(endpoint: endpoint, httpMethod: httpMethod, token: token)
+        let result = urlRequest(
+            endpoint: endpoint,
+            httpMethod: httpMethod,
+            token: authorizationIfNeeded ? tokenUpdater.token : nil)
 
         switch result {
         case .success(let urlRequest):
@@ -175,10 +198,10 @@ extension Network {
 // MARK: - Private methods
 extension Network {
     
-    private func urlRequest<Encode>(
+    private func urlRequest(
         endpoint: Endpoint,
-        httpMethod: HTTPMethod<Encode>,
-        token: String?) -> Result<URLRequest, Error> where Encode: Encodable {
+        httpMethod: HTTPMethod,
+        token: String?) -> Result<URLRequest, Error> {
         
         var urlRequest = URLRequest(url: endpoint.url)
         urlRequest.timeoutInterval = timeout
@@ -193,7 +216,7 @@ extension Network {
             break
             
         case .post(let body), .put(let body):
-            guard let data = try? encoder.encode(body) else {
+            guard let body = body as? Encodable, let data = try? encoder.encode(AnyEncodable(body)) else {
                 return .failure(NetworkingError.invalidEncode)
             }
             

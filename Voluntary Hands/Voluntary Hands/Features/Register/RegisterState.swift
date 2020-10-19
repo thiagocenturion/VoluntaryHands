@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 struct RegisterState: Codable, Equatable {
     var loading = false

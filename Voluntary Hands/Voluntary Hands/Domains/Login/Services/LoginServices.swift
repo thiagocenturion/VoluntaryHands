@@ -34,13 +34,13 @@ extension LoginServices {
         return network.requestString(
             endpoint: Endpoint.login,
             httpMethod: .post(body: LoginVolunteer(cpf: cpf, password: password)),
-            token: nil)
+            authorizationIfNeeded: false)
     }
     
     func loginInstitution(cnpj: String, password: String) -> AnyPublisher<String, Error> {
         return network.requestString(
             endpoint: Endpoint.login,
             httpMethod: .post(body: LoginInstitution(cnpj: cnpj, password: password)),
-            token: nil)
+            authorizationIfNeeded: false)
     }
 }

@@ -48,7 +48,7 @@ let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvi
         
         return environment.registerServices.register(with: institution)
             .map { _ in RegisterAction.registerSuccess }
-            .catch { error in Just<RegisterAction>(RegisterAction.alert(error: error)) }
+            .catch { error in Just<RegisterAction>(.alert(error: error)) }
             .eraseToAnyPublisher()
         
     case .registerSuccess:

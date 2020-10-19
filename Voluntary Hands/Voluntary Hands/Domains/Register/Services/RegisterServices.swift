@@ -33,13 +33,13 @@ extension RegisterServices {
         return network.requestString(
             endpoint: Endpoint.registerVolunteer,
             httpMethod: .post(body: volunteer),
-            token: nil)
+            authorizationIfNeeded: false)
     }
     
     func register(with institution: RegisterInstitution) -> AnyPublisher<String, Error> {
         return network.requestString(
             endpoint: Endpoint.registerInstitution,
             httpMethod: .post(body: institution),
-            token: nil)
+            authorizationIfNeeded: false)
     }
 }
