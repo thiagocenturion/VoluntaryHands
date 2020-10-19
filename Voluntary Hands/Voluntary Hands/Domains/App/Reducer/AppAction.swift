@@ -11,4 +11,5 @@ import Foundation
 enum AppAction {
     case login(action: LoginAction)
     case register(action: RegisterAction)
+    case socialCauses(action: SocialCausesAction)
 }

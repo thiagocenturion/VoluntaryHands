@@ -22,8 +22,8 @@ struct PrimaryBackgroundStyle: ButtonStyle {
                     gradient: Gradient(colors: [
                                         isDisabled ? .clear : Color.Style.blue,
                                         isDisabled ? .clear : Color.Style.blueLight]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
+                    startPoint: .bottomLeading,
+                    endPoint: .topTrailing
                 )
             )
             .overlay(

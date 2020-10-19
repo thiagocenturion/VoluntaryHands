@@ -80,6 +80,7 @@
 		4DCBB3E5253D318F0077D322 /* SocialCausesServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCBB3E4253D318F0077D322 /* SocialCausesServices.swift */; };
 		4DCBB3E9253D38360077D322 /* CausesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCBB3E8253D38360077D322 /* CausesResponse.swift */; };
 		4DCBB3ED253D48840077D322 /* SocialCausesContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCBB3EC253D48840077D322 /* SocialCausesContainerView.swift */; };
+		4DCBB3FF253D5E870077D322 /* SocialCausesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCBB3FE253D5E870077D322 /* SocialCausesView.swift */; };
 		4DD51C832532CB2400B3129E /* SizePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD51C822532CB2400B3129E /* SizePreferenceKey.swift */; };
 		4DFD049B253401A500736EDD /* StringLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD049A253401A500736EDD /* StringLimit.swift */; };
 		4DFD04A0253406C300736EDD /* FormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD049F253406C300736EDD /* FormItem.swift */; };
@@ -175,6 +176,7 @@
 		4DCBB3E4253D318F0077D322 /* SocialCausesServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCausesServices.swift; sourceTree = "<group>"; };
 		4DCBB3E8253D38360077D322 /* CausesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CausesResponse.swift; sourceTree = "<group>"; };
 		4DCBB3EC253D48840077D322 /* SocialCausesContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCausesContainerView.swift; sourceTree = "<group>"; };
+		4DCBB3FE253D5E870077D322 /* SocialCausesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCausesView.swift; sourceTree = "<group>"; };
 		4DD51C822532CB2400B3129E /* SizePreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePreferenceKey.swift; sourceTree = "<group>"; };
 		4DFD049A253401A500736EDD /* StringLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringLimit.swift; sourceTree = "<group>"; };
 		4DFD049F253406C300736EDD /* FormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItem.swift; sourceTree = "<group>"; };
@@ -534,6 +536,7 @@
 				4DCBB3D1253D2DAA0077D322 /* SocialCausesAction.swift */,
 				4DCBB3D5253D2DB70077D322 /* SocialCausesReducer.swift */,
 				4DCBB3EC253D48840077D322 /* SocialCausesContainerView.swift */,
+				4DCBB3FE253D5E870077D322 /* SocialCausesView.swift */,
 			);
 			path = SocialCauses;
 			sourceTree = "<group>";
@@ -803,6 +806,7 @@
 				4D008F91252ADAB200A7DAE1 /* FloatingTextField.swift in Sources */,
 				4D09629325327FD000B97597 /* SegmentedPicker.swift in Sources */,
 				4DCBB3DB253D2F1E0077D322 /* SocialCausesServicesEnvironment.swift in Sources */,
+				4DCBB3FF253D5E870077D322 /* SocialCausesView.swift in Sources */,
 				4D05CF3B252D637E00BDADDD /* RegisterDataView.swift in Sources */,
 				4D94D37024887A550065955D /* LoginView.swift in Sources */,
 				4D88B641252764D3008504D9 /* TokenUpdater.swift in Sources */,

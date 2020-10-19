@@ -12,13 +12,9 @@ import Combine
 let socialCausesReducer: Reducer<SocialCausesState, SocialCausesAction, SocialCausesServicesEnvironmentType> = Reducer { state, action, environment in
     
     switch action {
-    case .causes(let causes):
-        state.loading = true
-        
-        return environment.socialCausesServices.causes()
-            .map { _ in SocialCausesAction.getCausesSuccess }
-            .catch { error in Just<SocialCausesAction>(.alert(error: error)) }
-            .eraseToAnyPublisher()
+    case .causes(let response):
+        state.causes = response.causes
+        state.causesSelected = response.causesSelected
         
     case .appendCauseSelected(let cause):
         state.causesSelected.append(cause)
@@ -29,24 +25,28 @@ let socialCausesReducer: Reducer<SocialCausesState, SocialCausesAction, SocialCa
     case .multiSelection(let isMultiSelection):
         state.multiSelection = isMultiSelection
         
-    case .saveSocialCauses:
-        state.loading = true
+    case .fetchCauses:
+        state.loading = .opaque
+        
+        return environment.socialCausesServices.fetchCauses()
+            .map { SocialCausesAction.causes(response: $0) }
+            .catch { error in Just<SocialCausesAction>(.alert(error: error)) }
+            .eraseToAnyPublisher()
+        
+    case .saveCausesSelected:
+        state.loading = .transparent
         
         return environment.socialCausesServices.save(causesSelected: state.causesSelected)
             .map { _ in SocialCausesAction.savingSuccess }
             .catch { error in Just<SocialCausesAction>(.alert(error: error)) }
             .eraseToAnyPublisher()
         
-    case .getCausesSuccess:
-        state.loading = false
-        state.getCausesSuccess = true
-        
     case .savingSuccess:
-        state.loading = false
+        state.loading = .none
         state.savingSuccess = true
         
     case .alert(let error):
-        state.loading = false
+        state.loading = .none
         
         var alertError: AlertError?
         if let networkingError = error as? NetworkingError {
@@ -66,7 +66,7 @@ let socialCausesReducer: Reducer<SocialCausesState, SocialCausesAction, SocialCa
         state = newState
         
     case .resetState:
-        state.loading = false
+        state.loading = .none
         state.causes = []
         state.causesSelected = []
         state.getCausesSuccess = false

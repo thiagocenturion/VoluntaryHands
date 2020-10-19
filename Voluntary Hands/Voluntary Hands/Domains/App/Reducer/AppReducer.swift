@@ -20,6 +20,11 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = Reducer { state, 
         return registerReducer(&state.register, action, environment)
             .map { AppAction.register(action: $0) }
             .eraseToAnyPublisher()
+        
+    case .socialCauses(action: let action):
+        return socialCausesReducer(&state.socialCauses, action, environment)
+            .map { AppAction.socialCauses(action: $0) }
+            .eraseToAnyPublisher()
     }
     
     return Empty(completeImmediately: true).eraseToAnyPublisher()

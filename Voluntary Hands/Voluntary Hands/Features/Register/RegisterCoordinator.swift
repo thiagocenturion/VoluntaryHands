@@ -13,6 +13,7 @@ struct RegisterCoordinator: View {
     @EnvironmentObject var store: Store<AppState, AppAction>
     
     @State private var registerSuccess = false
+    @State private var socialCausesSuccess = false
     
     @State private var activeSheet: ActiveSheet?
     
@@ -23,46 +24,68 @@ struct RegisterCoordinator: View {
         )
     }
     
-    private var alertShown: Binding<AlertError?> {
+    private var registerAlertShown: Binding<AlertError?> {
         Binding<AlertError?>(
             get: { store.state.register.alert },
             set: { _ in store.send(.register(action: .alert(error: nil))) }
         )
     }
     
+    private var socialCausesAlertShown: Binding<AlertError?> {
+        Binding<AlertError?>(
+            get: { store.state.socialCauses.alert },
+            set: { _ in store.send(.socialCauses(action: .alert(error: nil))) }
+        )
+    }
+    
     var body: some View {
         VStack {
-            RegisterDataContainerView(activeSheet: $activeSheet)
-                .navigationBarTitle("DADOS PESSOAIS", displayMode: .inline)
-                .environmentObject(
-                    store.derived(
-                        deriveState: \.register,
-                        embedAction: AppAction.register)
-                )
-                .onReceive(Just(store.state.register.registerSuccess)) { success in
-                    registerSuccess = success
-                }
-                .onAppear { registerSuccess = false }
-                .sheet(item: $activeSheet) { item in
-                    switch item {
-                    case .useTerms: Safari(url: URL(string: "https://sharp-fermi-0463a9.netlify.app/terms.html")!)
-                    case .privacyPolicy: Safari(url: URL(string: "https://sharp-fermi-0463a9.netlify.app")!)
-                    case .imagePicker: ImagePicker(imageData: currentImageData)
-                    }
-                }
-                .alert(item: alertShown, content: { alertError -> Alert in
-                    Alert(
-                        title: Text(alertError.title),
-                        message: Text(alertError.message),
-                        dismissButton: nil)
-                })
-            
-            NavigationLink(
-                destination: Text("Causas de Apoio").navigationBarTitle("CAUSAS"),
-                isActive: $registerSuccess) {
-                EmptyView()
-            }.hidden()
+            registerDataView
+            NavigationLink(destination: socialCausesView, isActive: $registerSuccess) { EmptyView() }.hidden()
         }
+    }
+    
+    var registerDataView: some View {
+        RegisterDataContainerView(activeSheet: $activeSheet)
+            .navigationBarTitle("DADOS PESSOAIS", displayMode: .inline)
+            .environmentObject(
+                store.derived(
+                    deriveState: \.register,
+                    embedAction: AppAction.register)
+            )
+            .onReceive(Just(store.state.register.registerSuccess)) { success in
+                registerSuccess = success
+            }
+            .onAppear { registerSuccess = false }
+            .sheet(item: $activeSheet) { item in
+                switch item {
+                case .useTerms: Safari(url: URL(string: "https://sharp-fermi-0463a9.netlify.app/terms.html")!)
+                case .privacyPolicy: Safari(url: URL(string: "https://sharp-fermi-0463a9.netlify.app")!)
+                case .imagePicker: ImagePicker(imageData: currentImageData)
+                }
+            }
+            .alert(item: registerAlertShown, content: { alertError -> Alert in
+                Alert(
+                    title: Text(alertError.title),
+                    message: Text(alertError.message),
+                    dismissButton: nil)
+            })
+    }
+    
+    var socialCausesView: some View {
+        SocialCausesContainerView()
+            .navigationBarTitle("CAUSAS", displayMode: .inline)
+            .environmentObject(store.derived(deriveState: \.socialCauses, embedAction: AppAction.socialCauses))
+            .onReceive(Just(store.state.socialCauses.savingSuccess)) { success in
+                socialCausesSuccess = success
+            }
+            .onAppear { socialCausesSuccess = false }
+            .alert(item: socialCausesAlertShown, content: { alertError -> Alert in
+                Alert(
+                    title: Text(alertError.title),
+                    message: Text(alertError.message),
+                    dismissButton: nil)
+            })
     }
 }
 

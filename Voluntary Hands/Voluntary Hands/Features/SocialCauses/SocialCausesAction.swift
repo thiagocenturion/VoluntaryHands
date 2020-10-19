@@ -9,12 +9,12 @@
 import Foundation
 
 enum SocialCausesAction {
-    case causes(causes: [Cause])
+    case causes(response: CausesResponse)
     case appendCauseSelected(cause: Cause)
     case removeCauseSelected(cause: Cause)
     case multiSelection(isMultiSelection: Bool)
-    case saveSocialCauses
-    case getCausesSuccess
+    case fetchCauses
+    case saveCausesSelected
     case savingSuccess
     case alert(error: Error?)
     case set(state: SocialCausesState)

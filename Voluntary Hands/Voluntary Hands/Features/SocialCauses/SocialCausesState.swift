@@ -9,7 +9,14 @@
 import SwiftUI
 
 struct SocialCausesState: Codable, Equatable {
-    var loading = false
+    
+    enum LoadingType: String, Codable, Equatable {
+        case opaque
+        case transparent
+        case none
+    }
+    
+    var loading: LoadingType = .none
     var causes: [Cause] = []
     var causesSelected: [Cause] = []
     var getCausesSuccess = false

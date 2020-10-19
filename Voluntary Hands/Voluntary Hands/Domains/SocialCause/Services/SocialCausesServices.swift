@@ -12,7 +12,7 @@ import Combine
 protocol SocialCausesServicesType: class {
     var network: NetworkType { get }
     
-    func causes() -> AnyPublisher<CausesResponse, Error>
+    func fetchCauses() -> AnyPublisher<CausesResponse, Error>
     func save(causesSelected: [Cause]) -> AnyPublisher<String, Error>
 }
 
@@ -26,7 +26,7 @@ final class SocialCausesServices: SocialCausesServicesType {
 
 extension SocialCausesServices {
     
-    func causes() -> AnyPublisher<CausesResponse, Error> {
+    func fetchCauses() -> AnyPublisher<CausesResponse, Error> {
         return network.request(
             endpoint: Endpoint.causes,
             httpMethod: .get,

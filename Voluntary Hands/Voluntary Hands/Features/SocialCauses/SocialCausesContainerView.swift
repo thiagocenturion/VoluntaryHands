@@ -9,10 +9,33 @@
 import SwiftUI
 
 struct SocialCausesContainerView: View {
-    @Environment var store: Store<SocialCausesState, SocialCausesAction>
+    @EnvironmentObject var store: Store<SocialCausesState, SocialCausesAction>
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        SocialCausesView(
+            loading: store.state.loading,
+            causes: store.state.causes,
+            causesSelected: store.state.causesSelected,
+            onSelectCause: { store.send(.appendCauseSelected(cause: $0)) },
+            onDeselectCause: { store.send(.removeCauseSelected(cause: $0)) },
+            onCommit: { requestSaveCausesSelected() }
+        )
+        .onAppear {
+            store.send(.resetState)
+        }
+    }
+}
+
+// MARK: - Requets
+
+extension SocialCausesContainerView {
+    
+    private func requestFetchCauses() {
+        store.send(.fetchCauses)
+    }
+    
+    private func requestSaveCausesSelected() {
+        store.send(.saveCausesSelected)
     }
 }
 

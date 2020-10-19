@@ -19,6 +19,12 @@ struct Cause: Identifiable, Codable, Equatable {
         case iconUrl = "iconeUrl"
     }
     
+    init(id: Int, cause: String, iconUrl: String) {
+        self.id = id
+        self.cause = cause
+        self.iconUrl = iconUrl
+    }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int.self, forKey: .id)
