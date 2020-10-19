@@ -11,9 +11,14 @@ import Combine
 
 let appReducer: Reducer<AppState, AppAction, AppEnvironment> = Reducer { state, action, environment in
     switch action {
-    case .login(action: let action):
+    case .login(let action):
         return loginReducer(&state.login, action, environment)
             .map { AppAction.login(action: $0) }
+            .eraseToAnyPublisher()
+        
+    case .register(let action):
+        return registerReducer(&state.register, action, environment)
+            .map { AppAction.register(action: $0) }
             .eraseToAnyPublisher()
     }
     

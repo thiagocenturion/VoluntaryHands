@@ -10,19 +10,17 @@ import SwiftUI
 import Combine
 
 struct LoginView: View {
-    
     // MARK: - Properties
-    @Binding var username: String
-    @Binding var password: String
-    
-    @Binding var usernameErrorMessage: String?
-    @Binding var signInEnabled: Bool
+    @State private var signInEnabled: Bool = false
+    @StateObject private var username = StringLimit(text: "", limit: 18)
+    @State private var usernameError: String?
+    @State private var password = ""
+
     var loading: Bool
-    
-    let onCommitSignIn: () -> Void
+    let onCommitSignIn: (_ username: String, _ password: String) -> Void
     let onCommitSignUp: () -> Void
     let onCommitForgotPassword: () -> Void
-
+    
     // MARK: - View
     
     var body: some View {
@@ -40,6 +38,9 @@ struct LoginView: View {
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
+            .onReceive(Just([username.text.validation(.cpfAndCnpj), password.validation(.empty)])) { validates in
+                signInEnabled = validates.map { $0.isValid }.reduce(&&)
+            }
     }
     
     var content: some View {
@@ -52,11 +53,32 @@ struct LoginView: View {
             Spacer()
             
             VStack(alignment: .trailing, spacing: 4) {
-                FloatingTextField(title: "CPF / CNPJ", text: $username, error: $usernameErrorMessage, isSecure: false, onCommit: { })
-                    .mask(username.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99")
-                    .keyboardType(.numberPad)
-                FloatingTextField(title: "SENHA", text: $password, error: .constant(nil), isSecure: true, onCommit: signInEnabled ? onCommitSignIn : { })
-                    .keyboardType(.webSearch)
+                
+                FloatingTextField(
+                    title: "CPF / CNPJ",
+                    text: $username.text,
+                    error: $usernameError,
+                    isSecure: false,
+                    mask: { $0.onlyNumbers.count <= 11 ? "999.999.999-99" : "99.999.999/9999-99" },
+                    validate: { $0.validation(.cpfAndCnpj) }
+                )
+                .keyboardType(.numberPad)
+                .textContentType(.username)
+                
+                FloatingTextField(
+                    title: "SENHA",
+                    text: $password,
+                    isSecure: true,
+                    validate: { $0.validation(.empty) },
+                    onCommit: {
+                        if signInEnabled {
+                            onCommitSignIn(username.text, password)
+                        }
+                    }
+                )
+                .keyboardType(.webSearch)
+                .textContentType(.password)
+                
                 Button(action: onCommitForgotPassword) {
                     Text("ESQUECI MINHA SENHA")
                         .font(.system(size: 14, weight: .bold, design: .rounded))
@@ -67,25 +89,13 @@ struct LoginView: View {
             
             VStack(spacing: 15) {
                 
-                Button(action: onCommitSignUp) {
-                    HStack {
-                        Spacer()
-                        Text("CADASTRE-SE")
-                        Spacer()
-                    }
-                }
-                .buttonStyle(SecondaryBackgroundStyle(color: Color.Style.red))
+                FullWidthButton(titleKey: "CADASTRE-SE", action: onCommitSignUp)
+                    .buttonStyle(.secondary(color: Color.Style.red))
                 
-                Button(action: onCommitSignIn) {
-                    HStack {
-                        Spacer()
-                        Text("LOGIN")
-                        Spacer()
-                    }
-                }
-                .padding(.bottom, 10)
-                .buttonStyle(PrimaryBackgroundStyle(isDisabled: !signInEnabled))
-                .disabled(!signInEnabled)
+                FullWidthButton(titleKey: "LOGIN", action: { onCommitSignIn(username.text, password) })
+                    .buttonStyle(.primary(isDisabled: !signInEnabled))
+                    .disabled(!signInEnabled)
+                    .padding(.bottom, 10)
             }
         }
     }
@@ -94,27 +104,9 @@ struct LoginView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            LoginView(
-                username: .constant(""),
-                password: .constant(""),
-                usernameErrorMessage: .constant(nil),
-                signInEnabled: .constant(true),
-                loading: false,
-                onCommitSignIn: { },
-                onCommitSignUp:  { },
-                onCommitForgotPassword: { }
-            )
+            LoginView(loading: false, onCommitSignIn: { _, _ in }, onCommitSignUp: { }, onCommitForgotPassword: { })
             .previewDevice("iPhone SE (2nd generation)")
-            LoginView(
-                username: .constant(""),
-                password: .constant(""),
-                usernameErrorMessage: .constant("CPF inválido."),
-                signInEnabled: .constant(false),
-                loading: false,
-                onCommitSignIn: { },
-                onCommitSignUp:  { },
-                onCommitForgotPassword: { }
-            )
+            LoginView(loading: false, onCommitSignIn: { _, _ in }, onCommitSignUp: { }, onCommitForgotPassword: { })
             .previewDevice("iPhone 11")
         }
     }

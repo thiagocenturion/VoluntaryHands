@@ -26,6 +26,7 @@ struct LoginCoordinator: View {
                 .onReceive(Just(store.state.login.loginSuccess)) { success in
                     loginSuccess = success
                 }
+                .onAppear { loginSuccess = false }
             
             NavigationLink(destination: RegisterCoordinator(), isActive: $signUp) {
                 EmptyView()

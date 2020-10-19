@@ -1,0 +1,6 @@
+framework module Pods_Voluntary_HandsTests {
+  umbrella header "Pods-Voluntary HandsTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

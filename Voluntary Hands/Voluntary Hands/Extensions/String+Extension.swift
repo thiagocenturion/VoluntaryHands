@@ -19,6 +19,12 @@ extension String {
         return predicate.evaluate(with: self)
     }
     
+    var isPhoneNumber: Bool {
+        let regex = "^\\(\\d{2}\\)\\s\\d{5}\\-\\d{4}$"
+        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+        return predicate.evaluate(with: self)
+    }
+    
     var isCPF: Bool {
         let numbers = self.onlyNumbers
         
@@ -96,7 +102,9 @@ extension String {
              return String(self[start...])
         }
     
-    func string(withMask mask: String) -> String {
+    func string(withMask mask: String?) -> String {
+        guard let mask = mask else { return self }
+        
         let stringToFormat = components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         var formattedValue = stringToFormat
         
@@ -125,18 +133,107 @@ extension String {
         
         return formattedValue
     }
+}
+
+// MARK: - Validation
+extension String {
+    enum ValidationType {
+        case cpf
+        case cpfAndCnpj
+        case cnpj
+        case email
+        case cellphone
+        case newPassword
+        case confirmPassword(newPassword: String)
+        case empty
+    }
     
-    private func checkDigit(for digits: [Int], upperBound: Int, lowerBound: Int, mod: Int, secondMod: Int = 10) -> Int {
-            guard lowerBound < upperBound else { preconditionFailure("lower bound is greater than upper bound") }
-
-            let factors = Array((lowerBound...upperBound).reversed())
-
-            let multiplied = digits.reversed().enumerated().map {
-                return $0.element * factors[$0.offset % factors.count]
+    func validation(_ validationType: ValidationType) -> ValidationText {
+        switch validationType {
+        case .cpfAndCnpj:
+            if self.isEmpty {
+                return .init(errorMessage: nil, isValid: false)
+            } else if self.onlyNumbers.count <= 11 {
+                let errorMessage = self.isCPF ? nil : "O CPF digitado é inválido."
+                return .init(errorMessage: errorMessage, isValid: errorMessage == nil)
+            } else {
+                let errorMessage = self.isCNPJ ? nil : "O CNPJ digitado é inválido."
+                return .init(errorMessage: errorMessage, isValid: errorMessage == nil)
             }
             
-            let sum = multiplied.reduce(0, +)
-
-            return (sum % mod) % secondMod
+        case .cpf:
+            if self.isEmpty {
+                return .init(errorMessage: nil, isValid: false)
+            } else if !self.isCPF {
+                return .init(errorMessage: "O CPF digitado é inválido.", isValid: false)
+            }
+            
+            return .init(errorMessage: nil, isValid: true)
+            
+        case .cnpj:
+            if self.isEmpty {
+                return .init(errorMessage: nil, isValid: false)
+            } else if !self.isCNPJ {
+                return .init(errorMessage: "O CNPJ digitado é inválido.", isValid: false)
+            }
+            
+            return .init(errorMessage: nil, isValid: true)
+            
+        case .email:
+            if self.isEmpty {
+                return .init(errorMessage: nil, isValid: false)
+            } else if !self.isEmail {
+                return .init(errorMessage: "O e-mail digitado é inválido.", isValid: false)
+            }
+            
+            return .init(errorMessage: nil, isValid: true)
+            
+        case .cellphone:
+            if self.isEmpty {
+                return .init(errorMessage: nil, isValid: false)
+            } else if !self.isPhoneNumber {
+                return .init(errorMessage: "O celular digitado é inválido.", isValid: false)
+            }
+            
+            return .init(errorMessage: nil, isValid: true)
+            
+        case .newPassword:
+            if self.isEmpty {
+                return .init(errorMessage: nil, isValid: false)
+            } else if self.count < 8 {
+                return .init(errorMessage: "A senha deve conter ao menos 8 caracteres.", isValid: false)
+            }
+            
+            return .init(errorMessage: nil, isValid: true)
+            
+        case .confirmPassword(let newPassword):
+            if self.isEmpty {
+                return .init(errorMessage: nil, isValid: false)
+            } else if self != newPassword {
+                return .init(errorMessage: "Precisar ser igual à senha digitada.", isValid: false)
+            }
+            
+            return .init(errorMessage: nil, isValid: true)
+            
+        case .empty:
+            return .init(errorMessage: nil, isValid: !self.isEmpty)
         }
+    }
+}
+
+// MARK: - Private methods
+extension String {
+    private func checkDigit(for digits: [Int], upperBound: Int, lowerBound: Int, mod: Int, secondMod: Int = 10) -> Int {
+        guard lowerBound < upperBound else { preconditionFailure("lower bound is greater than upper bound") }
+        
+        let factors = Array((lowerBound...upperBound).reversed())
+        
+        let multiplied = digits.reversed().enumerated().map {
+            return $0.element * factors[$0.offset % factors.count]
+        }
+        
+        let sum = multiplied.reduce(0, +)
+        
+        return (sum % mod) % secondMod
+    }
 }
