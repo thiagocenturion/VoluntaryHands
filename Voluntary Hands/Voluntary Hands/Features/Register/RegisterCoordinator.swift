@@ -16,6 +16,20 @@ struct RegisterCoordinator: View {
     
     @State private var activeSheet: ActiveSheet?
     
+    private var currentImageData: Binding<Data?> {
+        Binding<Data?>(
+            get: { store.state.register.currentImage },
+            set: { store.send(.register(action: .currentImage(data: $0))) }
+        )
+    }
+    
+    private var alertShown: Binding<AlertError?> {
+        Binding<AlertError?>(
+            get: { store.state.register.alert },
+            set: { _ in store.send(.register(action: .alert(error: nil))) }
+        )
+    }
+    
     var body: some View {
         VStack {
             RegisterDataContainerView(activeSheet: $activeSheet)
@@ -33,8 +47,15 @@ struct RegisterCoordinator: View {
                     switch item {
                     case .useTerms: Safari(url: URL(string: "https://sharp-fermi-0463a9.netlify.app/terms.html")!)
                     case .privacyPolicy: Safari(url: URL(string: "https://sharp-fermi-0463a9.netlify.app")!)
+                    case .imagePicker: ImagePicker(imageData: currentImageData)
                     }
                 }
+                .alert(item: alertShown, content: { alertError -> Alert in
+                    Alert(
+                        title: Text(alertError.title),
+                        message: Text(alertError.message),
+                        dismissButton: nil)
+                })
             
             NavigationLink(
                 destination: Text("Causas de Apoio").navigationBarTitle("CAUSAS"),
@@ -50,6 +71,7 @@ extension RegisterCoordinator {
     enum ActiveSheet: Identifiable {
         case useTerms
         case privacyPolicy
+        case imagePicker
         
         var id: Int { hashValue }
     }

@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 struct RegisterDataView: View {
-    @Binding var image: UIImage?
+    var image: UIImage?
     @Binding var userType: UserType
     @Binding var termsAccepted: Bool
     var loading: Bool
@@ -59,10 +59,9 @@ struct RegisterDataView: View {
     
     let onCommitSignUpVolunteer: (RegisterVolunteer) -> Void
     let onCommitSignUpInstitution: (RegisterInstitution) -> Void
+    let onCommitProfileImage: () -> Void
     let onCommitPrivacyPolicy: () -> Void
     let onCommitUseTerms: () -> Void
-    
-    @State private var showingImagePicker = false
     
     var body: some View {
         ZStack {
@@ -81,8 +80,7 @@ struct RegisterDataView: View {
             Spacer(minLength: 64) // Navigation
             Spacer(minLength: 20)
             
-            ProfileImage(image: $image, isEditable: true, action: { showingImagePicker = true })
-                .sheet(isPresented: $showingImagePicker) { ImagePicker(image: self.$image) }
+            ProfileImage(image: image, isEditable: true, action: onCommitProfileImage)
                 .padding(.bottom, 20)
             
             VStack(spacing: 20) {
@@ -117,7 +115,8 @@ struct RegisterDataView: View {
                             .init(errorMessage: nil, isValid: selectedState != .none),
                             city.validation(.empty),
                             password.validation(.newPassword),
-                            confirmPassword.validation(.confirmPassword(newPassword: password))
+                            confirmPassword.validation(.confirmPassword(newPassword: password)),
+                            institutionObjective.validation(.empty)
                         ])) { validates in
                             signInEnabled = validates.map { $0.isValid }.reduce(&&) && termsAccepted
                         }
@@ -185,6 +184,15 @@ struct RegisterDataView: View {
             .cornerRadius(15)
             .shadow(radius: 10)
             
+            VStack(alignment: .leading) {
+                FloatingTextEditor(title: "OBJETIVO DA INSTITUIÇÃO", text: $institutionObjective, error: $institutionObjectiveError, validate: { $0.validation(.empty) })
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 10)
+            .background(Color.Style.grayMedium)
+            .cornerRadius(15)
+            .shadow(radius: 10)
+            
             // Privacy Policy and Terms
             privacyPolicyContent
             
@@ -200,7 +208,7 @@ struct RegisterDataView: View {
                         city: city,
                         password: password,
                         confirmPassword: confirmPassword,
-                        objectives: "Objetivos da ONG" // TODO: Aplicar o Text View
+                        objectives: institutionObjective
                     )
                 )
             })
@@ -361,12 +369,13 @@ struct RegisterDataView_Previews: PreviewProvider {
         Group {
             NavigationView {
                 RegisterDataView(
-                    image: .constant(nil),
+                    image: UIImage(named: "pictureExample"),
                     userType: .constant(.volunteer),
                     termsAccepted: .constant(false),
                     loading: false,
                     onCommitSignUpVolunteer: { _ in },
                     onCommitSignUpInstitution: { _ in },
+                    onCommitProfileImage: { },
                     onCommitPrivacyPolicy: { },
                     onCommitUseTerms: { }
                 )
@@ -376,12 +385,13 @@ struct RegisterDataView_Previews: PreviewProvider {
             
             NavigationView {
                 RegisterDataView(
-                    image: .constant(nil),
+                    image: UIImage(named: "pictureExample"),
                     userType: .constant(.institution),
                     termsAccepted: .constant(true),
                     loading: false,
                     onCommitSignUpVolunteer: { _ in },
                     onCommitSignUpInstitution: { _ in },
+                    onCommitProfileImage: { },
                     onCommitPrivacyPolicy: { },
                     onCommitUseTerms: { }
                 )

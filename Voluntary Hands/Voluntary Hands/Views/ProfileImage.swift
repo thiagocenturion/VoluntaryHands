@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ProfileImage: View {
     
-    @Binding var image: UIImage?
+    var image: UIImage?
     let isEditable: Bool
     var action: (() -> Void)?
     
@@ -52,10 +52,10 @@ struct ProfileImage: View {
 struct ProfileImage_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            ProfileImage(image: .constant(nil), isEditable: true)
-            ProfileImage(image: .constant(nil), isEditable: false)
-            ProfileImage(image: .constant(UIImage(named: "pictureExample")), isEditable: true)
-            ProfileImage(image: .constant(UIImage(named: "pictureExample")), isEditable: false)
+            ProfileImage(image: nil, isEditable: true)
+            ProfileImage(image: nil, isEditable: false)
+            ProfileImage(image: UIImage(named: "pictureExample"), isEditable: true)
+            ProfileImage(image: UIImage(named: "pictureExample"), isEditable: false)
         }
         .padding(.vertical, 1000)
         .padding(.horizontal, 100)

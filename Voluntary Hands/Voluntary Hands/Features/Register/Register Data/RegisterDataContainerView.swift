@@ -22,41 +22,20 @@ struct RegisterDataContainerView: View {
         store.binding(for: \.termsAccepted) { .acceptTerms(isAccept: $0) }
     }
     
-    private var alertShown: Binding<AlertError?> {
-        store.binding(for: \.alert) { _ in .alert(error: nil) }
-    }
-    
     var body: some View {
-        
-        let image = Binding<UIImage?>(
-            get: {
-                if let data = store.state.currentImage {
-                    return UIImage(data: data)
-                } else {
-                    return nil
-                }
-            },
-            set: { image in store.send(.currentImage(data: image?.jpegData(compressionQuality: 0.3))) }
-        )
-        
         RegisterDataView(
-            image: image,
+            image: UIImage(data: store.state.currentImage ?? Data()),
             userType: userType,
             termsAccepted: termsAccepted,
             loading: store.state.loading,
             onCommitSignUpVolunteer: { requestSignUp($0) },
             onCommitSignUpInstitution: { requestSignUp($0) },
+            onCommitProfileImage: { activeSheet = .imagePicker },
             onCommitPrivacyPolicy: { activeSheet = .privacyPolicy },
             onCommitUseTerms: { activeSheet = .useTerms }
         )
         .onAppear(perform: {
             store.send(.resetState)
-        })
-        .alert(item: alertShown, content: { alertError -> Alert in
-            Alert(
-                title: Text(alertError.title),
-                message: Text(alertError.message),
-                dismissButton: nil)
         })
     }
 }
