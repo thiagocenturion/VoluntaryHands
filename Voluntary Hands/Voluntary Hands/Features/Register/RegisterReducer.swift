@@ -6,8 +6,8 @@
 //  Copyright © 2020 Thiago Rodrigues Centurion. All rights reserved.
 //
 
-import Foundation
 import Combine
+import UIKit
 import FirebaseStorage
 
 let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvironmentType> = Reducer { state, action, environment in
@@ -52,11 +52,19 @@ let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvi
             .eraseToAnyPublisher()
         
     case .registerSuccess:
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
         state.loading = false
         state.registerSuccess = true
         
     case .alert(error: let error):
         state.loading = false
+        
+        guard let error = error else {
+            state.alert = nil
+            return Empty(completeImmediately: true).eraseToAnyPublisher()
+        }
+        
+        UINotificationFeedbackGenerator().notificationOccurred(.error)
         
         var alertError: AlertError?
         if let networkingError = error as? NetworkingError {
@@ -67,7 +75,7 @@ let registerReducer: Reducer<RegisterState, RegisterAction, RegisterServicesEnvi
                 alertError = .init(title: "Oops!", message: "Não foi possível realizar o cadastro. Tente novamente.")
             }
         } else {
-            alertError = error != nil ? .init(title: "Oops!", message: "Não foi possível realizar o cadastro. Tente novamente.") : nil
+            alertError = .init(title: "Oops!", message: "Não foi possível realizar o cadastro. Tente novamente.")
         }
         
         state.alert = alertError

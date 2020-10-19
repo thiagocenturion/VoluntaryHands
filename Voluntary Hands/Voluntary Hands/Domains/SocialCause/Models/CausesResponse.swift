@@ -17,6 +17,11 @@ struct CausesResponse: Decodable {
         case causesSelected = "causasSelecionadas"
     }
     
+    init(causes: [Cause], causesSelected: [Cause]) {
+        self.causes = causes
+        self.causesSelected = causesSelected
+    }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         

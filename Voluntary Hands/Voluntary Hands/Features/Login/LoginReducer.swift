@@ -6,7 +6,7 @@
 //  Copyright © 2020 Thiago Rodrigues Centurion. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Combine
 
 let loginReducer: Reducer<LoginState, LoginAction, LoginServicesEnvironmentType> = Reducer { state, action, environment in
@@ -34,11 +34,19 @@ let loginReducer: Reducer<LoginState, LoginAction, LoginServicesEnvironmentType>
         }
         
     case .loginSuccess:
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
         state.loading = false
         state.loginSuccess = true
         
     case .alert(let error):
         state.loading = false
+        
+        guard let error = error else {
+            state.alert = nil
+            return Empty(completeImmediately: true).eraseToAnyPublisher()
+        }
+        
+        UINotificationFeedbackGenerator().notificationOccurred(.error)
         
         var alertError: AlertError?
         if let networkingError = error as? NetworkingError {
@@ -49,7 +57,7 @@ let loginReducer: Reducer<LoginState, LoginAction, LoginServicesEnvironmentType>
                 alertError = .init(title: "Oops!", message: "Não foi possível realizar o login")
             }
         } else {
-            alertError = error != nil ? .init(title: "Oops!", message: "Não foi possível realizar o login") : nil
+            alertError = .init(title: "Oops!", message: "Não foi possível realizar o login")
         }
         
         state.alert = alertError
