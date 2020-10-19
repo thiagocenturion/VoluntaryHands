@@ -22,6 +22,7 @@ struct SocialCausesContainerView: View {
         )
         .onAppear {
             store.send(.resetState)
+            requestFetchCauses()
         }
     }
 }

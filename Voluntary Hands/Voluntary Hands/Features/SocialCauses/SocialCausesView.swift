@@ -23,6 +23,8 @@ struct SocialCausesView: View {
                 content
             case .opaque:
                 ActivityView()
+                    .background(Color.Style.grayDark)
+                    .ignoresSafeArea(.container, edges: .vertical)
             case .transparent:
                 content.opacity(0.3)
                     .allowsHitTesting(false)
@@ -41,7 +43,7 @@ struct SocialCausesView: View {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], alignment: .center, spacing: 20) {
                     ForEach(causes) { item in
                         let isSelected = causesSelected.contains(item)
-                        Button(action: { isSelected ? onDeselectCause(item) : onSelectCause(item) }) {
+                        Button(action: { withAnimation(.easeOut(duration: 0.15)) { isSelected ? onDeselectCause(item) : onSelectCause(item) } }) {
                             ZStack(alignment: .topTrailing) {
                                 HStack {
                                     Spacer()
