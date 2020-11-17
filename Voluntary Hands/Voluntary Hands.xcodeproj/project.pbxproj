@@ -52,6 +52,7 @@
 		4D7850D9252EBC2A008AC291 /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850D8252EBC2A008AC291 /* UserType.swift */; };
 		4D7850DD252EBD4A008AC291 /* RegisterAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850DC252EBD4A008AC291 /* RegisterAction.swift */; };
 		4D7850E1252ECD4A008AC291 /* RegisterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7850E0252ECD4A008AC291 /* RegisterReducer.swift */; };
+		4D7C344B253E919D001A8F49 /* InstitutionHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7C344A253E919D001A8F49 /* InstitutionHomeView.swift */; };
 		4D8501F0248C7EF70021218C /* PrimaryBackgroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501EF248C7EF70021218C /* PrimaryBackgroundStyle.swift */; };
 		4D8501FE248D93C70021218C /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8501FD248D93C70021218C /* ActivityView.swift */; };
 		4D88B641252764D3008504D9 /* TokenUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D88B640252764D3008504D9 /* TokenUpdater.swift */; };
@@ -82,6 +83,8 @@
 		4DCBB3ED253D48840077D322 /* SocialCausesContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCBB3EC253D48840077D322 /* SocialCausesContainerView.swift */; };
 		4DCBB3FF253D5E870077D322 /* SocialCausesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCBB3FE253D5E870077D322 /* SocialCausesView.swift */; };
 		4DD51C832532CB2400B3129E /* SizePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD51C822532CB2400B3129E /* SizePreferenceKey.swift */; };
+		4DF67E0A25639A2600A311B2 /* CampaignCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF67E0925639A2600A311B2 /* CampaignCell.swift */; };
+		4DF67E1525639D7F00A311B2 /* VolunteerHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF67E1425639D7F00A311B2 /* VolunteerHomeView.swift */; };
 		4DFD049B253401A500736EDD /* StringLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD049A253401A500736EDD /* StringLimit.swift */; };
 		4DFD04A0253406C300736EDD /* FormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFD049F253406C300736EDD /* FormItem.swift */; };
 		7168A277E7C20396CF4918C3 /* Pods_Voluntary_HandsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF80E2330421CD3F3D8512FA /* Pods_Voluntary_HandsTests.framework */; };
@@ -144,6 +147,7 @@
 		4D7850D8252EBC2A008AC291 /* UserType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserType.swift; sourceTree = "<group>"; };
 		4D7850DC252EBD4A008AC291 /* RegisterAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAction.swift; sourceTree = "<group>"; };
 		4D7850E0252ECD4A008AC291 /* RegisterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterReducer.swift; sourceTree = "<group>"; };
+		4D7C344A253E919D001A8F49 /* InstitutionHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstitutionHomeView.swift; sourceTree = "<group>"; };
 		4D8501EF248C7EF70021218C /* PrimaryBackgroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryBackgroundStyle.swift; sourceTree = "<group>"; };
 		4D8501FD248D93C70021218C /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		4D88B640252764D3008504D9 /* TokenUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUpdater.swift; sourceTree = "<group>"; };
@@ -178,6 +182,8 @@
 		4DCBB3EC253D48840077D322 /* SocialCausesContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCausesContainerView.swift; sourceTree = "<group>"; };
 		4DCBB3FE253D5E870077D322 /* SocialCausesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCausesView.swift; sourceTree = "<group>"; };
 		4DD51C822532CB2400B3129E /* SizePreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePreferenceKey.swift; sourceTree = "<group>"; };
+		4DF67E0925639A2600A311B2 /* CampaignCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignCell.swift; sourceTree = "<group>"; };
+		4DF67E1425639D7F00A311B2 /* VolunteerHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolunteerHomeView.swift; sourceTree = "<group>"; };
 		4DFD049A253401A500736EDD /* StringLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringLimit.swift; sourceTree = "<group>"; };
 		4DFD049F253406C300736EDD /* FormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItem.swift; sourceTree = "<group>"; };
 		698E5876727CDA0BFB5BBF59 /* Pods_Voluntary_Hands.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Voluntary_Hands.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -326,6 +332,8 @@
 		4D42C965248C5D7B004D0EE5 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				4DF67E1125639D6A00A311B2 /* Volunteer */,
+				4D7C3449253E8DFD001A8F49 /* Institution */,
 				4DCBB3BC253D1E2A0077D322 /* SocialCauses */,
 				4D8501F5248CC83A0021218C /* Register */,
 				4D42C966248C5DA2004D0EE5 /* Login */,
@@ -388,6 +396,14 @@
 				4D7850D8252EBC2A008AC291 /* UserType.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		4D7C3449253E8DFD001A8F49 /* Institution */ = {
+			isa = PBXGroup;
+			children = (
+				4D7C344A253E919D001A8F49 /* InstitutionHomeView.swift */,
+			);
+			path = Institution;
 			sourceTree = "<group>";
 		};
 		4D8501F1248C82BE0021218C /* Styles */ = {
@@ -515,6 +531,7 @@
 		4DC693D3248C6F0100CBEF91 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4DF67E0825639A1900A311B2 /* Campaign */,
 				4D3658DD253D00F200C7CAB9 /* Representables */,
 				4D8501F1248C82BE0021218C /* Styles */,
 				4D008F90252ADAB200A7DAE1 /* FloatingTextField.swift */,
@@ -567,6 +584,22 @@
 				4DCBB3E4253D318F0077D322 /* SocialCausesServices.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		4DF67E0825639A1900A311B2 /* Campaign */ = {
+			isa = PBXGroup;
+			children = (
+				4DF67E0925639A2600A311B2 /* CampaignCell.swift */,
+			);
+			path = Campaign;
+			sourceTree = "<group>";
+		};
+		4DF67E1125639D6A00A311B2 /* Volunteer */ = {
+			isa = PBXGroup;
+			children = (
+				4DF67E1425639D7F00A311B2 /* VolunteerHomeView.swift */,
+			);
+			path = Volunteer;
 			sourceTree = "<group>";
 		};
 		4DFD049E253406B600736EDD /* Models */ = {
@@ -776,6 +809,7 @@
 				4D38E7EF2528CC4500EAD989 /* AppAction.swift in Sources */,
 				4D12CA9B252195EE00C3E79A /* LoginInstitution.swift in Sources */,
 				4D7850D3252EB803008AC291 /* RegisterState.swift in Sources */,
+				4DF67E0A25639A2600A311B2 /* CampaignCell.swift in Sources */,
 				4DCBB3ED253D48840077D322 /* SocialCausesContainerView.swift in Sources */,
 				4D12CA802521532200C3E79A /* LoginCoordinator.swift in Sources */,
 				4DCBB3D2253D2DAA0077D322 /* SocialCausesAction.swift in Sources */,
@@ -800,8 +834,10 @@
 				4DFD04A0253406C300736EDD /* FormItem.swift in Sources */,
 				4D8501FE248D93C70021218C /* ActivityView.swift in Sources */,
 				4D8501F0248C7EF70021218C /* PrimaryBackgroundStyle.swift in Sources */,
+				4DF67E1525639D7F00A311B2 /* VolunteerHomeView.swift in Sources */,
 				4DB8B7682534D0D400CB6756 /* FormItemRow.swift in Sources */,
 				4D7850C6252E684C008AC291 /* RegisterVolunteer.swift in Sources */,
+				4D7C344B253E919D001A8F49 /* InstitutionHomeView.swift in Sources */,
 				4D12CAA125219AAB00C3E79A /* Reducer.swift in Sources */,
 				4D008F91252ADAB200A7DAE1 /* FloatingTextField.swift in Sources */,
 				4D09629325327FD000B97597 /* SegmentedPicker.swift in Sources */,

@@ -73,19 +73,25 @@ struct RegisterCoordinator: View {
     }
     
     var socialCausesView: some View {
-        SocialCausesContainerView()
-            .navigationBarTitle("CAUSAS", displayMode: .inline)
-            .environmentObject(store.derived(deriveState: \.socialCauses, embedAction: AppAction.socialCauses))
-            .onReceive(Just(store.state.socialCauses.savingSuccess)) { success in
-                socialCausesSuccess = success
-            }
-            .onAppear { socialCausesSuccess = false }
-            .alert(item: socialCausesAlertShown, content: { alertError -> Alert in
-                Alert(
-                    title: Text(alertError.title),
-                    message: Text(alertError.message),
-                    dismissButton: nil)
-            })
+        VStack {
+            SocialCausesContainerView()
+                .navigationBarTitle("CAUSAS", displayMode: .inline)
+                .environmentObject(store.derived(deriveState: \.socialCauses, embedAction: AppAction.socialCauses))
+                .onReceive(Just(store.state.socialCauses.savingSuccess)) { success in
+                    socialCausesSuccess = success
+                }
+                .onAppear { socialCausesSuccess = false }
+                .alert(item: socialCausesAlertShown, content: { alertError -> Alert in
+                    Alert(
+                        title: Text(alertError.title),
+                        message: Text(alertError.message),
+                        dismissButton: nil)
+                })
+            
+            NavigationLink(destination: VolunteerHomeView(), isActive: $socialCausesSuccess) {
+                EmptyView()
+            }.hidden()
+        }
     }
 }
 

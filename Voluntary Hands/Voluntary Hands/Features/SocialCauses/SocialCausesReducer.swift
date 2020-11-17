@@ -38,10 +38,11 @@ let socialCausesReducer: Reducer<SocialCausesState, SocialCausesAction, SocialCa
     case .saveCausesSelected:
         state.loading = .transparent
         
-        return environment.socialCausesServices.save(causesSelected: state.causesSelected)
-            .map { _ in SocialCausesAction.savingSuccess }
-            .catch { error in Just<SocialCausesAction>(.alert(error: error)) }
-            .eraseToAnyPublisher()
+//        return environment.socialCausesServices.save(causesSelected: state.causesSelected)
+//            .map { _ in SocialCausesAction.savingSuccess }
+//            .catch { error in Just<SocialCausesAction>(.alert(error: error)) }
+//            .eraseToAnyPublisher()
+        return Just<SocialCausesAction>(.savingSuccess).eraseToAnyPublisher()
         
     case .savingSuccess:
         state.loading = .none

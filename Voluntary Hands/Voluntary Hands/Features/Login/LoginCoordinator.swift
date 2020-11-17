@@ -31,6 +31,10 @@ struct LoginCoordinator: View {
             NavigationLink(destination: RegisterCoordinator(), isActive: $signUp) {
                 EmptyView()
             }.hidden()
+            
+            NavigationLink(destination: VolunteerHomeView(), isActive: $loginSuccess) {
+                EmptyView()
+            }.hidden()
         }
     }
 }
